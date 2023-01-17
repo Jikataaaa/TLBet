@@ -2,10 +2,8 @@ package com.example.TLBet.models.entities;
 
 
 import com.example.TLBet.models.BaseEntity;
-import com.example.TLBet.models.enums.Role;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
+import com.example.TLBet.models.enums.UserRole;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,6 +16,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Data
+@Table(name = "users")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -26,12 +25,12 @@ public class User extends BaseEntity implements UserDetails {
 
     private String username;
     private String password;
-    @Enumerated(EnumType.STRING)
+    @ManyToOne
     private Role role;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.name()));
+        return List.of(new SimpleGrantedAuthority(role.getRole().name()));
     }
 
     @Override

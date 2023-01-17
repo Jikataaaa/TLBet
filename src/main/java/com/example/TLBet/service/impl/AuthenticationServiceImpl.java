@@ -3,8 +3,9 @@ package com.example.TLBet.service.impl;
 import com.example.TLBet.models.auth.AuthenticationResponse;
 import com.example.TLBet.models.auth.LoginRequest;
 import com.example.TLBet.models.auth.RegisterRequest;
+import com.example.TLBet.models.entities.Role;
 import com.example.TLBet.models.entities.User;
-import com.example.TLBet.models.enums.Role;
+import com.example.TLBet.models.enums.UserRole;
 import com.example.TLBet.repository.UserRepository;
 import com.example.TLBet.service.AuthenticationService;
 import com.example.TLBet.service.JwtService;
@@ -13,8 +14,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -30,10 +29,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public AuthenticationResponse register(RegisterRequest request) {
+        Role role = Role.builder().role(UserRole.USER).build();
         User user = User.builder()
                 .username(request.getUsername())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .role(Role.USER)
+                .role(role)
                 .build();
 
         userRepository.save(user);
