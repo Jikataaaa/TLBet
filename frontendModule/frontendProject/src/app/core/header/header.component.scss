@@ -1,0 +1,30 @@
+.nav-list{
+    padding: 0;
+    display: flex;
+    justify-content: flex-start;
+}
+li{
+  margin-right: 3vh;
+}
+.section-wrapper{
+    display: flex;
+}
+section{
+    min-width: 50%;
+}
+.user-list{
+    display: flex;
+    justify-content: flex-end;
+}
+ul{
+    list-style: none;
+    
+}
+a{
+    text-decoration: none;
+    color: black;
+}
+a:hover{
+    color: purple;
+    text-decoration: underline;
+}

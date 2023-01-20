@@ -1,0 +1,23 @@
+<header>
+  <div class="section-wrapper">
+    <section>
+      <ul class="nav-list">
+        <li><a (click)="demo()">Lorem, ipsum dolor.</a></li>
+        <li><a>Lorem, ipsum dolor.</a></li>
+        <li><a>Lorem, ipsum dolor.</a></li>
+      </ul>
+    </section>
+    <section>
+      <ul class="user-list">
+        <li *ngIf="!isLoged"><a routerLink="user/login">login</a></li>
+        <li *ngIf="!isLoged"><a routerLink="user/register">register</a></li>
+        <li *ngIf="isLoged"><a (click)="logout()">logout</a></li>
+        <li *ngIf="isLoged">
+          <a
+            >profile</a
+          >
+        </li>
+      </ul>
+    </section>
+  </div>
+</header>

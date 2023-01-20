@@ -3,7 +3,7 @@ package com.example.TLBet.service.impl;
 import com.example.TLBet.models.auth.AuthenticationResponse;
 import com.example.TLBet.models.auth.LoginRequest;
 import com.example.TLBet.models.auth.RegisterRequest;
-import com.example.TLBet.models.entities.Role;
+//import com.example.TLBet.models.entities.Role;
 import com.example.TLBet.models.entities.User;
 import com.example.TLBet.models.enums.UserRole;
 import com.example.TLBet.repository.UserRepository;
@@ -14,6 +14,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import javax.validation.Valid;
 
 @Service
 @RequiredArgsConstructor
@@ -28,16 +30,17 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 
     @Override
-    public AuthenticationResponse register(RegisterRequest request) {
-        Role role = Role.builder().role(UserRole.USER).build();
+    public AuthenticationResponse register(@Valid RegisterRequest request) {
+//        Role role = Role.builder().role(UserRole.USER).build();
         User user = User.builder()
                 .username(request.getUsername())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .role(role)
+                .role(UserRole.USER)
                 .build();
 
         userRepository.save(user);
         String token = jwtService.generateToken(user);
+
         return AuthenticationResponse
                 .builder()
                 .token(token)
@@ -45,7 +48,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
-    public AuthenticationResponse login(LoginRequest request) {
+    public AuthenticationResponse login( @Valid LoginRequest request) {
         authenticationManager.authenticate(
                new UsernamePasswordAuthenticationToken(
                         request.getUsername(),

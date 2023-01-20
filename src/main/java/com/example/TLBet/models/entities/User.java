@@ -12,6 +12,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.List;
 
@@ -23,14 +26,22 @@ import java.util.List;
 @Entity
 public class User extends BaseEntity implements UserDetails {
 
+    @NotNull
+    @NotBlank
+    @Size(min = 3)
+    @Column(unique = true)
     private String username;
+    @NotBlank
+    @NotNull
+    @Size(min = 3)
     private String password;
-    @ManyToOne
-    private Role role;
+
+    @Enumerated(EnumType.STRING)
+    private UserRole role;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.getRole().name()));
+        return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
     @Override
