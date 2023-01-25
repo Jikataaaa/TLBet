@@ -1,7 +1,6 @@
 package com.example.TLBet.config;
 
-import com.example.TLBet.config.auth.JwtAuthenticationFilter;
-import com.example.TLBet.models.entities.User;
+import com.example.TLBet.models.enums.UserRole;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,6 +29,7 @@ public class ApplicationSecurityConfig {
                 .authorizeHttpRequests()
                 .requestMatchers("/api/v1/auth/**")
                 .permitAll()
+                .requestMatchers("/team/add").hasAuthority(UserRole.ADMIN.name())
                 .anyRequest()
                 .authenticated()
                 .and()

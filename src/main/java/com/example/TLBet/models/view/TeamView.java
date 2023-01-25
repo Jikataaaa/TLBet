@@ -1,4 +1,4 @@
-package com.example.TLBet.models.auth;
+package com.example.TLBet.models.view;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -6,10 +6,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthenticationResponse {
-    private String token;
-    private String role;
+@Builder
+public class TeamView {
+   private String name;
 }

@@ -8,6 +8,11 @@ export class UserService {
 
   constructor(private http : HttpClient) { }
 
+  get isAdmin(): boolean{
+   const result = localStorage.getItem("role");
+    return result == 'ADMIN' ? true : false;
+  }
+
   get isLoged(): boolean{
     return localStorage.length > 0 ? true : false;
   }
@@ -21,7 +26,9 @@ export class UserService {
      const data = JSON.stringify(response);
      const dataObject = JSON.parse(data);
      const token = dataObject.token;
+     let role = dataObject.role;
      localStorage.setItem("token", token);
+     localStorage.setItem("role", role);
      form.reset();
     });
     
@@ -35,7 +42,9 @@ export class UserService {
      let data = JSON.stringify(response);
      let dataObject = JSON.parse(data);
      let token = dataObject.token;
+     let role = dataObject.role;
      localStorage.setItem("token", token);
+     localStorage.setItem("role", role)
      form.reset();
     });
   }

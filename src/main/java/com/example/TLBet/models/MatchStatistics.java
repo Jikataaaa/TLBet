@@ -7,6 +7,4 @@ public abstract class MatchStatistics extends BaseEntity {
 
     private int homeTeamGoals;
     private int awayTeamGoals;
-    private String sign;
-
 }

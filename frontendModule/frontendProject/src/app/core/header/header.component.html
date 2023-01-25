@@ -2,9 +2,9 @@
   <div class="section-wrapper">
     <section>
       <ul class="nav-list">
-        <li><a (click)="demo()">Lorem, ipsum dolor.</a></li>
-        <li><a>Lorem, ipsum dolor.</a></li>
-        <li><a>Lorem, ipsum dolor.</a></li>
+        <li><a (click)="demo()">demo</a></li>
+        <li><a routerLink="team/new-team">new-team</a></li>
+        <li><a routerLink="player/new-player">new player</a></li>
       </ul>
     </section>
     <section>
@@ -13,9 +13,7 @@
         <li *ngIf="!isLoged"><a routerLink="user/register">register</a></li>
         <li *ngIf="isLoged"><a (click)="logout()">logout</a></li>
         <li *ngIf="isLoged">
-          <a
-            >profile</a
-          >
+          <a>profile</a>
         </li>
       </ul>
     </section>

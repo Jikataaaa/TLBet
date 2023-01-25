@@ -1,4 +1,4 @@
-package com.example.TLBet.config.auth;
+package com.example.TLBet.config;
 
 import com.example.TLBet.service.JwtService;
 import jakarta.servlet.FilterChain;

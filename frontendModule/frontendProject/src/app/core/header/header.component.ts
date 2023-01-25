@@ -1,7 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { UserService } from 'src/app/services/user.service';
+import { UserService } from 'src/app/services/user/user.service';
+import { IUser } from 'src/app/shared/interfaces/User';
 
 @Component({
   selector: 'app-header',
@@ -20,20 +21,20 @@ export class HeaderComponent {
     this.service.logout();
     this.router.navigate(['/home'])
   }
+
   demo(){
-   let token = localStorage.getItem('token');
+  //  let token = localStorage.getItem('token');
    
-    this.http.get("http://localhost:8080/demo/get", {
-      headers: {
-        'Authorization' : `Bearer ${token}`,
+  //   this.http.get<IUser[]>("http://localhost:8080/demo/get", {
+  //     headers: {
+  //       'Authorization' : `Bearer ${token}`,
         
-      },
-      responseType : 'json'
-    })
-    .subscribe(response => {
-     const entries = Object.entries(response);
-     console.log(entries)
-    })
+  //     },
+  //     responseType : 'json'
+  //   })
+  //   .subscribe(response => {
+  //     console.log(response[0].password)
+  //   })
   }
 
 }

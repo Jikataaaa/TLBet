@@ -4,7 +4,12 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { HomeComponent } from './home/home.component';
+import { MatchModule } from './match/match.module';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { PlayerModule } from './player/player.module';
+import { SharedModule } from './shared/shared.module';
+import { TeamModule } from './team/team.module';
+import { TournamentModule } from './tournament/tournament.module';
 import { UserModule } from './user/user.module';
 
 @NgModule({
@@ -17,7 +22,13 @@ import { UserModule } from './user/user.module';
     BrowserModule,
     CoreModule,
     AppRoutingModule,
-    UserModule
+    UserModule, 
+    SharedModule, 
+    MatchModule, 
+    PlayerModule,
+    TournamentModule, 
+    TeamModule
+
     
   ],
   providers: [],

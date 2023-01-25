@@ -44,6 +44,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         return AuthenticationResponse
                 .builder()
                 .token(token)
+                .role(user.getRole().name())
                 .build();
     }
 
@@ -55,12 +56,14 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                         request.getPassword()
                 )
         );
+
         User user = userRepository.findUserByUsername(request.getUsername()).orElseThrow();
 
         String token = jwtService.generateToken(user);
         return AuthenticationResponse
                 .builder()
                 .token(token)
+                .role(user.getRole().name())
                 .build();
     }
 }
