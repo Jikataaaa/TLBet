@@ -10,14 +10,28 @@ import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class TeamServiceImpl implements TeamService {
     private final TeamRepository repository;
     private final ModelMapper mapper;
+
+    @Override
+    public Team getTeamById(long id) {
+        return repository.findById(id).get();
+    }
+
     @Override
     public TeamServiceModel createTeam(TeamView team) {
         Team savedTeam = repository.save(mapper.map(team, Team.class));
+        System.out.println(savedTeam.getId());
         return mapper.map(savedTeam, TeamServiceModel.class);
+    }
+
+    @Override
+    public List<TeamServiceModel> getAllTeams() {
+        return repository.findAll().stream().map(team -> mapper.map(team, TeamServiceModel.class)).toList();
     }
 }

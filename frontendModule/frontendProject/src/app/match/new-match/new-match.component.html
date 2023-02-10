@@ -1,0 +1,44 @@
+<form (ngSubmit)="addNewMatch()" [formGroup]="newMatchForm">
+  <input
+    type="text"
+    placeholder="Home team"
+    aria-label="Number"
+    matInput
+    formControlName="team1"
+    [matAutocomplete]="auto1"
+  />
+  <mat-autocomplete #auto1="matAutocomplete">
+    <mat-option *ngFor="let team of filteredTeams1" [value]="team.name">
+      {{ team.name }}
+    </mat-option>
+  </mat-autocomplete>
+  <input
+    type="text"
+    placeholder="Away team"
+    aria-label="Number"
+    matInput
+    formControlName="team2"
+    [matAutocomplete]="auto2"
+  /><mat-autocomplete #auto2="matAutocomplete">
+    <mat-option *ngFor="let team of filteredTeams2" [value]="team.name">
+      {{ team.name}}
+    </mat-option>
+  </mat-autocomplete>
+  
+  <input
+    type="text"
+    placeholder="tournament"
+    aria-label="Number"
+    matInput
+    formControlName="tournament"
+    [matAutocomplete]="auto3"
+  /><mat-autocomplete #auto3="matAutocomplete">
+    <mat-option *ngFor="let tournament of filteredTournaments" [value]="tournament.name">
+      {{ tournament.name }}
+    </mat-option>
+  </mat-autocomplete>
+
+  <input type="submit">
+</form>
+
+

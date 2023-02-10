@@ -21,7 +21,6 @@ export class NewTeamComponent {
 
   addNewTeam(){
     if(this.newTeamForm.valid){
-    const name = this.newTeamForm.value.name;
     this.service.createNewTeam(this.newTeamForm);
     }
   }

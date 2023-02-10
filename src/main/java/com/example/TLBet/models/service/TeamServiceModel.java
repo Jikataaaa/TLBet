@@ -10,5 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class TeamServiceModel {
+    private long id;
     private String name;
 }

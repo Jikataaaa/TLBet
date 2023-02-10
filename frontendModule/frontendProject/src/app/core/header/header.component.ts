@@ -13,6 +13,9 @@ export class HeaderComponent {
   get isLoged(){
     return this.service.isLoged
   }
+  get isAdmin(){
+    return this.service.isAdmin
+  }
 
   constructor(private service : UserService, private router: Router, private http: HttpClient){
 

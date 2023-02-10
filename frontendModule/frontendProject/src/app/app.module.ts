@@ -11,6 +11,7 @@ import { SharedModule } from './shared/shared.module';
 import { TeamModule } from './team/team.module';
 import { TournamentModule } from './tournament/tournament.module';
 import { UserModule } from './user/user.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { UserModule } from './user/user.module';
     MatchModule, 
     PlayerModule,
     TournamentModule, 
-    TeamModule
+    TeamModule, 
+    BrowserAnimationsModule
 
     
   ],

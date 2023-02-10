@@ -1,0 +1,16 @@
+<form (ngSubmit)="editMatch()" [formGroup]="matchEditFrom">
+    <label for="name">homeTeam:</label>
+    <input type="text" formControlName="homeTeam" />
+    <label for="name">hometeamGoals:</label>
+    <input type="text" formControlName="homeTeamGoals" />
+    <label for="name">awayTeam:</label>
+    <input type="text" formControlName="awayTeam" />
+    <label for="name">awayTeamGoals:</label>
+    <input type="text" formControlName="awayTeamGoals" />
+    <label for="name">startTime:</label>
+    <input type="text" formControlName="startTime" />
+    <label for="name">tournamentName:</label>
+    <input type="text" formControlName="tournamentName" />
+            
+  <input type="submit" />
+</form>

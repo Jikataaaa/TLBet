@@ -29,7 +29,7 @@ public class ApplicationSecurityConfig {
                 .authorizeHttpRequests()
                 .requestMatchers("/api/v1/auth/**")
                 .permitAll()
-                .requestMatchers("/team/add").hasAuthority(UserRole.ADMIN.name())
+               // .requestMatchers("/team/add").hasAuthority(UserRole.ADMIN.name())
                 .anyRequest()
                 .authenticated()
                 .and()

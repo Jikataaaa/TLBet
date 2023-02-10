@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { PlayerService } from 'src/app/services/player/player.service';
@@ -29,10 +28,10 @@ addNewPlayer(){
   console.log(this.newPlayerForm.value)
 }
 populateTeamOptions(): void{
-
+//TODO
 }
 populatePositionOptions(): void{
-
+//TODO
 }
 
 

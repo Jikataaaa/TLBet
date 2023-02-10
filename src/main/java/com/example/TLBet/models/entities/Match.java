@@ -2,11 +2,19 @@ package com.example.TLBet.models.entities;
 
 import com.example.TLBet.models.MatchStatistics;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.Instant;
 
 @Entity
 @Table(name = "matches")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
 public class Match extends MatchStatistics {
     private Instant startTime;
 
@@ -20,10 +28,6 @@ public class Match extends MatchStatistics {
     @OneToOne
     @JoinColumn(name = "away_team_id", referencedColumnName = "id")
     private Team awayTeam;
-
-    @OneToOne
-    @JoinColumn(name = "real_result_id", referencedColumnName = "id")
-    private RealResult realResult;
 
 
 }
