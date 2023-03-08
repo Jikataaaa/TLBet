@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { BetMatch } from 'src/app/shared/interfaces/BetMatch';
 import { Match } from 'src/app/shared/interfaces/Match';
 
 @Injectable({
@@ -29,11 +30,12 @@ export class MatchService {
     return this.http.get<Match[]>('http://localhost:8080/match/all-matches', {
       headers: {
         Authorization: `Bearer ${this.token}`,
+        
       },
     });
   }
-  editMatch(form: FormGroup) {
-    const {
+  editMatch(form: FormGroup, id : number, homeTeamId : number, awayTeamId : number, tournamentId : number) {
+    let {
       homeTeam,
       homeTeamGoals,
       awayTeam,
@@ -41,16 +43,21 @@ export class MatchService {
       startTime,
       tournamentName,
     } = form.value;
-
-    return this.http.post<Match>(
+    console.log(startTime)
+    return this.http.put<Match>(
       'http://localhost:8080/match/edit-match',
       {
+        id, 
+        homeTeamId,
         homeTeam,
         homeTeamGoals,
+        awayTeamId,
         awayTeam,
         awayTeamGoals,
         startTime,
+        tournamentId,
         tournamentName,
+        
       },
       {
         headers: {
@@ -59,16 +66,11 @@ export class MatchService {
       }
     );
   }
-  // getMatchById(id: number) {
-  //   return this.http.get<Match>(
-  //     'http://localhost:8080/match/get-match',
-  //     {
-  //       headers: {
-  //         Authorization: `Bearer ${this.token}`,
-  //       },
-  //       params : new HttpParams().append("id",id)
-  //     }
-
-  //   );
-  // }
+  getAllBetMatches(){
+    return this.http.get<BetMatch[]>('http://localhost:8080/match/all-bet-matches', {
+      headers : {
+        Authorization : `Bearer ${this.token}`
+      }
+    });
+  }
 }

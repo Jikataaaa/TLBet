@@ -1,6 +1,7 @@
 package com.example.TLBet.web;
 
 import com.example.TLBet.models.entities.Match;
+import com.example.TLBet.models.view.MatchBetView;
 import com.example.TLBet.models.view.MatchResultView;
 import com.example.TLBet.models.view.MatchView;
 import com.example.TLBet.service.MatchService;
@@ -26,14 +27,14 @@ public class MatchController {
     public ResponseEntity<List<MatchResultView>> getAllMatches(){
        return ResponseEntity.ok(service.getAllMatches());
     }
-    @PutMapping
+    @PutMapping("/edit-match")
     public ResponseEntity<MatchResultView> editMatch(@RequestBody MatchResultView match){
         return ResponseEntity.ok(service.editMatch(match));
     }
-//    @GetMapping("/get-match")
-//    public ResponseEntity<MatchResultView> getMatchById(@RequestParam("id") long id){
-//        return ResponseEntity.ok(service.getMatchById(id));
-//    }
+    @GetMapping("/all-bet-matches")
+    public ResponseEntity<List<MatchBetView>> getMatchesForBet(){
+        return ResponseEntity.ok(service.getMatchesForBetView());
+    }
 
 
 

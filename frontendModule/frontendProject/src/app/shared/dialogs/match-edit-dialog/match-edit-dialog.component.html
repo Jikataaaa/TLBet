@@ -1,16 +1,23 @@
 <form (ngSubmit)="editMatch()" [formGroup]="matchEditFrom">
-    <label for="homeTeam">homeTeam:</label>
-    <input type="text" formControlName="homeTeam" />
-    <label for="homeTeamGoals">hometeamGoals:</label>
-    <input type="text" formControlName="homeTeamGoals" />
-    <label for="awayTeam">awayTeam:</label>
-    <input type="text" formControlName="awayTeam" />
-    <label for="awayTeamGoals">awayTeamGoals:</label>
-    <input type="text" formControlName="awayTeamGoals" />
-    <label for="startTime">startTime:</label>
-    <input type="text" formControlName="startTime" />
-    <label for="tournamentName">tournamentName:</label>
-    <input type="text" formControlName="tournamentName" />
-            
+  <label for="homeTeam">homeTeam:</label>
+  <input type="text" formControlName="homeTeam" />
+  <label for="homeTeamGoals">hometeamGoals:</label>
+  <input type="text" formControlName="homeTeamGoals" />
+  <label for="awayTeam">awayTeam:</label>
+  <input type="text" formControlName="awayTeam" />
+  <label for="awayTeamGoals">awayTeamGoals:</label>
+  <input type="text" formControlName="awayTeamGoals" />
+  <label for="startTime">startTime:</label>
+  
+  <mat-form-field (click)="picker.open()"  class="example-full-width" appearance="fill">
+    <mat-label>Choose a date</mat-label>
+    <input formControlName="startTime" matInput [matDatepicker]="picker" />
+    <mat-hint>MM/DD/YYYY</mat-hint>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+
+  <label for="tournamentName">tournamentName:</label>
+  <input type="text" formControlName="tournamentName" />
+
   <input type="submit" />
 </form>

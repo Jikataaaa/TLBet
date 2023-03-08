@@ -1,8 +1,12 @@
 export interface MatchEditDialogData {
+    id : number,
+    homeTeamId : number,
     homeTeam : string,
-    homeTeamGoals : Number,
+    homeTeamGoals : number,
+    awayTeamId : number,
     awayTeam: string,
-    awayTeamGoals: Number,
+    awayTeamGoals: number,
     startTime : Date,
+    tournamentId : number,
     tournamentName: string
   }

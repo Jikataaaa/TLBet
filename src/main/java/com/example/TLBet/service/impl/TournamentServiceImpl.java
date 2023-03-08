@@ -9,6 +9,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -32,5 +33,19 @@ public class TournamentServiceImpl implements TournamentService {
     public List<TournamentView> getAllTournaments() {
         List<Tournament> tournaments = repository.findAll();
         return tournaments.stream().map(tournament -> mapper.map(tournament, TournamentView.class)).toList();
+    }
+
+    @Override
+    public Tournament getTournamentByName(String name) {
+        return repository.findTournamentByName(name).get();
+    }
+
+    @Override
+    public Tournament editTournament(TournamentView tournamentView) {
+        Optional<Tournament> optionalTournament = repository.findById(tournamentView.getId());
+        Tournament tournament = optionalTournament.orElseThrow();
+        tournament.setName(tournamentView.getName());
+        repository.save(tournament);
+        return tournament;
     }
 }

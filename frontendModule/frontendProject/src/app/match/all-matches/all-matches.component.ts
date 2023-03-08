@@ -4,12 +4,7 @@ import { lastValueFrom } from 'rxjs';
 import { MatchService } from 'src/app/services/match/match.service';
 import { MatchEditDialogComponent } from 'src/app/shared/dialogs/match-edit-dialog/match-edit-dialog.component';
 import { Match } from 'src/app/shared/interfaces/Match';
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-}
+
 
 @Component({
   selector: 'app-all-matches',
@@ -28,7 +23,7 @@ export class AllMatchesComponent implements OnInit {
     'actions',
   ];
 
-  constructor(private matchService: MatchService, public dialog: MatDialog) {}
+  constructor(private matchService: MatchService, private dialog: MatDialog) {}
 
   async ngOnInit() {
     await this.populateTableData();
@@ -44,14 +39,18 @@ export class AllMatchesComponent implements OnInit {
     const dialogRef = this.dialog.open(MatchEditDialogComponent, {
      // hasBackdrop : false,
       data: {
+        id : match.id,
+        homeTeamId : match.homeTeamId,
         homeTeam: match.homeTeam,
         homeTeamGoals: match.homeTeamGoals,
+        awayTeamId : match.awayTeamId,
         awayTeam: match.awayTeam,
         awayTeamGoals: match.awayTeamGoals,
         startTime: match.startTime,
+        tournamentId : match.tournamentId,
         tournamentName: match.tournamentName,
       },
     });
-    
+    dialogRef.afterClosed().subscribe(() => this.populateTableData())
   }
 }

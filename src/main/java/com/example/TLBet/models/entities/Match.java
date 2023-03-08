@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "matches")
@@ -16,6 +17,8 @@ import java.time.Instant;
 @AllArgsConstructor
 @Data
 public class Match extends MatchStatistics {
+
+
     private Instant startTime;
 
     @ManyToOne

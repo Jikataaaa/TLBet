@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import {  NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -12,6 +12,8 @@ import { TeamModule } from './team/team.module';
 import { TournamentModule } from './tournament/tournament.module';
 import { UserModule } from './user/user.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BetModule } from './bet/bet.module';
+
 
 @NgModule({
   declarations: [
@@ -20,6 +22,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     NotFoundComponent
   ],
   imports: [
+    BetModule,
     BrowserModule,
     CoreModule,
     AppRoutingModule,
@@ -30,6 +33,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     TournamentModule, 
     TeamModule, 
     BrowserAnimationsModule
+
 
     
   ],

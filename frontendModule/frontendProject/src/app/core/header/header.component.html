@@ -2,10 +2,10 @@
   <div class="section-wrapper">
     <section>
       <ul class="nav-list">
-        <li><a routerLink="/home" (click)="demo()">demo</a></li>
+        <li><a routerLink="/home" >demo</a></li>
         <li  *ngIf="isAdmin"><a routerLink="team/new-team">new-team</a></li>
         <li  *ngIf="isAdmin"><a routerLink="player/new-player">new player</a></li>
-        <li><a routerLink="bet/new-bet">new-bet</a></li>
+        <li *ngIf="isLoged" ><a routerLink="bet/new-bet">new-bet</a></li>
         <li *ngIf="isAdmin"><a routerLink="tournament/new-tournament">new-tournament</a></li>
         <li  *ngIf="isAdmin"><a routerLink="match/all-matches">all-matches</a></li>
         <li  *ngIf="isAdmin"><a routerLink="match/new-match">new-match</a></li>
@@ -19,6 +19,8 @@
         <li *ngIf="isLoged"><a (click)="logout()">logout</a></li>
         <li *ngIf="isLoged">
           <a>profile</a>
+        </li><li>
+          <a routerLink="user/ranking" >класиране</a>
         </li>
       </ul>
     </section>

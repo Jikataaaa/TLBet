@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -33,5 +34,19 @@ public class TeamServiceImpl implements TeamService {
     @Override
     public List<TeamServiceModel> getAllTeams() {
         return repository.findAll().stream().map(team -> mapper.map(team, TeamServiceModel.class)).toList();
+    }
+
+    @Override
+    public Team getTeamByName(String name) {
+        return repository.findTeamByName(name).get();
+    }
+
+    @Override
+    public Team editTeam(TeamView teamView) {
+        Optional<Team> foundTeam = repository.findById(teamView.getId());
+        Team team = foundTeam.orElseThrow();
+        team.setName(teamView.getName());
+        repository.save(team);
+        return team;
     }
 }

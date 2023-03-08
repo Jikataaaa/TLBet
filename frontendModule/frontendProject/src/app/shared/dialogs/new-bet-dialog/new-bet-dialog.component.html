@@ -1,0 +1,10 @@
+<form [formGroup]="newBetForm" (ngSubmit)="OnSubmit()">
+    
+    <label for="homeTeamGoals">{{data.homeTeamName}}</label>
+    <input type="text" formControlName="homeTeamGoals" />
+    
+    <label for="awayTeamGoals">{{data.awayTeamName}}</label>
+    <input type="text" formControlName="awayTeamGoals" />
+
+<input type="submit">
+</form>

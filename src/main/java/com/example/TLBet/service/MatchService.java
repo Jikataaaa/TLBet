@@ -1,5 +1,7 @@
 package com.example.TLBet.service;
 
+import com.example.TLBet.models.entities.Match;
+import com.example.TLBet.models.view.MatchBetView;
 import com.example.TLBet.models.view.MatchResultView;
 import com.example.TLBet.models.view.MatchView;
 
@@ -10,7 +12,9 @@ public interface MatchService {
 
     List<MatchResultView> getAllMatches();
 
-    MatchResultView getMatchById(long id);
+    Match getMatchById(long id);
 
     MatchResultView editMatch(MatchResultView match);
+
+    List<MatchBetView> getMatchesForBetView();
 }

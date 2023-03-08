@@ -10,4 +10,8 @@ public interface TournamentService {
 
    TournamentView createTournament(TournamentView tournamentView);
    List<TournamentView> getAllTournaments();
+
+   Tournament getTournamentByName(String name);
+
+   Tournament editTournament(TournamentView tournamentView);
 }
