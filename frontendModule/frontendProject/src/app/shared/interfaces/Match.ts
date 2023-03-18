@@ -8,5 +8,6 @@ export interface Match{
     awayTeamGoals: Number,
     startTime : Date,
     tournamentId : number,
-    tournamentName: string
+    tournamentName: string,
+    round : number
 }

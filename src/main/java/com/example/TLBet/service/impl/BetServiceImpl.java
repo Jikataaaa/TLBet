@@ -3,6 +3,7 @@ package com.example.TLBet.service.impl;
 import com.example.TLBet.models.entities.Bet;
 import com.example.TLBet.models.entities.Match;
 import com.example.TLBet.models.entities.User;
+import com.example.TLBet.models.service.BetRankingServiceModel;
 import com.example.TLBet.models.view.BetView;
 import com.example.TLBet.models.view.NewBetView;
 import com.example.TLBet.repository.BetRepository;
@@ -14,7 +15,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -63,5 +63,78 @@ public class BetServiceImpl implements BetService {
                         .tournamentName(bet.getMatch().getTournament().getName())
                         .build())
                 .toList();
+    }
+
+    @Override
+    public List<BetView> getAllBetsByUsername(String username) {
+        return repository.findBetsByUserUsername(username)
+                .stream()
+                .map(bet -> BetView
+                        .builder()
+                        .homeTeam(bet.getMatch().getHomeTeam().getName())
+                        .homeTeamGoals(bet.getHomeTeamGoals())
+                        .awayTeam(bet.getMatch().getAwayTeam().getName())
+                        .awayTeamGoals(bet.getAwayTeamGoals())
+                        .tournamentName(bet.getMatch().getTournament().getName())
+                        .build())
+                        .toList();
+
+
+    }
+
+    @Override
+    public List<BetView> getAllBets() {
+        return repository.findAll().stream().map(bet -> BetView
+                .builder()
+                .homeTeam(bet.getMatch().getHomeTeam().getName())
+                .homeTeamGoals(bet.getHomeTeamGoals())
+                .awayTeam(bet.getMatch().getAwayTeam().getName())
+                .awayTeamGoals(bet.getAwayTeamGoals())
+                .tournamentName(bet.getMatch().getTournament().getName())
+                .build())
+                .toList();
+    }
+
+    @Override
+    public List<BetRankingServiceModel> getAllBetsForRanking() {
+        return repository.findAll().stream().map(bet ->
+            BetRankingServiceModel
+                    .builder()
+                    .username(bet.getUser().getUsername())
+                    .matchHomeTeamGoals(bet.getMatch().getHomeTeamGoals())
+                    .matchAwayTeamGoals(bet.getMatch().getAwayTeamGoals())
+                    .betHomeTeamGoals(bet.getHomeTeamGoals())
+                    .betAwayTeamGoals(bet.getAwayTeamGoals())
+                    .build()
+        ).toList();
+    }
+
+    @Override
+    public List<BetRankingServiceModel> getAllBetsForRankingByRound(int round) {
+        return repository.findAllByMatchRound(round).stream().map(bet ->
+                BetRankingServiceModel
+                        .builder()
+                        .username(bet.getUser().getUsername())
+                        .matchHomeTeamGoals(bet.getMatch().getHomeTeamGoals())
+                        .matchAwayTeamGoals(bet.getMatch().getAwayTeamGoals())
+                        .betHomeTeamGoals(bet.getHomeTeamGoals())
+                        .betAwayTeamGoals(bet.getAwayTeamGoals())
+                        .build()
+        ).toList();
+
+    }
+
+    @Override
+    public List<BetRankingServiceModel> getAllBetsForCurrentYearRanking() {
+       return repository.findBetsByMatchStartTimeFromCurrentYear().stream().map(bet ->
+                BetRankingServiceModel
+                        .builder()
+                        .username(bet.getUser().getUsername())
+                        .matchHomeTeamGoals(bet.getMatch().getHomeTeamGoals())
+                        .matchAwayTeamGoals(bet.getMatch().getAwayTeamGoals())
+                        .betHomeTeamGoals(bet.getHomeTeamGoals())
+                        .betAwayTeamGoals(bet.getAwayTeamGoals())
+                        .build()
+        ).toList();
     }
 }

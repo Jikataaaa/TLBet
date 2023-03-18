@@ -30,6 +30,7 @@ export class DetailRankingComponent implements OnInit {
     const bets = this.betService.getAllBetsByUser((this.id as unknown) as number)
     const data = await lastValueFrom(bets)
     this.bets = data
+    console.log(this.bets)
   }
 
 

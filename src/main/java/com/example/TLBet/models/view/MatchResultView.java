@@ -5,8 +5,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.time.Instant;
-import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Data
 @AllArgsConstructor
@@ -23,4 +25,5 @@ public class MatchResultView {
     private Instant startTime;
     private long tournamentId;
     private String tournamentName;
+    private int round;
 }

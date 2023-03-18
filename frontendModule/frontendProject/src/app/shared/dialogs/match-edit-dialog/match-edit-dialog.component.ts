@@ -19,6 +19,7 @@ export class MatchEditDialogComponent implements OnInit {
     awayTeamGoals: new FormControl(),
     startTime: new FormControl(new Date()),
     tournamentName: new FormControl(''),
+    time: new FormControl(new Date())
   });
   constructor(
     private dialogRef: MatDialogRef<MatchEditDialogComponent>,
@@ -37,6 +38,7 @@ export class MatchEditDialogComponent implements OnInit {
   ngOnInit(): void {}
 
   editMatch() {
+    console.log()
     this.matchService
       .editMatch(
         this.matchEditFrom,

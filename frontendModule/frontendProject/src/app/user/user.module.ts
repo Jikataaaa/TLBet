@@ -8,6 +8,7 @@ import { UserService } from '../services/user/user.service';
 import { RankingComponent } from './ranking/ranking.component';
 import { MaterialModule } from '../material/material.module';
 import { DetailRankingComponent } from './detail-ranking/detail-ranking.component';
+import { ProfileComponent } from './profile/profile.component';
 
 
 
@@ -16,7 +17,8 @@ import { DetailRankingComponent } from './detail-ranking/detail-ranking.componen
     LoginComponent,
     RegisterComponent,
     RankingComponent,
-    DetailRankingComponent
+    DetailRankingComponent,
+    ProfileComponent
   ],
   imports: [
     CommonModule,

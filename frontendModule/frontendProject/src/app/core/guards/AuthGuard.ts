@@ -21,10 +21,7 @@ export class AuthGuard implements CanActivate {
     | UrlTree
     | Observable<boolean | UrlTree>
     | Promise<boolean | UrlTree> {
-    const { 
-        //needAuthentication, 
-       // failedAuthenticatonUrl, 
-        role } = route.data;
+    const { role } = route.data;
 
     //checking the authentication
     this.userService.verifyAuthentication().then((response) => {
@@ -47,28 +44,5 @@ export class AuthGuard implements CanActivate {
         }
       });
       return true;
-
-    // const isAuthenticated = typeof needAuthentication == 'boolean'
-    // && needAuthentication == this.userService.isLoged;
-
-    // this.userService.getRoleAccess();
-
-    // if(isAdmin && isAuthenticated){
-    //    return true;
-    // }
-    // if(!isAdmin && isAuthenticated){
-    //     return this.router.parseUrl('/home');
-    // }
-
-    // if(typeof needAuthentication == 'boolean' && needAuthentication == this.userService.isLoged){
-    //     return true;
-    // }
-    // let redirectUrl = failedAuthenticatonUrl;
-    // if(needAuthentication){
-    //     const loginRedirectUrl = route.url.reduce((acc, s) => `${acc}/${s.path}`, '');
-    //     redirectUrl += `?redirectUrl=${loginRedirectUrl}`;
-    // }
-
-    // return this.router.parseUrl(redirectUrl || '/login');
   }
 }

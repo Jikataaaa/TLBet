@@ -17,5 +17,6 @@ public class MatchBetView {
     private String awayTeam;
     private Instant startTime;
     private String tournament;
+    private int round;
 
 }

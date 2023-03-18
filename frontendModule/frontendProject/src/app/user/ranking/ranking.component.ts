@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { lastValueFrom } from 'rxjs';
-import { UserService } from 'src/app/services/user/user.service';
-import { User } from 'src/app/shared/interfaces/User';
-
+import { RankingService } from 'src/app/services/ranking/ranking.service';
 @Component({
   selector: 'app-ranking',
   templateUrl: './ranking.component.html',
@@ -11,26 +8,27 @@ import { User } from 'src/app/shared/interfaces/User';
 })
 
 export class RankingComponent implements OnInit {
-  users : User[] = []
-  displayedColumns : string [] = [
-    "user",
-    "actions"
-  ]
-  constructor(private userService: UserService, private router : Router){
+  constructor(private router : Router, private rankingService : RankingService){
 
   }
  async ngOnInit() {
- await this.populateUsers();
-  }
-
- async populateUsers(){
-  const users = this.userService.getAllUsers();
-  const data = await lastValueFrom(users);
-  this.users = data;
+ await this.populateGeneralRanking();
+ await this.populateLastRanking();
+ await this.populateCurrentYearRanking();
 }
 
-detailShow(id : number){
-  this.router.navigate(["/user/detail-ranking", id])
+async populateGeneralRanking(){
+  this.rankingService.getGeneralRanking().subscribe(response => console.log(response))
 }
+async populateLastRanking(){
+
+}
+async populateCurrentYearRanking(){
+
+}
+
+// detailShow(id : number){
+//   this.router.navigate(["/user/detail-ranking", id])
+// }
 
 }

@@ -17,11 +17,12 @@ export class NewBetComponent implements OnInit {
     'awayTeam',
     'startTime',
     'tournamentName',
+    'round',
     'actions'
   ];
 
   constructor(private matchService: MatchService, private dialog : MatDialog){
-
+   
   }
   async ngOnInit() {
     await this.populateTableData();
@@ -30,6 +31,7 @@ async populateTableData(){
   const matches = this.matchService.getAllBetMatches();
     const data = await lastValueFrom(matches);
     this.dataSource = data;
+    console.log(data)
 }
 onClick(match: BetMatch){
   const dialogRef = this.dialog.open(NewBetDialogComponent, {
@@ -41,4 +43,6 @@ onClick(match: BetMatch){
     }
   })
 }
+
+
 }

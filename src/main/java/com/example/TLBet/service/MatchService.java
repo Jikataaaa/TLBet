@@ -5,6 +5,7 @@ import com.example.TLBet.models.view.MatchBetView;
 import com.example.TLBet.models.view.MatchResultView;
 import com.example.TLBet.models.view.MatchView;
 
+import java.time.LocalTime;
 import java.util.List;
 
 public interface MatchService {
@@ -14,7 +15,9 @@ public interface MatchService {
 
     Match getMatchById(long id);
 
-    MatchResultView editMatch(MatchResultView match);
+    MatchResultView editMatch(MatchResultView match, LocalTime time);
 
     List<MatchBetView> getMatchesForBetView();
+
+    int getLastRound();
 }

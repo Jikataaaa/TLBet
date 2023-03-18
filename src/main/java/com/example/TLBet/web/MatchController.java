@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalTime;
 import java.util.List;
 
 @RestController
@@ -28,8 +29,8 @@ public class MatchController {
        return ResponseEntity.ok(service.getAllMatches());
     }
     @PutMapping("/edit-match")
-    public ResponseEntity<MatchResultView> editMatch(@RequestBody MatchResultView match){
-        return ResponseEntity.ok(service.editMatch(match));
+    public ResponseEntity<MatchResultView> editMatch(@RequestBody MatchResultView match, @RequestParam("time") LocalTime time){
+        return ResponseEntity.ok(service.editMatch(match, time));
     }
     @GetMapping("/all-bet-matches")
     public ResponseEntity<List<MatchBetView>> getMatchesForBet(){

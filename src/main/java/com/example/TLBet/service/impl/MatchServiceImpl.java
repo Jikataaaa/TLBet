@@ -10,14 +10,10 @@ import com.example.TLBet.service.TeamService;
 import com.example.TLBet.service.TournamentService;
 import com.example.TLBet.utils.DateUtil;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
-
 import java.time.*;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -26,7 +22,7 @@ public class MatchServiceImpl implements MatchService {
     private final TeamService teamService;
     private final TournamentService tournamentService;
 
-    private final ModelMapper mapper;
+   // private final ModelMapper mapper;
 
     @Override
     public MatchView createMatch(@RequestBody MatchView matchView) {
@@ -58,6 +54,7 @@ public class MatchServiceImpl implements MatchService {
                         .tournamentId(match.getTournament().getId())
                         .tournamentName(match.getTournament().getName())
                         .startTime(match.getStartTime())
+                        .round(match.getRound())
                         .build()
        ).toList();
     }
@@ -68,7 +65,8 @@ public class MatchServiceImpl implements MatchService {
     }
 
     @Override
-    public MatchResultView editMatch(MatchResultView match) {
+    public MatchResultView editMatch(MatchResultView match, LocalTime time) {
+
 
 
         // edit teamNames
@@ -94,8 +92,9 @@ public class MatchServiceImpl implements MatchService {
                 .build();
         Tournament editTournament = tournamentService.editTournament(tournament);
 
-
         Instant instant = DateUtil.parseInstant(match.getStartTime());
+
+        instant = DateUtil.changeTimeOfInstant(instant, time);
 
         Match builtMatch = Match.builder()
                 .homeTeam(homeEditedTeam)
@@ -121,25 +120,27 @@ public class MatchServiceImpl implements MatchService {
                 .tournamentId(save.getTournament().getId())
                 .tournamentName(save.getTournament().getName())
                 .startTime(save.getStartTime())
+                .round(save.getRound())
                 .build();
-
-
-
-
-
     }
 
     @Override
     public List<MatchBetView> getMatchesForBetView() {
         return repository.findAll().stream().map(match -> MatchBetView
-                .builder()
-                .id(match.getId())
-                .homeTeam(match.getHomeTeam().getName())
-                .awayTeam(match.getAwayTeam().getName())
-                .tournament(match.getTournament().getName())
-                .startTime(match.getStartTime())
-                .build())
+                        .builder()
+                        .id(match.getId())
+                        .homeTeam(match.getHomeTeam().getName())
+                        .awayTeam(match.getAwayTeam().getName())
+                        .tournament(match.getTournament().getName())
+                        .startTime(match.getStartTime())
+                        .round(match.getRound())
+                        .build())
                 .toList();
 
+    }
+
+    @Override
+    public int getLastRound() {
+       return repository.getLastRound();
     }
 }

@@ -18,7 +18,7 @@
         <li *ngIf="!isLoged"><a routerLink="user/register">register</a></li>
         <li *ngIf="isLoged"><a (click)="logout()">logout</a></li>
         <li *ngIf="isLoged">
-          <a>profile</a>
+          <a routerLink="user/profile">profile</a>
         </li><li>
           <a routerLink="user/ranking" >класиране</a>
         </li>

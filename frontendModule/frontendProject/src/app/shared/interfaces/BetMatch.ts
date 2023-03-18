@@ -4,4 +4,5 @@ export interface BetMatch {
   awayTeam: string;
   startTime: Date;
   tournament: string;
+  round : number;
 }

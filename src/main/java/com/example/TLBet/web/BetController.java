@@ -2,7 +2,6 @@ package com.example.TLBet.web;
 
 import com.example.TLBet.models.view.BetView;
 import com.example.TLBet.models.view.NewBetView;
-import com.example.TLBet.service.AuthenticationService;
 import com.example.TLBet.service.BetService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +23,10 @@ public class BetController {
     @GetMapping("all-user-bets")
     public ResponseEntity<List<BetView>> allBetsByUser(@RequestParam("id") long id){
         return ResponseEntity.ok(betService.getAllBetsByUser(id));
+    }
+    @GetMapping("/personal-bets")
+    public ResponseEntity<List<BetView>> AllPersonalBets(@RequestParam("username") String username){
+        return ResponseEntity.ok(betService.getAllBetsByUsername(username));
     }
 
 }

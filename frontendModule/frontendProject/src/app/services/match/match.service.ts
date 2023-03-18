@@ -42,8 +42,8 @@ export class MatchService {
       awayTeamGoals,
       startTime,
       tournamentName,
+      time
     } = form.value;
-    console.log(startTime)
     return this.http.put<Match>(
       'http://localhost:8080/match/edit-match',
       {
@@ -57,12 +57,16 @@ export class MatchService {
         startTime,
         tournamentId,
         tournamentName,
+        time
         
       },
       {
         headers: {
           Authorization: `Bearer ${this.token}`,
         },
+        params: {
+          time : time
+        }
       }
     );
   }

@@ -11,6 +11,7 @@ import { NewTeamComponent } from './team/new-team/new-team.component';
 import { NewTournamentComponent } from './tournament/new-tournament/new-tournament.component';
 import { DetailRankingComponent } from './user/detail-ranking/detail-ranking.component';
 import { LoginComponent } from './user/login/login.component';
+import { ProfileComponent } from './user/profile/profile.component';
 import { RankingComponent } from './user/ranking/ranking.component';
 import { RegisterComponent } from './user/register/register.component';
 
@@ -23,35 +24,21 @@ const routes: Routes = [
   {
     path: 'home',
     component: HomeComponent,
-    data:{
-      role: "USER"
-    }
   },
   {
     path: 'user/login',
     component: LoginComponent,
-    data: {
-      //needAuthentication: false,
-     // failedAuthenticatonUrl: '/',
-      role: "USER"
-    },
+    
   },
   {
     path: 'user/register',
     component: RegisterComponent,
-    data: {
-    //  needAuthentication: false,
-     // failedAuthenticatonUrl: '/',
-      role: "USER"
-    },
   },
   {
     path: 'user/ranking',
     component: RankingComponent,
     canActivate: [AuthGuard],
     data: {
-    //  needAuthentication: false,
-     // failedAuthenticatonUrl: '/',
       role: "USER"
     },
   },
@@ -60,8 +47,13 @@ const routes: Routes = [
     component: DetailRankingComponent,
     canActivate: [AuthGuard],
     data: {
-    //  needAuthentication: false,
-     // failedAuthenticatonUrl: '/',
+      role: "USER"
+    },
+  }, {
+    path: 'user/profile',
+    component: ProfileComponent,
+    canActivate: [AuthGuard],
+    data: {
       role: "USER"
     },
   },
@@ -70,8 +62,6 @@ const routes: Routes = [
     component: NewTeamComponent,
     canActivate: [AuthGuard],
     data: {
-     // needAuthentication: true,
-    //  failedAuthenticatonUrl: '/user/login',
       role: "ADMIN",
     },
   },
@@ -80,8 +70,6 @@ const routes: Routes = [
     component: NewPlayerComponent,
     canActivate: [AuthGuard],
     data: {
-     // needAuthentication: true,
-     // failedAuthenticatonUrl: '/user/login',
       role: "ADMIN",
     },
   },
@@ -90,8 +78,6 @@ const routes: Routes = [
     component: NewTournamentComponent,
     canActivate: [AuthGuard],
     data: {
-    //  needAuthentication: true,
-      //failedAuthenticatonUrl: '/user/login',
       role: "ADMIN",
     },
   }, {
@@ -99,8 +85,6 @@ const routes: Routes = [
     component: NewBetComponent,
     canActivate: [AuthGuard],
     data: {
-     // needAuthentication: true,
-     // failedAuthenticatonUrl: '/user/login',
       role: "USER",
     },
   },{
@@ -108,8 +92,6 @@ const routes: Routes = [
     component: NewMatchComponent,
     canActivate: [AuthGuard],
     data: {
-      //needAuthentication: true,
-     // failedAuthenticatonUrl: '/user/login',
       role: "ADMIN",
     },
   },{
@@ -117,8 +99,6 @@ const routes: Routes = [
     component: AllMatchesComponent,
     canActivate: [AuthGuard],
     data: {
-     // needAuthentication: true,
-     // failedAuthenticatonUrl: '/user/login',
       role: "ADMIN",
     },
   },

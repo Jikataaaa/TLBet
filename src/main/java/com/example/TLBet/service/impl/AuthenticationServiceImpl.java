@@ -3,7 +3,6 @@ package com.example.TLBet.service.impl;
 import com.example.TLBet.models.auth.AuthenticationResponse;
 import com.example.TLBet.models.auth.LoginRequest;
 import com.example.TLBet.models.auth.RegisterRequest;
-//import com.example.TLBet.models.entities.Role;
 import com.example.TLBet.models.entities.User;
 import com.example.TLBet.models.enums.UserRole;
 import com.example.TLBet.models.view.UserView;
@@ -13,7 +12,6 @@ import com.example.TLBet.service.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

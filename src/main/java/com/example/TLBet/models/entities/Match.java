@@ -20,6 +20,7 @@ public class Match extends MatchStatistics {
 
 
     private Instant startTime;
+    private int round;
 
     @ManyToOne
     @JoinColumn(name = "tournament_id", referencedColumnName = "id")

@@ -20,6 +20,7 @@ export class AllMatchesComponent implements OnInit {
     'awayTeamGoals',
     'startTime',
     'tournamentName',
+    'round',
     'actions',
   ];
 
