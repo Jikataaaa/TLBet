@@ -1,6 +1,7 @@
 package com.example.TLBet.config;
 
 import com.example.TLBet.service.JwtService;
+import io.jsonwebtoken.MalformedJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -39,13 +40,26 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
         jwt = authHeader.substring(7);
+        try{
         username = jwtService.extractUsername(jwt);
+        }catch (MalformedJwtException e){
+
+            //catching an exception which is thrown because of missing token
+            //this case catches unauthorized requests which are custom attempted by the user
+            if(!e.getMessage().equals("JWT strings must contain exactly 2 period characters. Found: 0")){
+                throw new MalformedJwtException("Invalid Jwt Token");
+            }else {
+                filterChain.doFilter(request, response);
+                return;
+            }
+        }
         if(username != null && SecurityContextHolder.getContext().getAuthentication() == null){
 //            if(!request.isUserInRole("ADMIN")){
 //                filterChain.doFilter(request, response);
 //                return;
 //            }
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
+
             if (jwtService.isTokenValid(jwt, userDetails)){
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                         userDetails,

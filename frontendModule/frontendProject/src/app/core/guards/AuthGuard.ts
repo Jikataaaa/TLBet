@@ -37,10 +37,10 @@ export class AuthGuard implements CanActivate {
     this.userService
       .getRoleAccess(token, username, role)
       .then((response) => {
+        
         if (response == 'false') {
           localStorage.clear()
           this.router.navigate(['user/login']);
-       
         }
       });
       return true;
