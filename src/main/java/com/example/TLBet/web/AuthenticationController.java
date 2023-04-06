@@ -7,13 +7,13 @@ import com.example.TLBet.models.enums.UserRole;
 import com.example.TLBet.models.view.UserView;
 import com.example.TLBet.service.AuthenticationService;
 import com.example.TLBet.service.JwtService;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.MalformedJwtException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import static com.example.TLBet.utils.AuthUtil.validateToken;
 
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -82,16 +82,6 @@ public class AuthenticationController {
     @GetMapping("/all-users")
     public ResponseEntity<List<UserView>> getAllUsers(){
         return ResponseEntity.ok(authenticationService.getAllUsers());
-    }
-
-    private String validateToken(String token){
-        String extractUsername;
-        try {
-            extractUsername = jwtService.extractUsername(token);
-        }catch (MalformedJwtException | ExpiredJwtException e){
-            return null;
-        }
-        return extractUsername;
     }
 
 
