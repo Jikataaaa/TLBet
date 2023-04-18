@@ -9,7 +9,7 @@ import { RankingComponent } from './ranking/ranking.component';
 import { MaterialModule } from '../material/material.module';
 import { DetailRankingComponent } from './detail-ranking/detail-ranking.component';
 import { ProfileComponent } from './profile/profile.component';
-
+import { StandingComponent } from '../shared/components/standing/standing.component';
 
 
 @NgModule({
@@ -24,7 +24,7 @@ import { ProfileComponent } from './profile/profile.component';
     CommonModule,
     HttpClientModule,
     ReactiveFormsModule,
-    MaterialModule
+    MaterialModule,
   ],
   providers: [
     UserService

@@ -9,6 +9,8 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
 import {MatTabsModule} from '@angular/material/tabs';
+import {MatDividerModule} from '@angular/material/divider';
+import {MatListModule} from '@angular/material/list';
 
 @NgModule({
   declarations: [],
@@ -22,7 +24,9 @@ import {MatTabsModule} from '@angular/material/tabs';
     MatDatepickerModule,
     MatNativeDateModule,
     MatInputModule,
-    MatTabsModule
+    MatTabsModule,
+    MatDividerModule,
+    MatListModule
   ],
   exports: [
     MatAutocompleteModule,
@@ -33,7 +37,9 @@ import {MatTabsModule} from '@angular/material/tabs';
     MatDatepickerModule,
     MatNativeDateModule,
     MatInputModule,
-    MatTabsModule
+    MatTabsModule,
+    MatDividerModule,
+    MatListModule
   ],
 })
 export class MaterialModule {}

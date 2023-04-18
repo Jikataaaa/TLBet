@@ -4,13 +4,15 @@ import { MatchEditDialogComponent } from './dialogs/match-edit-dialog/match-edit
 import { MaterialModule } from '../material/material.module';
 import { NewBetDialogComponent } from './dialogs/new-bet-dialog/new-bet-dialog.component';
 import { GoalsPickerComponent } from './components/goals-picker/goals-picker.component';
+import { StandingComponent } from './components/standing/standing.component';
 
 
 @NgModule({
   declarations: [
     MatchEditDialogComponent,
     NewBetDialogComponent,
-    GoalsPickerComponent
+    GoalsPickerComponent,
+    StandingComponent
   ],
   imports: [
     CommonModule,

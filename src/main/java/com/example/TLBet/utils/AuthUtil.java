@@ -1,6 +1,7 @@
 package com.example.TLBet.utils;
 
 import com.example.TLBet.service.JwtService;
+import com.example.TLBet.service.impl.JwtServiceImpl;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import lombok.RequiredArgsConstructor;
@@ -8,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AuthUtil {
 
-    private static JwtService service ;
+    private static final JwtService service = new JwtServiceImpl();
 
     public static String validateToken(String token){
         String extractUsername;
