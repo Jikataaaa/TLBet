@@ -1,4 +1,8 @@
 <mat-list>
-    <mat-list-item>Item 1</mat-list-item>
+  <div *ngFor="let rank of ranking index as i">
+    <div class="item">
+        <mat-list-item>{{i + 1}}. {{rank.username}}</mat-list-item>
+        <mat-list-item class="points">{{rank.points}}</mat-list-item> </div>
     <mat-divider></mat-divider>
-  </mat-list>
+  </div>
+</mat-list>

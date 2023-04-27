@@ -31,7 +31,6 @@ async populateTableData(){
   const matches = this.matchService.getAllBetMatches();
     const data = await lastValueFrom(matches);
     this.dataSource = data;
-    console.log(data)
 }
 onClick(match: BetMatch){
   const dialogRef = this.dialog.open(NewBetDialogComponent, {

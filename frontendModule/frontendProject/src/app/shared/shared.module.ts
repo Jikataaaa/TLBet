@@ -17,6 +17,7 @@ import { StandingComponent } from './components/standing/standing.component';
   imports: [
     CommonModule,
     MaterialModule
-  ]
+  ],
+  exports: [StandingComponent]
 })
 export class SharedModule { }
