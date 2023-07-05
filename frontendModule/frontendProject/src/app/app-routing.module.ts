@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { NewBetComponent } from './bet/new-bet/new-bet.component';
 import { AuthGuard } from './core/guards/AuthGuard';
 import { HomeComponent } from './home/home.component';
 import { AllMatchesComponent } from './match/all-matches/all-matches.component';
@@ -81,13 +80,6 @@ const routes: Routes = [
       role: "ADMIN",
     },
   }, {
-    path: 'bet/new-bet',
-    component: NewBetComponent,
-    canActivate: [AuthGuard],
-    data: {
-      role: "USER",
-    },
-  },{
     path: 'match/new-match',
     component: NewMatchComponent,
     canActivate: [AuthGuard],

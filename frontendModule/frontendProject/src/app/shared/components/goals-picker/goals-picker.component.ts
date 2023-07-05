@@ -9,10 +9,9 @@ export class GoalsPickerComponent{
   @Input() goals!  : number;
   @Output() betGoals  = new EventEmitter<number>();
   constructor(){
-
+    this.goals = 0;
   }
 
-  
 
   incrementGoals() {
      this.goals++;

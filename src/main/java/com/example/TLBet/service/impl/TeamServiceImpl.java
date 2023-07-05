@@ -27,7 +27,6 @@ public class TeamServiceImpl implements TeamService {
     @Override
     public TeamServiceModel createTeam(TeamView team) {
         Team savedTeam = repository.save(mapper.map(team, Team.class));
-        System.out.println(savedTeam.getId());
         return mapper.map(savedTeam, TeamServiceModel.class);
     }
 

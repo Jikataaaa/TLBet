@@ -12,7 +12,7 @@ import { TeamModule } from './team/team.module';
 import { TournamentModule } from './tournament/tournament.module';
 import { UserModule } from './user/user.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { BetModule } from './bet/bet.module';
+
 
 
 @NgModule({
@@ -22,7 +22,6 @@ import { BetModule } from './bet/bet.module';
     NotFoundComponent
   ],
   imports: [
-    BetModule,
     BrowserModule,
     CoreModule,
     AppRoutingModule,

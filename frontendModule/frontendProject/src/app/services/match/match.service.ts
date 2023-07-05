@@ -1,7 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { BetMatch } from 'src/app/shared/interfaces/BetMatch';
 import { Match } from 'src/app/shared/interfaces/Match';
 
 @Injectable({
@@ -69,12 +68,5 @@ export class MatchService {
         }
       }
     );
-  }
-  getAllBetMatches(){
-    return this.http.get<BetMatch[]>('http://localhost:8080/match/all-bet-matches', {
-      headers : {
-        Authorization : `Bearer ${this.token}`
-      }
-    });
   }
 }

@@ -15,7 +15,8 @@ export class NewTeamComponent {
 
   newTeamForm = new FormGroup(
     {
-      name : new FormControl("", [Validators.required])
+      name : new FormControl(""),
+      imageUrl : new FormControl("")
     }
   )
 

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 import java.time.*;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -48,8 +49,10 @@ public class MatchServiceImpl implements MatchService {
                         .homeTeamId(match.getHomeTeam().getId())
                         .homeTeam(match.getHomeTeam().getName())
                         .homeTeamGoals(match.getHomeTeamGoals())
+                        .homeTeamImageUrl(match.getHomeTeam().getImageUrl())
                         .awayTeamId(match.getAwayTeam().getId())
                         .awayTeam(match.getAwayTeam().getName())
+                        .awayTeamImageUrl(match.getAwayTeam().getImageUrl())
                         .awayTeamGoals(match.getAwayTeamGoals())
                         .tournamentId(match.getTournament().getId())
                         .tournamentName(match.getTournament().getName())
@@ -125,22 +128,11 @@ public class MatchServiceImpl implements MatchService {
     }
 
     @Override
-    public List<MatchBetView> getMatchesForBetView() {
-        return repository.findAll().stream().map(match -> MatchBetView
-                        .builder()
-                        .id(match.getId())
-                        .homeTeam(match.getHomeTeam().getName())
-                        .awayTeam(match.getAwayTeam().getName())
-                        .tournament(match.getTournament().getName())
-                        .startTime(match.getStartTime())
-                        .round(match.getRound())
-                        .build())
-                .toList();
-
-    }
-
-    @Override
     public int getLastRound() {
-       return repository.getLastRound();
+
+        Optional<Integer> lastRound = repository.getLastRound();
+
+        return lastRound.orElse(0);
+
     }
 }

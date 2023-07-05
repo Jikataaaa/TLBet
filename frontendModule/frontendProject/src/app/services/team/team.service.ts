@@ -8,12 +8,12 @@ export class TeamService {
   constructor(private http: HttpClient) {}
 
   createNewTeam(form: FormGroup) {
-    const name = form.value.name;
+    const {name, imageUrl} = form.value;
 
     this.http
       .post<Team>(
         'http://localhost:8080/team/new-team',
-        { name },
+        { name, imageUrl },
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,

@@ -32,11 +32,4 @@ public class MatchController {
     public ResponseEntity<MatchResultView> editMatch(@RequestBody MatchResultView match, @RequestParam("time") LocalTime time){
         return ResponseEntity.ok(service.editMatch(match, time));
     }
-    @GetMapping("/all-bet-matches")
-    public ResponseEntity<List<MatchBetView>> getMatchesForBet(){
-        return ResponseEntity.ok(service.getMatchesForBetView());
-    }
-
-
-
 }

@@ -7,6 +7,7 @@ import { PersonalBet } from 'src/app/shared/interfaces/PersonalBet';
   providedIn: 'root'
 })
 export class BetService {
+  private token : string | null = localStorage.getItem("token");
 
   constructor(private http: HttpClient) { }
 
@@ -14,7 +15,7 @@ export class BetService {
    let username = localStorage.getItem("username")
   return this.http.post<NewBet>('http://localhost:8080/bet/new-bet', {homeTeamGoals, awayTeamGoals, matchId, username}, {
     headers : {
-      Authorization : `Bearer ${localStorage.getItem("token")}`
+      Authorization : `Bearer ${this.token}`
     }
   })
   }
@@ -24,7 +25,7 @@ export class BetService {
         id : id
       },
       headers : {
-      Authorization : `Bearer ${localStorage.getItem("token")}`
+      Authorization : `Bearer ${this.token}`
     }
   }
   )
@@ -35,7 +36,7 @@ export class BetService {
         username : username
       },
       headers : {
-      Authorization : `Bearer ${localStorage.getItem("token")}`
+      Authorization : `Bearer ${this.token}`
     }
   }
   )

@@ -17,7 +17,5 @@ public interface MatchService {
 
     MatchResultView editMatch(MatchResultView match, LocalTime time);
 
-    List<MatchBetView> getMatchesForBetView();
-
     int getLastRound();
 }

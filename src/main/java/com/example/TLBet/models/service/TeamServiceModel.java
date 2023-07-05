@@ -12,4 +12,5 @@ import lombok.NoArgsConstructor;
 public class TeamServiceModel {
     private long id;
     private String name;
+    private String imageUrl;
 }

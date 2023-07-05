@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { lastValueFrom } from 'rxjs';
 import { MatchService } from 'src/app/services/match/match.service';
 import { MatchEditDialogComponent } from 'src/app/shared/dialogs/match-edit-dialog/match-edit-dialog.component';
+import { NewBetDialogComponent } from 'src/app/shared/dialogs/new-bet-dialog/new-bet-dialog.component';
 import { Match } from 'src/app/shared/interfaces/Match';
 
 
@@ -12,18 +13,15 @@ import { Match } from 'src/app/shared/interfaces/Match';
   styleUrls: ['./all-matches.component.scss'],
 })
 export class AllMatchesComponent implements OnInit {
-  dataSource: Match[] = [];
-  displayedColumns: string[] = [
-    'homeTeam',
-    'homeTeamGoals',
-    'awayTeam',
-    'awayTeamGoals',
-    'startTime',
-    'tournamentName',
-    'round',
-    'actions',
-  ];
-
+  matches!: Match[] ;
+ 
+  get isAdmin(){
+    let role = localStorage.getItem("role")
+    if(role == "ADMIN"){
+      return true
+    }
+    return false
+  }
   constructor(private matchService: MatchService, private dialog: MatDialog) {}
 
   async ngOnInit() {
@@ -33,10 +31,10 @@ export class AllMatchesComponent implements OnInit {
   async populateTableData() {
     const matches = this.matchService.getAllMatches();
     const data = await lastValueFrom(matches);
-    this.dataSource = data;
+    this.matches = data;
   }
 
-  onClick(match: Match) {
+  openEditMatchDialog(match: Match) {
     const dialogRef = this.dialog.open(MatchEditDialogComponent, {
      // hasBackdrop : false,
       data: {
@@ -53,5 +51,15 @@ export class AllMatchesComponent implements OnInit {
       },
     });
     dialogRef.afterClosed().subscribe(() => this.populateTableData())
+  }
+  openCreateBetDialog(match: Match){
+    const dialogRef = this.dialog.open(NewBetDialogComponent, {
+      data:{
+        matchId : match.id,
+        homeTeamName: match.homeTeam,
+        awayTeamName: match.awayTeam,
+        startTime: match.startTime
+      }
+    })
   }
 }

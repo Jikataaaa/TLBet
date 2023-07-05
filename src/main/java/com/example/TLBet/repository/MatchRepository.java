@@ -5,6 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface MatchRepository extends JpaRepository<Match, Long> {
 
@@ -12,5 +14,5 @@ public interface MatchRepository extends JpaRepository<Match, Long> {
             ,value = "select round from matches\n" +
             "order by round desc\n" +
             "limit 1")
-    int getLastRound();
+    Optional<Integer> getLastRound();
 }

@@ -18,9 +18,11 @@ public class MatchResultView {
     private long id;
     private long homeTeamId;
     private String homeTeam;
+    private String homeTeamImageUrl;
     private int homeTeamGoals;
     private long awayTeamId;
     private String awayTeam;
+    private String awayTeamImageUrl;
     private int awayTeamGoals;
     private Instant startTime;
     private long tournamentId;

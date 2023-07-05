@@ -18,6 +18,6 @@ import { StandingComponent } from './components/standing/standing.component';
     CommonModule,
     MaterialModule
   ],
-  exports: [StandingComponent]
+  exports: [StandingComponent, GoalsPickerComponent]
 })
 export class SharedModule { }
