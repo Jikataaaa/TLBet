@@ -1,4 +1,4 @@
-package com.example.TLBet.models.view;
+package com.example.TLBet.models.service;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -6,12 +6,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class RankingView {
+@Builder
+public class RankingServiceModel {
     private String username;
     private long points;
-    private int rankingDifferences;
+    private int place;
 
 }

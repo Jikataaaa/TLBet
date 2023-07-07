@@ -1,5 +1,5 @@
 <div clas="container">
-  <ng-container *ngIf="!matches"> Няма наличен тираж! </ng-container>
+  <ng-container class="empty" *ngIf="matchesCount == 0"> Няма наличен тираж! </ng-container>
   <ng-container *ngFor="let match of matches">
     <div class="wrapper">
       <img src="{{ match.homeTeamImageUrl }}" />

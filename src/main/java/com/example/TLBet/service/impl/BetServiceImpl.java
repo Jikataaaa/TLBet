@@ -3,6 +3,7 @@ package com.example.TLBet.service.impl;
 import com.example.TLBet.models.entities.Bet;
 import com.example.TLBet.models.entities.Match;
 import com.example.TLBet.models.entities.User;
+import com.example.TLBet.models.exeptions.MatchStartedException;
 import com.example.TLBet.models.service.BetRankingServiceModel;
 import com.example.TLBet.models.view.BetView;
 import com.example.TLBet.models.view.NewBetView;
@@ -11,6 +12,7 @@ import com.example.TLBet.service.AuthenticationService;
 import com.example.TLBet.service.BetService;
 import com.example.TLBet.service.MatchService;
 import com.example.TLBet.utils.DateUtil;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -26,14 +28,21 @@ public class BetServiceImpl implements BetService {
     private final MatchService matchService;
 
     @Override
+    @Transactional
     public NewBetView createBet(NewBetView bet) {
 
         User userByUsername = userService.getUserByUsername(bet.getUsername());
-        Match matchById = matchService.getMatchById(bet.getMatchId());
+        Match match = matchService.getMatchById(bet.getMatchId());
+
+
+
+        if(Instant.now().isAfter(match.getStartTime())){
+             throw new MatchStartedException();
+        }
 
         Bet betToSave = Bet.builder()
                 .user(userByUsername)
-                .match(matchById)
+                .match(match)
                 .build();
         betToSave.setHomeTeamGoals(bet.getHomeTeamGoals());
         betToSave.setAwayTeamGoals(bet.getAwayTeamGoals());

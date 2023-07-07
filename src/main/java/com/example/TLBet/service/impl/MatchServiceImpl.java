@@ -44,7 +44,7 @@ public class MatchServiceImpl implements MatchService {
     @Override
     public List<MatchResultView> getAllMatches() {
 
-        return repository.findAll().stream().map(match -> MatchResultView.builder()
+        return repository.findAllByStartTimeAfter(Instant.now()).stream().map(match -> MatchResultView.builder()
                         .id(match.getId())
                         .homeTeamId(match.getHomeTeam().getId())
                         .homeTeam(match.getHomeTeam().getName())

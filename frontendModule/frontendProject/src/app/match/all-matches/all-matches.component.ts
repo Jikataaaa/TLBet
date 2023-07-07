@@ -14,8 +14,9 @@ import { Match } from 'src/app/shared/interfaces/Match';
 })
 export class AllMatchesComponent implements OnInit {
   matches!: Match[] ;
+  matchesCount! : Number;
  
-  get isAdmin(){
+  get isAdmin() : boolean{
     let role = localStorage.getItem("role")
     if(role == "ADMIN"){
       return true
@@ -32,6 +33,7 @@ export class AllMatchesComponent implements OnInit {
     const matches = this.matchService.getAllMatches();
     const data = await lastValueFrom(matches);
     this.matches = data;
+    this.matchesCount = this.matches.length;
   }
 
   openEditMatchDialog(match: Match) {

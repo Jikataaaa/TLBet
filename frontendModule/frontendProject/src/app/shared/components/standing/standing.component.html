@@ -1,8 +1,43 @@
 <mat-list>
-  <div *ngFor="let rank of ranking index as i">
+  <div *ngFor="let rank of ranking; index as i">
     <div class="item">
-        <mat-list-item>{{i + 1}}. {{rank.username}}</mat-list-item>
-        <mat-list-item class="points">{{rank.points}}</mat-list-item> </div>
+      <mat-list-item>{{ i + 1 }}. {{ rank.username }}</mat-list-item>
+      <mat-list-item class="points">{{ rank.points }}</mat-list-item>
+      <mat-list-item *ngIf="rank.rankingDifferences > 0">
+        <div class="wrapper">
+          <mat-icon
+            class="arrow-icon"
+            aria-hidden="false"
+            aria-label="Example home icon"
+            fontIcon="arrow_drop_up"
+          ></mat-icon>
+          <div>{{ rank.rankingDifferences }}</div>
+        </div>
+      </mat-list-item>
+
+      <mat-list-item *ngIf="0 > rank.rankingDifferences"
+        ><div class="wrapper">
+          <mat-icon
+            class="arrow-icon"
+            aria-hidden="false"
+            aria-label="Example home icon"
+            fontIcon="arrow_drop_down"
+          ></mat-icon>
+          <div>{{ rank.rankingDifferences * -1 }}</div>
+        </div>
+      </mat-list-item>
+
+      <mat-list-item *ngIf="rank.rankingDifferences == 0"
+        ><div class="wrapper">
+          <mat-icon
+            aria-hidden="false"
+            aria-label="Example home icon"
+            fontIcon="menu"
+          ></mat-icon>
+          <div>{{ rank.rankingDifferences }}</div>
+        </div>
+      </mat-list-item>
+    </div>
     <mat-divider></mat-divider>
   </div>
 </mat-list>

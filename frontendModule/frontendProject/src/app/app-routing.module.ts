@@ -91,7 +91,7 @@ const routes: Routes = [
     component: AllMatchesComponent,
     canActivate: [AuthGuard],
     data: {
-      role: "ADMIN",
+      role: "USER",
     },
   },
   {

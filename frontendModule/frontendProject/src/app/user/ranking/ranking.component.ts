@@ -9,17 +9,19 @@ import { Ranking } from 'src/app/shared/interfaces/Ranking';
   styleUrls: ['./ranking.component.scss'],
 })
 export class RankingComponent implements OnInit {
-
   generalRanking!: Ranking[];
   lastRoundRanking!: Ranking[];
   currentYearRanking!: Ranking[];
 
   constructor(private router: Router, private rankingService: RankingService) {}
-  
+
   async ngOnInit() {
     await this.populateGeneralRanking();
     await this.populateLastRanking();
     await this.populateCurrentYearRanking();
+    console.log(this.generalRanking);
+    console.log(this.lastRoundRanking);
+    console.log(this.currentYearRanking);
   }
 
   async populateGeneralRanking() {
@@ -27,13 +29,13 @@ export class RankingComponent implements OnInit {
     const data = await lastValueFrom(ranking);
     this.generalRanking = data;
   }
-  
+
   async populateLastRanking() {
     const ranking = this.rankingService.getLastRoundRanking();
     const data = await lastValueFrom(ranking);
     this.lastRoundRanking = data;
   }
- 
+
   async populateCurrentYearRanking() {
     const ranking = this.rankingService.getCurrentYearRanking();
     const data = await lastValueFrom(ranking);
