@@ -1,7 +1,7 @@
 export interface PersonalBet {
-    awayTeam : string,
-    awayTeamGoals : number,
-    homeTeam : string,
-    homeTeamGoals : number,
-    tournamentName : string
+  awayTeamGoals: number;
+  awayTeamUrl: string;
+  homeTeamGoals: number;
+  homeTeamUrl: string;
+  tournamentName: string;
 }

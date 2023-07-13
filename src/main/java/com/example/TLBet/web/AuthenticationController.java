@@ -22,7 +22,6 @@ public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
 
-    private final JwtService jwtService;
 
 
     @PostMapping("/register")
@@ -82,6 +81,10 @@ public class AuthenticationController {
     @GetMapping("/all-users")
     public ResponseEntity<List<UserView>> getAllUsers(){
         return ResponseEntity.ok(authenticationService.getAllUsers());
+    }
+    @GetMapping("/user")
+    public ResponseEntity<Long> getUserId(@RequestParam("username") String username){
+        return ResponseEntity.ok(authenticationService.getUserIdByUsername(username));
     }
 
 

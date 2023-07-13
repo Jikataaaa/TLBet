@@ -6,22 +6,21 @@ import { MatchEditDialogComponent } from 'src/app/shared/dialogs/match-edit-dial
 import { NewBetDialogComponent } from 'src/app/shared/dialogs/new-bet-dialog/new-bet-dialog.component';
 import { Match } from 'src/app/shared/interfaces/Match';
 
-
 @Component({
   selector: 'app-all-matches',
   templateUrl: './all-matches.component.html',
   styleUrls: ['./all-matches.component.scss'],
 })
 export class AllMatchesComponent implements OnInit {
-  matches!: Match[] ;
-  matchesCount! : Number;
- 
-  get isAdmin() : boolean{
-    let role = localStorage.getItem("role")
-    if(role == "ADMIN"){
-      return true
+  matches!: Match[];
+  matchesCount!: Number;
+
+  get isAdmin(): boolean {
+    let role = localStorage.getItem('role');
+    if (role == 'ADMIN') {
+      return true;
     }
-    return false
+    return false;
   }
   constructor(private matchService: MatchService, private dialog: MatDialog) {}
 
@@ -30,7 +29,7 @@ export class AllMatchesComponent implements OnInit {
   }
 
   async populateTableData() {
-    const matches = this.matchService.getAllMatches();
+    const matches = await this.matchService.getAllMatches();
     const data = await lastValueFrom(matches);
     this.matches = data;
     this.matchesCount = this.matches.length;
@@ -38,30 +37,30 @@ export class AllMatchesComponent implements OnInit {
 
   openEditMatchDialog(match: Match) {
     const dialogRef = this.dialog.open(MatchEditDialogComponent, {
-     // hasBackdrop : false,
+      // hasBackdrop : false,
       data: {
-        id : match.id,
-        homeTeamId : match.homeTeamId,
+        id: match.id,
+        homeTeamId: match.homeTeamId,
         homeTeam: match.homeTeam,
         homeTeamGoals: match.homeTeamGoals,
-        awayTeamId : match.awayTeamId,
+        awayTeamId: match.awayTeamId,
         awayTeam: match.awayTeam,
         awayTeamGoals: match.awayTeamGoals,
         startTime: match.startTime,
-        tournamentId : match.tournamentId,
+        tournamentId: match.tournamentId,
         tournamentName: match.tournamentName,
       },
     });
-    dialogRef.afterClosed().subscribe(() => this.populateTableData())
+    dialogRef.afterClosed().subscribe(() => this.populateTableData());
   }
-  openCreateBetDialog(match: Match){
+  openCreateBetDialog(match: Match) {
     const dialogRef = this.dialog.open(NewBetDialogComponent, {
-      data:{
-        matchId : match.id,
+      data: {
+        matchId: match.id,
         homeTeamName: match.homeTeam,
         awayTeamName: match.awayTeam,
-        startTime: match.startTime
-      }
-    })
+        startTime: match.startTime,
+      },
+    });
   }
 }

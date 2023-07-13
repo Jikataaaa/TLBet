@@ -20,4 +20,6 @@ public interface BetService {
     List<BetRankingServiceModel> getAllBetsForRankingByRound(int round);
 
     List<BetRankingServiceModel> getAllBetsForCurrentYearRanking();
+
+    List<Long> getAllMatchIdsBetByUserId(Long id);
 }

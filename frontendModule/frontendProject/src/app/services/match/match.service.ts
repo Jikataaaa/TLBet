@@ -2,6 +2,8 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Match } from 'src/app/shared/interfaces/Match';
+import { UserService } from '../user/user.service';
+import { lastValueFrom } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -9,7 +11,7 @@ import { Match } from 'src/app/shared/interfaces/Match';
 export class MatchService {
   private token = localStorage.getItem('token');
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private userService: UserService) {}
   createMatch(homeTeam: BigInt, awayTeam: BigInt, tournament: BigInt) {
     this.http
       .post(
@@ -25,15 +27,28 @@ export class MatchService {
         console.log(response);
       });
   }
-  getAllMatches() {
+  async getAllMatches() {
+    const username = localStorage.getItem('username');
+    const id = this.userService.getUserIdByUsername(username ? username : '');
+
+    const data: number = await lastValueFrom(id);
+
     return this.http.get<Match[]>('http://localhost:8080/match/all-matches', {
       headers: {
         Authorization: `Bearer ${this.token}`,
-        
+      },
+      params: {
+        userId: data,
       },
     });
   }
-  editMatch(form: FormGroup, id : number, homeTeamId : number, awayTeamId : number, tournamentId : number) {
+  editMatch(
+    form: FormGroup,
+    id: number,
+    homeTeamId: number,
+    awayTeamId: number,
+    tournamentId: number
+  ) {
     let {
       homeTeam,
       homeTeamGoals,
@@ -41,12 +56,12 @@ export class MatchService {
       awayTeamGoals,
       startTime,
       tournamentName,
-      time
+      time,
     } = form.value;
     return this.http.put<Match>(
       'http://localhost:8080/match/edit-match',
       {
-        id, 
+        id,
         homeTeamId,
         homeTeam,
         homeTeamGoals,
@@ -56,16 +71,15 @@ export class MatchService {
         startTime,
         tournamentId,
         tournamentName,
-        time
-        
+        time,
       },
       {
         headers: {
           Authorization: `Bearer ${this.token}`,
         },
         params: {
-          time : time
-        }
+          time: time,
+        },
       }
     );
   }

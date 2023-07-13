@@ -65,9 +65,7 @@ public class BetServiceImpl implements BetService {
        return repository.findAllByUserIdAndMatchStartTimeBefore(id, instant)
                 .stream()
                 .map(bet -> BetView.builder()
-                        .homeTeam(bet.getMatch().getHomeTeam().getName())
                         .homeTeamGoals(bet.getHomeTeamGoals())
-                        .awayTeam(bet.getMatch().getAwayTeam().getName())
                         .awayTeamGoals(bet.getAwayTeamGoals())
                         .tournamentName(bet.getMatch().getTournament().getName())
                         .build())
@@ -76,14 +74,14 @@ public class BetServiceImpl implements BetService {
 
     @Override
     public List<BetView> getAllBetsByUsername(String username) {
-        return repository.findBetsByUserUsername(username)
+        return repository.findBetsByUserUsernameAndMatchStartTimeAfter(username, DateUtil.parseInstant(Instant.now()))
                 .stream()
                 .map(bet -> BetView
                         .builder()
-                        .homeTeam(bet.getMatch().getHomeTeam().getName())
                         .homeTeamGoals(bet.getHomeTeamGoals())
-                        .awayTeam(bet.getMatch().getAwayTeam().getName())
+                        .homeTeamUrl(bet.getMatch().getHomeTeam().getImageUrl())
                         .awayTeamGoals(bet.getAwayTeamGoals())
+                        .awayTeamUrl(bet.getMatch().getAwayTeam().getImageUrl())
                         .tournamentName(bet.getMatch().getTournament().getName())
                         .build())
                         .toList();
@@ -95,9 +93,7 @@ public class BetServiceImpl implements BetService {
     public List<BetView> getAllBets() {
         return repository.findAll().stream().map(bet -> BetView
                 .builder()
-                .homeTeam(bet.getMatch().getHomeTeam().getName())
                 .homeTeamGoals(bet.getHomeTeamGoals())
-                .awayTeam(bet.getMatch().getAwayTeam().getName())
                 .awayTeamGoals(bet.getAwayTeamGoals())
                 .tournamentName(bet.getMatch().getTournament().getName())
                 .build())
@@ -145,5 +141,10 @@ public class BetServiceImpl implements BetService {
                         .betAwayTeamGoals(bet.getAwayTeamGoals())
                         .build()
         ).toList();
+    }
+
+    @Override
+    public List<Long> getAllMatchIdsBetByUserId(Long id) {
+       return repository.getAllMatchIdsBetByUserId(id);
     }
 }

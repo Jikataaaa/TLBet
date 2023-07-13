@@ -91,4 +91,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                         .build())
                 .toList();
     }
+
+    @Override
+    public Long getUserIdByUsername(String username) {
+        User user = userRepository.findUserByUsername(username).orElseThrow();
+        return user.getId();
+    }
 }

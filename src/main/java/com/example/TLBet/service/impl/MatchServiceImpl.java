@@ -4,6 +4,7 @@ import com.example.TLBet.models.entities.Match;
 import com.example.TLBet.models.entities.Team;
 import com.example.TLBet.models.entities.Tournament;
 import com.example.TLBet.models.view.*;
+import com.example.TLBet.repository.BetRepository;
 import com.example.TLBet.repository.MatchRepository;
 import com.example.TLBet.service.MatchService;
 import com.example.TLBet.service.TeamService;
@@ -19,9 +20,10 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class MatchServiceImpl implements MatchService {
-    private final MatchRepository repository;
+    private final MatchRepository matchRepository;
     private final TeamService teamService;
     private final TournamentService tournamentService;
+    private final BetRepository betRepository;
 
    // private final ModelMapper mapper;
 
@@ -34,7 +36,7 @@ public class MatchServiceImpl implements MatchService {
                 .homeTeam(homeTeam)
                 .awayTeam(awayTeam)
                 .tournament(tournament).build();
-        Match save = repository.save(match);
+        Match save = matchRepository.save(match);
         return MatchView.builder()
                 .homeTeam(save.getHomeTeam().getId())
                 .awayTeam(save.getAwayTeam().getId())
@@ -42,9 +44,15 @@ public class MatchServiceImpl implements MatchService {
     }
 
     @Override
-    public List<MatchResultView> getAllMatches() {
+    public List<MatchResultView> getAllMatches(Long id) {
+        List<Long> matchIds = betRepository.getAllMatchIdsBetByUserId(id);
 
-        return repository.findAllByStartTimeAfter(Instant.now()).stream().map(match -> MatchResultView.builder()
+        //TODO да се направи по-красиво
+        if(matchIds.size() == 0){
+            matchIds.add(-1L);
+        }
+
+        return matchRepository.findAllByStartTimeAfterAndIdNotIn(DateUtil.parseInstant(Instant.now()), matchIds).stream().map(match -> MatchResultView.builder()
                         .id(match.getId())
                         .homeTeamId(match.getHomeTeam().getId())
                         .homeTeam(match.getHomeTeam().getName())
@@ -64,7 +72,7 @@ public class MatchServiceImpl implements MatchService {
 
     @Override
     public Match getMatchById(long id) {
-       return repository.findById(id).orElseThrow();
+       return matchRepository.findById(id).orElseThrow();
     }
 
     @Override
@@ -110,7 +118,7 @@ public class MatchServiceImpl implements MatchService {
 
 
 
-        Match save = repository.save(builtMatch);
+        Match save = matchRepository.save(builtMatch);
         return MatchResultView
                 .builder()
                 .id(save.getId())
@@ -130,7 +138,7 @@ public class MatchServiceImpl implements MatchService {
     @Override
     public int getLastRound() {
 
-        Optional<Integer> lastRound = repository.getLastRound();
+        Optional<Integer> lastRound = matchRepository.getLastRound();
 
         return lastRound.orElse(0);
 

@@ -18,5 +18,5 @@ public interface MatchRepository extends JpaRepository<Match, Long> {
             "limit 1")
     Optional<Integer> getLastRound();
 
-    List<Match> findAllByStartTimeAfter(Instant now);
+    List<Match> findAllByStartTimeAfterAndIdNotIn(Instant now, List<Long> matchIds);
 }

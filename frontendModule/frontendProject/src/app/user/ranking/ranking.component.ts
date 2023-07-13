@@ -19,9 +19,6 @@ export class RankingComponent implements OnInit {
     await this.populateGeneralRanking();
     await this.populateLastRanking();
     await this.populateCurrentYearRanking();
-    console.log(this.generalRanking);
-    console.log(this.lastRoundRanking);
-    console.log(this.currentYearRanking);
   }
 
   async populateGeneralRanking() {

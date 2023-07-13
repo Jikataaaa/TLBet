@@ -6,24 +6,24 @@
       <mat-list-item *ngIf="rank.rankingDifferences > 0">
         <div class="wrapper">
           <mat-icon
-            class="arrow-icon"
+            class="positive"
             aria-hidden="false"
             aria-label="Example home icon"
             fontIcon="arrow_drop_up"
           ></mat-icon>
-          <div>{{ rank.rankingDifferences }}</div>
+          <div>+{{ rank.rankingDifferences }}</div>
         </div>
       </mat-list-item>
 
       <mat-list-item *ngIf="0 > rank.rankingDifferences"
         ><div class="wrapper">
           <mat-icon
-            class="arrow-icon"
+            class="negative"
             aria-hidden="false"
             aria-label="Example home icon"
             fontIcon="arrow_drop_down"
           ></mat-icon>
-          <div>{{ rank.rankingDifferences * -1 }}</div>
+          <div>{{ rank.rankingDifferences }}</div>
         </div>
       </mat-list-item>
 

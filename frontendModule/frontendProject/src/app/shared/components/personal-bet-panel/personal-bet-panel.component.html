@@ -1,0 +1,12 @@
+<mat-list>
+  <div *ngFor="let bet of bets">
+    <div class="item">
+      <mat-list-item><img src="{{ bet.homeTeamUrl }}" alt="" /> </mat-list-item>
+      <mat-list-item>{{ bet.homeTeamGoals }} </mat-list-item>
+      <mat-list-item>{{ bet.awayTeamGoals }} </mat-list-item>
+      <mat-list-item><img src="{{ bet.awayTeamUrl }}" alt="" /> </mat-list-item>
+      <mat-list-item>{{ bet.tournamentName }} </mat-list-item>
+    </div>
+    <mat-divider></mat-divider>
+  </div>
+</mat-list>

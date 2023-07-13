@@ -12,10 +12,9 @@ import java.time.Instant;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BetView {
-
-    private String homeTeam;
     private int homeTeamGoals;
-    private String awayTeam;
+    private String homeTeamUrl;
     private int awayTeamGoals;
+    private String awayTeamUrl;
     private String tournamentName;
 }

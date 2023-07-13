@@ -1,13 +1,13 @@
-img{
-    height: 15vh;
-    width: 30vh;
+img {
+  max-height: 10vh;
+  max-width: 20vh;
 }
-.wrapper{
-    display : flex;
-    justify-content: center;
+.wrapper {
+  display: flex;
+  justify-content: center;
 }
-.button-wrapper{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
+.button-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
 }
