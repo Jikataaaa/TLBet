@@ -12,7 +12,7 @@ export class UserService {
   constructor(private http: HttpClient) {}
   async getRoleAccess(token: any, username: any, role: string) {
     const access = this.http.get(
-      'http://localhost:8080/api/v1/auth/roleAccess',
+      `http://localhost:8080/${this.resourceUrl}/roleAccess`,
       {
         params: {
           token: token,
@@ -35,7 +35,7 @@ export class UserService {
     }
 
     const isVerified = this.http.get(
-      'http://localhost:8080/api/v1/auth/verifyAuthentication',
+      `http://localhost:8080/${this.resourceUrl}/verifyAuthentication`,
       {
         params: {
           username: username,
@@ -59,7 +59,7 @@ export class UserService {
     const username = form.value.username;
     const password = form.value.password;
     this.http
-      .post<AuthUser>('http://localhost:8080/api/v1/auth/login', {
+      .post<AuthUser>(`http://localhost:8080/${this.resourceUrl}/login`, {
         username,
         password,
       })
@@ -75,7 +75,7 @@ export class UserService {
 
     const { username, password } = form.value;
     this.http
-      .post<AuthUser>('http://localhost:8080/api/v1/auth/register', {
+      .post<AuthUser>(`http://localhost:8080/${this.resourceUrl}/register`, {
         username,
         password,
       })
@@ -90,7 +90,7 @@ export class UserService {
 
   getAllUsers() {
     return this.http.get<User[]>(
-      'http://localhost:8080/api/v1/auth/all-users',
+      `http://localhost:8080/${this.resourceUrl}/all-users`,
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -100,7 +100,7 @@ export class UserService {
   }
 
   getUserIdByUsername(username: string) {
-    return this.http.get<number>('http://localhost:8080/api/v1/auth/user', {
+    return this.http.get<number>(`http://localhost:8080/${this.resourceUrl}/user`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
       },
@@ -108,6 +108,10 @@ export class UserService {
         username: username,
       },
     });
+  }
+
+  get resourceUrl(): string {
+    return 'api/v1/auth';
   }
 
   private setLocaleStorageData(user: AuthUser) {
