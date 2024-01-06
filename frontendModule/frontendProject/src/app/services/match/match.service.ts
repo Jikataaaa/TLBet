@@ -24,6 +24,7 @@ export class MatchService {
         }
       )
       .subscribe((response) => {
+        console.log("TEST");
         console.log(response);
       });
   }
