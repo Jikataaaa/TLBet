@@ -10,6 +10,7 @@ import { MaterialModule } from '../material/material.module';
 import { DetailRankingComponent } from './detail-ranking/detail-ranking.component';
 import { ProfileComponent } from './profile/profile.component';
 import { SharedModule } from '../shared/shared.module';
+import { LoginFormComponent } from './login/login-form/login-form.component';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { SharedModule } from '../shared/shared.module';
     RegisterComponent,
     RankingComponent,
     DetailRankingComponent,
-    ProfileComponent
+    ProfileComponent,
+    LoginFormComponent
   ],
   imports: [
     CommonModule,

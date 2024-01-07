@@ -1,8 +1,8 @@
-<form (ngSubmit)="login()" [formGroup]="loginForm">
-
-    <input type="text" formControlName="username">
-    <input type="password" formControlName="password">
-    <input type="submit">
-
-</form>
-
+<div class="bg-purple-700 py-12 px-6 min-h-screen flex items-center justify-center">
+    <div class="bg-purple-800 text-white pb-8 rounded-lg max-w-lg w-full">
+        <mat-tab-group mat-stretch-tabs>
+            <mat-tab label="SIGN IN"><app-login-form></app-login-form></mat-tab>
+            <mat-tab label="CREATE ACCOUNT"> Content 2 </mat-tab>
+        </mat-tab-group>
+    </div>
+</div>

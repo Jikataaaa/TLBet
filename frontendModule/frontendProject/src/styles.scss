@@ -1,6 +1,30 @@
+@use '@angular/material'as mat;
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import "~@angular/material/prebuilt-themes/indigo-pink.css"; // or the theme you are using
+
+@include mat.checkbox-density(-2);
+
 html{
     font-family:Helvetica, sans-serif;
 }
 body {
     margin: 0;
+}
+
+.mdc-notched-outline__notch {
+    border-right: none !important;
+}
+
+/* Change the border hover color */
+.mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused):hover .mdc-notched-outline .mdc-notched-outline__leading,
+.mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused):hover .mdc-notched-outline .mdc-notched-outline__notch,
+.mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused):hover .mdc-notched-outline .mdc-notched-outline__trailing {
+  border-color: rgba(255, 255, 255, 0.89);
+}
+
+mat-label {
+    color: rgba(255, 255, 255, 0.89);
 }
