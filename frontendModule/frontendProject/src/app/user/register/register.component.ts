@@ -16,21 +16,24 @@ export class RegisterComponent {
 
   registerForm = new FormGroup({
     username: new FormControl("", [Validators.required]),
-    emailFormControl: new FormControl("",[ Validators.email, Validators.required]),
+    // emailFormControl: new FormControl("",[ Validators.email, Validators.required]),
     password: new FormControl("",[Validators.required]),
     repassword: new FormControl("", [Validators.required]),
-  })
+  });
 
-  constructor(private service : UserService, private router: Router){
-    
-  }
+  constructor(private service : UserService, private router: Router){ }
 
   register(){
+    const password = this.registerForm.get('password');
+    const repassword = this.registerForm.get('repassword');
+
+    // todo - add more validation and error handling
+    if (password?.value !== repassword?.value) {
+      console.error('Password and repassword do not match');
+      return;
+    }
+
     this.service.register(this.registerForm);
     this.router.navigate(["/"])
   }
-  
-
-
- 
 }
