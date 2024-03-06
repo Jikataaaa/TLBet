@@ -1,42 +1,32 @@
-import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
-import { Observable } from 'rxjs';
+import { inject } from '@angular/core';
+import { ActivatedRouteSnapshot, CanActivateFn, Router, RouterStateSnapshot } from '@angular/router';
 import { UserService } from 'src/app/services/user/user.service';
 
-@Injectable()
-export class AuthGuard  {
-  constructor(private userService: UserService, private router: Router) {}
+export const AuthGuard: CanActivateFn = (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
+    const userService = inject(UserService);
+    const router = inject(Router);
 
-  canActivate(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ):
-    | boolean
-    | UrlTree
-    | Observable<boolean | UrlTree>
-    | Promise<boolean | UrlTree> {
     const { role } = route.data;
 
     //checking the authentication
-    this.userService.verifyAuthentication().then((response) => {
+    userService.verifyAuthentication().then((response) => {
       if (response == 'false') {
         localStorage.clear()
-        this.router.navigate(['user/login']);
+        router.navigate(['user/login']);
       }
     });
 
     //checking roleAccess
     const token = localStorage.getItem('token');
     const username = localStorage.getItem('username');
-    this.userService
+    userService
       .getRoleAccess(token, username, role)
       .then((response) => {
         
         if (response == 'false') {
           localStorage.clear()
-          this.router.navigate(['user/login']);
+          router.navigate(['user/login']);
         }
       });
       return true;
-  }
 }

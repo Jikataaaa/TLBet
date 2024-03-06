@@ -13,8 +13,6 @@ import { TournamentModule } from './tournament/tournament.module';
 import { UserModule } from './user/user.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-
-
 @NgModule({
   declarations: [
     AppComponent,

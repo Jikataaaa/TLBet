@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from './core/guards/AuthGuard';
 import { HomeComponent } from './home/home.component';
 import { AllMatchesComponent } from './match/all-matches/all-matches.component';
 import { NewMatchComponent } from './match/new-match/new-match.component';
@@ -13,6 +12,7 @@ import { LoginComponent } from './user/login/login.component';
 import { ProfileComponent } from './user/profile/profile.component';
 import { RankingComponent } from './user/ranking/ranking.component';
 import { RegisterComponent } from './user/register/register.component';
+import { AuthGuard } from './core/guards/AuthGuard';
 
 const routes: Routes = [
   {
