@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/services/user/user.service';
@@ -9,6 +9,7 @@ import { UserService } from 'src/app/services/user/user.service';
   styleUrls: ['./login-form.component.scss']
 })
 export class LoginFormComponent {
+  @Output() changeTab = new EventEmitter<number>();
   hide: boolean = true;
 
   loginForm = new FormGroup({
@@ -23,5 +24,9 @@ export class LoginFormComponent {
   login(){
     this.service.login(this.loginForm);
     this.router.navigate(["/"])
+  }
+
+  triggerTabChange(){
+    this.changeTab.emit(1);
   }
 }
