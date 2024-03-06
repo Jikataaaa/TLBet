@@ -1,8 +1,4 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms'
-import { Router } from '@angular/router';
-import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
   selector: 'app-login',
@@ -10,5 +6,10 @@ import { UserService } from 'src/app/services/user/user.service';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
+  selectedTabIndex = 0;
+
+  onTabChange(index: number) {
+    this.selectedTabIndex = index;
+  }
 }
  

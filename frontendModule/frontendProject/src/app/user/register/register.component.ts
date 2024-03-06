@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, NgForm } from '@angular/forms';
+import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/services/user/user.service';
 
@@ -10,11 +10,15 @@ import { UserService } from 'src/app/services/user/user.service';
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent {
+  hide: boolean = true;
+  hideRepass: boolean = true;
+  emailRegex = RegExp(/^\S+@\S+\.\S+$/);
 
   registerForm = new FormGroup({
-    username: new FormControl(""),
-    password: new FormControl("")
-
+    username: new FormControl("", [Validators.required]),
+    emailFormControl: new FormControl("",[ Validators.email, Validators.required]),
+    password: new FormControl("",[Validators.required]),
+    repassword: new FormControl("", [Validators.required]),
   })
 
   constructor(private service : UserService, private router: Router){
