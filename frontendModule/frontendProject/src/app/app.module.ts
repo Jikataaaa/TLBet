@@ -12,6 +12,8 @@ import { TeamModule } from './team/team.module';
 import { TournamentModule } from './tournament/tournament.module';
 import { UserModule } from './user/user.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+
 
 @NgModule({
   declarations: [
@@ -29,7 +31,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     PlayerModule,
     TournamentModule, 
     TeamModule, 
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MatSnackBarModule
 
 
     

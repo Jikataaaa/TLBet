@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/services/user/user.service';
 
@@ -13,15 +14,22 @@ export class LoginFormComponent {
   hide: boolean = true;
 
   loginForm = new FormGroup({
-    username: new FormControl(""),
-    password: new FormControl("")
+    username: new FormControl("", [Validators.required, Validators.minLength(3)]),
+    password: new FormControl("", [Validators.required, Validators.minLength(6), Validators.maxLength(20)])
 
   })
 
-  constructor(private service : UserService, private router: Router){
+  constructor(private service : UserService, private router: Router, private _snackBar: MatSnackBar){
   }
 
   login(){
+    if (this.loginForm.invalid) {
+      this._snackBar.open("Моля попълнете всички полета", "Затвори",{
+        duration: 2000,
+      });
+      return;
+    }
+
     this.service.login(this.loginForm);
     this.router.navigate(["/"])
   }
@@ -29,4 +37,5 @@ export class LoginFormComponent {
   triggerTabChange(){
     this.changeTab.emit(1);
   }
+
 }
