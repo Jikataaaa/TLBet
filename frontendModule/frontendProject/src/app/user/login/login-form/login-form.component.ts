@@ -23,7 +23,12 @@ export class LoginFormComponent {
   }
 
   login(){
-    if (this.loginForm.invalid) {
+    
+    const username = this.loginForm.get('username')?.value;
+    const password = this.loginForm.get('password')?.value;
+
+    debugger
+    if (!username || !password) {
       this._snackBar.open("Моля попълнете всички полета", "Затвори",{
         duration: 2000,
       });
