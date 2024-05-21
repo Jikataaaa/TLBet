@@ -33,7 +33,7 @@
       Полето за парола e задължително.
     </mat-error>
     <mat-error *ngIf="loginForm.get('password')?.hasError('minlength')">
-      Паролата трябва да e поне 3 символа.
+      Паролата трябва да e поне 8 символа.
     </mat-error>
     <mat-error *ngIf="loginForm.get('password')?.hasError('maxlength')">
       Паролата не може да бъде повече от 20 символа.

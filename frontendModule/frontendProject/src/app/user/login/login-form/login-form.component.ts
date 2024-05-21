@@ -15,19 +15,16 @@ export class LoginFormComponent {
 
   loginForm = new FormGroup({
     username: new FormControl("", [Validators.required, Validators.minLength(3)]),
-    password: new FormControl("", [Validators.required, Validators.minLength(6), Validators.maxLength(20)])
-
+    password: new FormControl("", [Validators.required, Validators.minLength(5), Validators.maxLength(20)]) // Validators.minLength(5) shold be changed to Validators.minLength(8)
   })
 
   constructor(private service : UserService, private router: Router, private _snackBar: MatSnackBar){
   }
 
   login(){
-    
     const username = this.loginForm.get('username')?.value;
     const password = this.loginForm.get('password')?.value;
 
-    debugger
     if (!username || !password) {
       this._snackBar.open("Моля попълнете всички полета", "Затвори",{
         duration: 2000,
