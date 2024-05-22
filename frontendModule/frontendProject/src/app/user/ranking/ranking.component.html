@@ -1,11 +1,6 @@
 <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center">
-  <mat-tab label="Класиране"
-    ><app-standing [ranking]="generalRanking"></app-standing
-  ></mat-tab>
-  <mat-tab label="Класиране от миналия кръг"
-    ><app-standing [ranking]="lastRoundRanking"></app-standing
-  ></mat-tab>
-  <mat-tab label="Класиране от тази календарна година"
-    ><app-standing [ranking]="currentYearRanking"></app-standing
-  ></mat-tab>
+  <mat-tab label="Класиране"><app-standing [ranking]="generalRanking"></app-standing></mat-tab>
+  <mat-tab label="Класиране от миналия кръг"><app-standing [ranking]="lastRoundRanking"></app-standing></mat-tab>
+  <mat-tab label="Класиране от тази календарна година"><app-standing
+      [ranking]="currentYearRanking"></app-standing></mat-tab>
 </mat-tab-group>
