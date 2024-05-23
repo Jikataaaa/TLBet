@@ -17,8 +17,8 @@ export class RankingComponent implements OnInit {
 
   async ngOnInit() {
     await this.populateGeneralRanking();
-    await this.populateLastRanking();
-    await this.populateCurrentYearRanking();
+    // await this.populateLastRanking();
+    // await this.populateCurrentYearRanking();
   }
 
   async populateGeneralRanking() {

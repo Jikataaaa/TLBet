@@ -7,6 +7,9 @@ import { Ranking } from '../../interfaces/Ranking';
   styleUrls: ['./standing.component.scss']
 })
 export class StandingComponent implements OnInit{
+
+  columns: string[] = ['position', 'username', 'points', 'rankingDifferences'];
+
   ngOnInit(): void {
   }
 

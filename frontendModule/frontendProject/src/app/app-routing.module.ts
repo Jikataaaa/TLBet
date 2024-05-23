@@ -31,7 +31,7 @@ const routes: Routes = [
   },
   {
     path: 'user/register',
-    component: RegisterComponent,
+    component: LoginComponent,
   },
   {
     path: 'user/ranking',
