@@ -1,17 +1,6 @@
-<div clas="container">
-  <ng-container class="empty" *ngIf="matchesCount == 0"> Няма наличен тираж! </ng-container>
-  <ng-container *ngFor="let match of matches">
-    <div class="wrapper">
-      <img src="{{ match.homeTeamImageUrl }}" />
-      <div class="button-wrapper">
-        <button *ngIf="isAdmin" mat-button (click)="openEditMatchDialog(match)">
-          Edit match
-        </button>  
-        <button mat-button (click)="openCreateBetDialog(match)">
-            Create bet
-          </button>
-      </div>
-      <img src="{{ match.awayTeamImageUrl }}" />
-    </div>
-  </ng-container>
-</div>
+<form [formGroup]="mainForm" (ngSubmit)="onSubmit()">
+  <div formArrayName="matches" *ngFor="let match of matches.controls; let i = index">
+     <app-match-proccess [formGroupName]="i"></app-match-proccess>
+  </div>
+  <button type="submit">Submit</button>
+</form>

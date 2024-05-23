@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { lastValueFrom } from 'rxjs';
+import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatchService } from 'src/app/services/match/match.service';
-import { MatchEditDialogComponent } from 'src/app/shared/dialogs/match-edit-dialog/match-edit-dialog.component';
-import { NewBetDialogComponent } from 'src/app/shared/dialogs/new-bet-dialog/new-bet-dialog.component';
+import { MatchProccessComponent } from 'src/app/shared/components/match-proccess/match-proccess.component';
 import { Match } from 'src/app/shared/interfaces/Match';
 
 @Component({
@@ -12,8 +10,10 @@ import { Match } from 'src/app/shared/interfaces/Match';
   styleUrls: ['./all-matches.component.scss'],
 })
 export class AllMatchesComponent implements OnInit {
-  matches!: Match[];
   matchesCount!: Number;
+  mainForm : FormGroup = this.fb.group({
+    matches : this.fb.array([])
+  });
 
   get isAdmin(): boolean {
     let role = localStorage.getItem('role');
@@ -22,45 +22,29 @@ export class AllMatchesComponent implements OnInit {
     }
     return false;
   }
-  constructor(private matchService: MatchService, private dialog: MatDialog) {}
+  constructor(private matchService: MatchService, private fb: FormBuilder) {}
 
   async ngOnInit() {
-    await this.populateTableData();
+    this.mainForm = this.fb.group({
+      matches: this.fb.array([])
+    });
+    let data = await this.matchService.getAllMatches();
+    data.subscribe(data => {
+      this.populateForm(data)
+    })
+  }
+  get matches(){
+    return this.mainForm.get("matches") as FormArray;
   }
 
-  async populateTableData() {
-    const matches = await this.matchService.getAllMatches();
-    const data = await lastValueFrom(matches);
-    this.matches = data;
-    this.matchesCount = this.matches.length;
+  populateForm(matches: Match[]) {
+    matches.forEach((m : Match) => {
+      let records = this.mainForm.get("matches") as FormArray;
+      records.push(new MatchProccessComponent().writeValue(m))
+    })
+    
   }
 
-  openEditMatchDialog(match: Match) {
-    const dialogRef = this.dialog.open(MatchEditDialogComponent, {
-      // hasBackdrop : false,
-      data: {
-        id: match.id,
-        homeTeamId: match.homeTeamId,
-        homeTeam: match.homeTeam,
-        homeTeamGoals: match.homeTeamGoals,
-        awayTeamId: match.awayTeamId,
-        awayTeam: match.awayTeam,
-        awayTeamGoals: match.awayTeamGoals,
-        startTime: match.startTime,
-        tournamentId: match.tournamentId,
-        tournamentName: match.tournamentName,
-      },
-    });
-    dialogRef.afterClosed().subscribe(() => this.populateTableData());
-  }
-  openCreateBetDialog(match: Match) {
-    const dialogRef = this.dialog.open(NewBetDialogComponent, {
-      data: {
-        matchId: match.id,
-        homeTeamName: match.homeTeam,
-        awayTeamName: match.awayTeam,
-        startTime: match.startTime,
-      },
-    });
-  }
+  onSubmit() {
+    console.log(this.mainForm.value);}
 }

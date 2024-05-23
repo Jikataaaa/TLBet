@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Match } from 'src/app/shared/interfaces/Match';
 import { UserService } from '../user/user.service';
-import { lastValueFrom } from 'rxjs';
+import { Observable, lastValueFrom } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -24,22 +24,22 @@ export class MatchService {
         }
       )
       .subscribe((response) => {
-        console.log("TEST");
+        console.log('TEST');
         console.log(response);
       });
   }
-  async getAllMatches() {
+  async getAllMatches(): Promise<Observable<Match[]>> {
     const username = localStorage.getItem('username');
-    const id = this.userService.getUserIdByUsername(username ? username : '');
-
-    const data: number = await lastValueFrom(id);
+    let id: number = 0;
+    const data = await this.userService.getUserIdByUsername(username ? username : '');
+    data.subscribe(d => id = d);
 
     return this.http.get<Match[]>('http://localhost:8080/match/all-matches', {
       headers: {
         Authorization: `Bearer ${this.token}`,
       },
       params: {
-        userId: data,
+        userId: id,
       },
     });
   }

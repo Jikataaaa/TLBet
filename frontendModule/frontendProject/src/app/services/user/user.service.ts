@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, OnInit } from '@angular/core';
-import { lastValueFrom } from 'rxjs';
+import { Observable, lastValueFrom } from 'rxjs';
 import { FormGroup } from '@angular/forms';
 import { User } from 'src/app/shared/interfaces/User';
 import { AuthUser } from 'src/app/shared/interfaces/AuthUser';
@@ -99,7 +99,7 @@ export class UserService {
     );
   }
 
-  getUserIdByUsername(username: string) {
+  async getUserIdByUsername(username: string) : Promise<Observable<number>> {
     return this.http.get<number>(`http://localhost:8080/${this.resourceUrl}/user`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`,

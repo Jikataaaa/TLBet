@@ -6,6 +6,8 @@ import { NewBetDialogComponent } from './dialogs/new-bet-dialog/new-bet-dialog.c
 import { GoalsPickerComponent } from './components/goals-picker/goals-picker.component';
 import { StandingComponent } from './components/standing/standing.component';
 import { PersonalBetPanelComponent } from './components/personal-bet-panel/personal-bet-panel.component';
+import { MatchProccessComponent } from './components/match-proccess/match-proccess.component';
+
 
 @NgModule({
   declarations: [
@@ -14,8 +16,9 @@ import { PersonalBetPanelComponent } from './components/personal-bet-panel/perso
     GoalsPickerComponent,
     StandingComponent,
     PersonalBetPanelComponent,
+    MatchProccessComponent
   ],
   imports: [CommonModule, MaterialModule],
-  exports: [StandingComponent, GoalsPickerComponent, PersonalBetPanelComponent],
+  exports: [GoalsPickerComponent, MatchProccessComponent, StandingComponent, PersonalBetPanelComponent],
 })
 export class SharedModule {}
