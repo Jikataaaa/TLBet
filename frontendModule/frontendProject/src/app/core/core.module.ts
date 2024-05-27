@@ -1,14 +1,21 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HeaderComponent } from './header/header.component';
-import { FooterComponent } from './footer/footer.component';
-import { AppRoutingModule } from '../app-routing.module';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { AppRoutingModule } from '../app-routing.module';
+import { MaterialModule } from '../material/material.module';
+import { FooterComponent } from './footer/footer.component';
+import { HeaderComponent } from './header/header.component';
+import { AuthInterceptor } from './interceptors/auth-interceptor';
 
 @NgModule({
-  declarations: [HeaderComponent, FooterComponent],
-  imports: [CommonModule, AppRoutingModule, RouterModule],
-  providers: [],
-  exports: [HeaderComponent, FooterComponent],
+    declarations: [HeaderComponent, FooterComponent],
+    imports: [CommonModule, AppRoutingModule, RouterModule, MaterialModule],
+    exports: [HeaderComponent, FooterComponent],
+    providers: [{
+        provide: HTTP_INTERCEPTORS,
+        useClass: AuthInterceptor,
+        multi: true,
+    }],
 })
-export class CoreModule {}
+export class CoreModule { }

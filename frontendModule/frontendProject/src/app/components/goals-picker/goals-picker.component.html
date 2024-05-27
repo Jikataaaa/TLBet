@@ -1,0 +1,36 @@
+<div class="flex flex-row gap-2"
+     *ngIf="team">
+    <div *ngIf="!isHomeTeam"
+         class="flex flex-col items-center justify-center gap-2">
+        <ng-container *ngTemplateOutlet="buttons"></ng-container>
+    </div>
+    <div class="team-container flex flex-col items-center justify-center gap-2">
+        <img [src]="team.imageUrl"
+             [alt]="team.name">
+        <span class="max-w-xs break-words text-center mx-auto team-name">{{team.name}}</span>
+    </div>
+    <div *ngIf="isHomeTeam"
+         class="flex flex-col items-center justify-center gap-2">
+        <ng-container *ngTemplateOutlet="buttons"></ng-container>
+    </div>
+</div>
+
+<ng-template #buttons>
+    <div class="flex flex-col items-center justify-center gap-1">
+        <button *ngIf="!disabled"
+                (click)="incrementGoals()"
+                class="flex items-center justify-center rounded-full h-5 w-10 hover:bg-gray-300 transition-colors duration-200">
+            <mat-icon>expand_less</mat-icon>
+        </button>
+        <input type="text"
+               class="team-input"
+               [value]="team.goals"
+               readonly>
+
+        <button *ngIf="!disabled"
+                (click)="decrementGoals()"
+                class="flex items-center justify-center rounded-full h-5 w-10 hover:bg-gray-300 transition-colors duration-200">
+            <mat-icon>expand_more</mat-icon>
+        </button>
+    </div>
+</ng-template>

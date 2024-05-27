@@ -1,0 +1,10 @@
+<div class="flex flex-row justify-center items-center gap-1"
+     *ngIf="match"
+     [formGroup]="form">
+    <div class="flex flex-row justify-center items-center gap-2 border border-gray-300 rounded">
+        <goals-picker formControlName="homeTeam"></goals-picker>
+        <span class="dash-line">-</span>
+        <goals-picker formControlName="awayTeam"
+                          [isHomeTeam]="false"></goals-picker>
+    </div>
+</div>

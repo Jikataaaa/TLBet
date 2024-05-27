@@ -1,8 +1,0 @@
-<div class="bg-purple-700 py-12 px-6 min-h-screen flex items-center justify-center">
-    <div class="bg-purple-800 text-white pb-8 rounded-lg max-w-lg w-full">
-        <mat-tab-group [(selectedIndex)]="selectedTabIndex" mat-stretch-tabs>
-            <mat-tab label="SIGN IN"><app-login-form (changeTab)="onTabChange($event)"></app-login-form></mat-tab>
-            <mat-tab label="CREATE ACCOUNT"><app-register></app-register> </mat-tab>
-        </mat-tab-group>
-    </div>
-</div>

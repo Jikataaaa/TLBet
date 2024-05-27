@@ -1,34 +1,42 @@
-.nav-list{
-    padding: 0;
+@import 'src/styles';
+
+.section-wrapper {
     display: flex;
-    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
 }
-li{
-  margin-right: 3vh;
-}
-.section-wrapper{
+
+.nav-list,
+.user-list {
     display: flex;
-}
-section{
-    min-width: 50%;
-}
-.user-list{
-    display: flex;
-    justify-content: flex-end;
-}
-ul{
+    align-items: center;
     list-style: none;
-    
+    padding: 0;
 }
-a{
+
+.nav-spacer {
+    flex: 1 1 auto;
+}
+
+.nav-list li,
+.user-list li {
+    margin-right: 3vh;
+    font-size: medium;
+    cursor: pointer;
+    transition: background-color 0.01s, border-radius 0.05s;
+    padding: 0 4px;
+}
+
+::ng-deep li:hover,
+::ng-deep li:hover {
+    background-color: mat-color($primary, 900);
     text-decoration: none;
-    color: black;
+    cursor: pointer;
+    border-radius: 2px;
 }
-a:hover{
-    color: purple;
-    text-decoration: underline;
-}
-header{
-    margin-left: 10%;
-    margin-right: 10%;
+
+.logo {
+    width: 50px;
+    height: auto;
+    margin-right: 16px;
 }

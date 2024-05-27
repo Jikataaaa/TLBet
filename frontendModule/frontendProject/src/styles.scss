@@ -1,15 +1,19 @@
-@use '@angular/material'as mat;
+@use '@angular/material' as mat;
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 @import "~@angular/material/prebuilt-themes/indigo-pink.css"; // or the theme you are using
+@import '@angular/material/theming';
+@import 'node_modules/@angular/material/_theming.scss';
+
 
 @include mat.checkbox-density(-2);
 
-html{
-    font-family:Helvetica, sans-serif;
+html {
+    font-family: Helvetica, sans-serif;
 }
+
 body {
     margin: 0;
 }
@@ -22,9 +26,86 @@ body {
 .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused):hover .mdc-notched-outline .mdc-notched-outline__leading,
 .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused):hover .mdc-notched-outline .mdc-notched-outline__notch,
 .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused):hover .mdc-notched-outline .mdc-notched-outline__trailing {
-  border-color: rgba(255, 255, 255, 0.89);
+    border-color: rgba(255, 255, 255, 0.89);
 }
 
 mat-label {
     color: rgba(255, 255, 255, 0.89);
 }
+
+$primary-palette: (
+  50: #e0f2f1,
+  100: #b2dfdb,
+  200: #80cbc4,
+  300: #4db6ac,
+  400: #26a69a,
+  500: #003F2B,
+  600: #00897b,
+  700: #00796b,
+  800: #00695c,
+  900: #004d40,
+  A100: #a7ffeb,
+  A200: #64ffda,
+  A400: #1de9b6,
+  A700: #00bfa5,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #000000,
+    400: #000000,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #000000,
+    A200: #000000,
+    A400: #000000,
+    A700: #000000,
+  )
+);
+
+$accent-palette: (
+  50: #e3f2fd,
+  100: #bbdefb,
+  200: #90caf9,
+  300: #64b5f6,
+  400: #42a5f5,
+  500: #336A8D,
+  600: #1e88e5,
+  700: #1976d2,
+  800: #1565c0,
+  900: #0d47a1,
+  A100: #82b1ff,
+  A200: #448aff,
+  A400: #2979ff,
+  A700: #2962ff,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #000000,
+    400: #000000,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #000000,
+    A200: #000000,
+    A400: #000000,
+    A700: #000000,
+  )
+);
+
+
+$primary: mat-palette($primary-palette);
+$accent: mat-palette($accent-palette);
+
+$my-app-theme: mat-light-theme((color: (primary: $primary,
+                accent: $accent,
+            ),
+        ));
+
+@include angular-material-theme($my-app-theme);

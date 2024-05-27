@@ -1,6 +1,0 @@
-<form [formGroup]="mainForm" (ngSubmit)="onSubmit()">
-  <div formArrayName="matches" *ngFor="let match of matches.controls; let i = index">
-     <app-match-proccess [formGroupName]="i"></app-match-proccess>
-  </div>
-  <button type="submit">Submit</button>
-</form>

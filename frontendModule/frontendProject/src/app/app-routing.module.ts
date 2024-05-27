@@ -1,18 +1,17 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from './home/home.component';
-import { AllMatchesComponent } from './match/all-matches/all-matches.component';
-import { NewMatchComponent } from './match/new-match/new-match.component';
-import { NotFoundComponent } from './not-found/not-found.component';
-import { NewPlayerComponent } from './player/new-player/new-player.component';
-import { NewTeamComponent } from './team/new-team/new-team.component';
-import { NewTournamentComponent } from './tournament/new-tournament/new-tournament.component';
-import { DetailRankingComponent } from './user/detail-ranking/detail-ranking.component';
-import { LoginComponent } from './user/login/login.component';
-import { ProfileComponent } from './user/profile/profile.component';
-import { RankingComponent } from './user/ranking/ranking.component';
-import { RegisterComponent } from './user/register/register.component';
+import { AllMatchesComponent } from './components/match/all-matches/all-matches.component';
+import { NewMatchComponent } from './components/match/new-match/new-match.component';
+import { NewPlayerComponent } from './components/player/new-player/new-player.component';
+import { NewTeamComponent } from './components/team/new-team/new-team.component';
+import { NewTournamentComponent } from './components/tournament/new-tournament/new-tournament.component';
 import { AuthGuard } from './core/guards/AuthGuard';
+import { HomeComponent } from './core/home/home.component';
+import { NotFoundComponent } from './shared/components/not-found/not-found.component';
+import { DetailRankingComponent } from './shared/components/user/detail-ranking/detail-ranking.component';
+import { LoginComponent } from './shared/components/user/login/login.component';
+import { ProfileComponent } from './shared/components/user/profile/profile.component';
+import { RankingComponent } from './shared/components/user/ranking/ranking.component';
 
 const routes: Routes = [
   {

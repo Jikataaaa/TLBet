@@ -1,87 +1,67 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { Match } from 'src/app/shared/interfaces/Match';
-import { UserService } from '../user/user.service';
-import { Observable, lastValueFrom } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { MockData } from 'src/app/MockData';
+import { BaseRequestService } from '../common/base-request.service';
+import { Match } from './models/Match';
 
 @Injectable({
-  providedIn: 'root',
+    providedIn: 'root',
 })
-export class MatchService {
-  private token = localStorage.getItem('token');
+export class MatchService extends BaseRequestService {
+    constructor(http: HttpClient) {
+        super(http);
+    }
 
-  constructor(private http: HttpClient, private userService: UserService) {}
-  createMatch(homeTeam: BigInt, awayTeam: BigInt, tournament: BigInt) {
-    this.http
-      .post(
-        'http://localhost:8080/match/new-match',
-        { homeTeam, awayTeam, tournament },
-        {
-          headers: {
-            Authorization: `Bearer ${this.token}`,
-          },
-        }
-      )
-      .subscribe((response) => {
-        console.log('TEST');
-        console.log(response);
-      });
-  }
-  async getAllMatches(): Promise<Observable<Match[]>> {
-    const username = localStorage.getItem('username');
-    let id: number = 0;
-    const data = await this.userService.getUserIdByUsername(username ? username : '');
-    data.subscribe(d => id = d);
+    createMatch(homeTeam: number, awayTeam: number, tournament: number) {
+        this.http
+            .post(
+                'http://localhost:8080/match/new-match',
+                { homeTeam, awayTeam, tournament },
+            )
+            .subscribe((response) => {
 
-    return this.http.get<Match[]>('http://localhost:8080/match/all-matches', {
-      headers: {
-        Authorization: `Bearer ${this.token}`,
-      },
-      params: {
-        userId: id,
-      },
-    });
-  }
-  editMatch(
-    form: FormGroup,
-    id: number,
-    homeTeamId: number,
-    awayTeamId: number,
-    tournamentId: number
-  ) {
-    let {
-      homeTeam,
-      homeTeamGoals,
-      awayTeam,
-      awayTeamGoals,
-      startTime,
-      tournamentName,
-      time,
-    } = form.value;
-    return this.http.put<Match>(
-      'http://localhost:8080/match/edit-match',
-      {
-        id,
-        homeTeamId,
-        homeTeam,
-        homeTeamGoals,
-        awayTeamId,
-        awayTeam,
-        awayTeamGoals,
-        startTime,
-        tournamentId,
-        tournamentName,
-        time,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${this.token}`,
-        },
-        params: {
-          time: time,
-        },
-      }
-    );
-  }
+            });
+    }
+
+    getAllMatches(): Observable<Match[]> {
+        //Mock
+        return of(MockData.matches);
+        // const params = new HttpParams().set('userId', '2');
+        // return this.get<Match[]>('match/all-matches', params);
+    }
+
+    editMatch(form: FormGroup, id: number, homeTeamId: number, awayTeamId: number, tournamentId: number) {
+        let {
+            homeTeam,
+            homeTeamGoals,
+            awayTeam,
+            awayTeamGoals,
+            startTime,
+            tournamentName,
+            time,
+        } = form.value;
+        return this.http.put<Match>(
+            'http://localhost:8080/match/edit-match',
+            {
+                id,
+                homeTeamId,
+                homeTeam,
+                homeTeamGoals,
+                awayTeamId,
+                awayTeam,
+                awayTeamGoals,
+                startTime,
+                tournamentId,
+                tournamentName,
+                time,
+            },
+            {
+                params: {
+                    time: time,
+                },
+            }
+        );
+    }
 }

@@ -1,4 +1,4 @@
 export interface Tournament{
-    id : BigInt,
+    id : number,
     name : string
 }

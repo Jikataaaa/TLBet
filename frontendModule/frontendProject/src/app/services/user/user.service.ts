@@ -1,122 +1,103 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable, OnInit } from '@angular/core';
-import { Observable, lastValueFrom } from 'rxjs';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { User } from 'src/app/shared/interfaces/User';
+import { Observable, map, of } from 'rxjs';
 import { AuthUser } from 'src/app/shared/interfaces/AuthUser';
+import { User } from 'src/app/shared/interfaces/User';
+import { BaseRequestService } from '../common/base-request.service';
 
 @Injectable({
-  providedIn: 'root',
+    providedIn: 'root',
 })
-export class UserService {
-  constructor(private http: HttpClient) {}
-  async getRoleAccess(token: any, username: any, role: string) {
-    const access = this.http.get(
-      `http://localhost:8080/${this.resourceUrl}/roleAccess`,
-      {
-        params: {
-          token: token,
-          username: username,
-          role: role,
-        },
-        responseType: 'text',
-      }
-    );
-
-    const data = await lastValueFrom(access);
-    return data;
-  }
-
-  async verifyAuthentication() {
-    let username = localStorage.getItem('username');
-    let token = localStorage.getItem('token');
-    if (!username || !token) {
-      return false;
+export class UserService extends BaseRequestService {
+    constructor(http: HttpClient) {
+        super(http);
     }
 
-    const isVerified = this.http.get(
-      `http://localhost:8080/${this.resourceUrl}/verifyAuthentication`,
-      {
-        params: {
-          username: username,
-          token: token,
-        },
-        responseType: 'text',
-      }
-    );
+    getRoleAccess(token: string, username: string, role: string): Observable<boolean> {
+        const params = new HttpParams()
+            .set('token', token)
+            .set('username', username)
+            .set('role', role);
 
-    const data = await lastValueFrom(isVerified);
-    if (data == 'false') {
-      localStorage.clear();
-    }
-    return data;
-  }
-
-  login(form: FormGroup) {
-    if (form.invalid) {
-      return;
-    }
-    const username = form.value.username;
-    const password = form.value.password;
-    this.http
-      .post<AuthUser>(`http://localhost:8080/${this.resourceUrl}/login`, {
-        username,
-        password,
-      })
-      .subscribe((response) => {
-        this.setLocaleStorageData(response);
-        form.reset();
-      });
-  }
-  register(form: FormGroup) {
-    if (form.invalid) {
-      return;
+        return this.get(`${this.resourceUrl}/roleAccess`, params, 'text')
+            .pipe(map((res) => res === 'true'));;
     }
 
-    const { username, password } = form.value;
-    this.http
-      .post<AuthUser>(`http://localhost:8080/${this.resourceUrl}/register`, {
-        username,
-        password,
-      })
-      .subscribe((response) => {
-        this.setLocaleStorageData(response);
-        form.reset();
-      });
-  }
-  logout() {
-    localStorage.clear();
-  }
+    verifyAuthentication(): Observable<boolean> {
+        let username = localStorage.getItem('username');
+        let token = localStorage.getItem('token');
+        if (!username || !token) {
+            return of(false);
+        }
 
-  getAllUsers() {
-    return this.http.get<User[]>(
-      `http://localhost:8080/${this.resourceUrl}/all-users`,
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-      }
-    );
-  }
+        const params = new HttpParams()
+            .set('username', username)
+            .set('token', token);
 
-  async getUserIdByUsername(username: string) : Promise<Observable<number>> {
-    return this.http.get<number>(`http://localhost:8080/${this.resourceUrl}/user`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      },
-      params: {
-        username: username,
-      },
-    });
-  }
+        return this.get(`${this.resourceUrl}/verifyAuthentication`, params, 'text')
+            .pipe(map((res) => res === 'true'));
+    }
 
-  get resourceUrl(): string {
-    return 'api/v1/auth';
-  }
+    login(form: FormGroup) {
+        if (form.invalid) {
+            return;
+        }
+        const username = form.value.username;
+        const password = form.value.password;
+        this.http
+            .post<AuthUser>(`http://localhost:8080/${this.resourceUrl}/login`, {
+                username,
+                password,
+            })
+            .subscribe((response) => {
+                form.reset();
+            });
+    }
 
-  private setLocaleStorageData(user: AuthUser) {
-    localStorage.setItem('token', user.token);
-    localStorage.setItem('username', user.username);
-    localStorage.setItem('role', user.role);
-  }
+    register(form: FormGroup) {
+        if (form.invalid) {
+            return;
+        }
+
+        const { username, password } = form.value;
+        this.http
+            .post<AuthUser>(`http://localhost:8080/${this.resourceUrl}/register`, {
+                username,
+                password,
+            })
+            .subscribe((response) => {
+                form.reset();
+            });
+    }
+
+    logout() {
+        localStorage.clear();
+    }
+
+    getAllUsers() {
+        return this.http.get<User[]>(
+            `http://localhost:8080/${this.resourceUrl}/all-users`,
+            {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`,
+                },
+            }
+        );
+    }
+
+    async getUserIdByUsername(username: string): Promise<Observable<number>> {
+        return this.http.get<number>(`http://localhost:8080/${this.resourceUrl}/user`, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
+            params: {
+                username: username,
+            },
+        });
+    }
+
+    get resourceUrl(): string {
+        return 'api/v1/auth';
+    }
 }

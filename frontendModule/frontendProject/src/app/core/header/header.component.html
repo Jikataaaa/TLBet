@@ -1,36 +1,52 @@
 <header>
-  <div class="section-wrapper">
-    <section>
-      <ul class="nav-list">
-        <li>
-          <div>LOGO</div>
-        </li>
-        <li><a routerLink="/home">demo</a></li>
-        <li *ngIf="isAdmin"><a routerLink="team/new-team">new-team</a></li>
-        <li *ngIf="isAdmin">
-          <a routerLink="player/new-player">new player</a>
-        </li>
-        <li *ngIf="isAdmin">
-          <a routerLink="tournament/new-tournament">new-tournament</a>
-        </li>
-        <li *ngIf="isLoged">
-          <a routerLink="match/all-matches">all-matches</a>
-        </li>
-        <li *ngIf="isAdmin"><a routerLink="match/new-match">new-match</a></li>
-      </ul>
-    </section>
-    <section>
-      <ul class="user-list">
-        <li *ngIf="!isLoged"><a routerLink="user/login">login</a></li>
-        <li *ngIf="!isLoged"><a routerLink="user/register">register</a></li>
-        <li *ngIf="isLoged"><a (click)="logout()">logout</a></li>
-        <li *ngIf="isLoged">
-          <a routerLink="user/profile">profile</a>
-        </li>
-        <li *ngIf="isLoged">
-          <a routerLink="user/ranking">класиране</a>
-        </li>
-      </ul>
-    </section>
-  </div>
+    <mat-toolbar color="primary">
+        <div class="section-wrapper">
+            <span>
+                <img src="/../logo.png"
+                     class="logo"
+                     alt="TL BET">
+            </span>
+            <nav>
+                <ul class="nav-list">
+                    <li mat-button
+                        routerLink="/home">Демо</li>
+                    <li mat-button
+                        *ngIf="isAdmin"
+                        routerLink="team/new-team">new-team</li>
+                    <li mat-button
+                        *ngIf="isAdmin"
+                        routerLink="player/new-player">new player</li>
+                    <li mat-button
+                        *ngIf="isAdmin"
+                        routerLink="tournament/new-tournament">new-tournament</li>
+                    <li mat-button
+                        *ngIf="isLogged"
+                        routerLink="match/all-matches">Мачове</li>
+                    <li mat-button
+                        *ngIf="isAdmin"
+                        routerLink="match/new-match">new-match</li>
+                    <li mat-button
+                        *ngIf="isLogged"
+                        routerLink="user/ranking">Класиране</li>
+                </ul>
+            </nav>
+            <span class="nav-spacer"></span>
+            <nav>
+                <ul class="user-list">
+                    <li mat-button
+                        *ngIf="!isLogged"
+                        routerLink="user/login">Вход</li>
+                    <li mat-button
+                        *ngIf="!isLogged"
+                        routerLink="user/register">Регистрация</li>
+                    <li mat-button
+                        *ngIf="isLogged"
+                        routerLink="user/profile">Профил</li>
+                    <li mat-button
+                        *ngIf="isLogged"
+                        (click)="logout()">Изход</li>
+                </ul>
+            </nav>
+        </div>
+    </mat-toolbar>
 </header>

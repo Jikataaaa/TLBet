@@ -1,25 +1,23 @@
-import {  NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { MatchModule } from './components/match/match.module';
+import { PlayerModule } from './components/player/player.module';
+import { TeamModule } from './components/team/team.module';
+import { TournamentModule } from './components/tournament/tournament.module';
 import { CoreModule } from './core/core.module';
-import { HomeComponent } from './home/home.component';
-import { MatchModule } from './match/match.module';
-import { NotFoundComponent } from './not-found/not-found.component';
-import { PlayerModule } from './player/player.module';
+import { HomeComponent } from './core/home/home.component';
+import { UserModule } from './shared/components/user/user.module';
 import { SharedModule } from './shared/shared.module';
-import { TeamModule } from './team/team.module';
-import { TournamentModule } from './tournament/tournament.module';
-import { UserModule } from './user/user.module';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    NotFoundComponent
   ],
   imports: [
     BrowserModule,
@@ -33,9 +31,6 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     TeamModule, 
     BrowserAnimationsModule,
     MatSnackBarModule
-
-
-    
   ],
   providers: [],
   bootstrap: [AppComponent]

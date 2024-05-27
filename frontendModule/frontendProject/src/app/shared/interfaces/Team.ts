@@ -1,5 +1,5 @@
 export interface Team {
-    id : BigInt
+    id : number
     name : string
     imageUrl : string
 }
