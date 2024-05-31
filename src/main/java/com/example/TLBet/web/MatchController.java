@@ -25,9 +25,8 @@ public class MatchController {
        return ResponseEntity.ok(service.createMatch(match));
     }
     @GetMapping("/all-matches")
-    public ResponseEntity<List<MatchResultView>> getAllMatches(@RequestParam("userId") Long id){
-        System.out.println(id + "+++++++++++++++");
-       return ResponseEntity.ok(service.getAllMatches(id));
+    public ResponseEntity<List<MatchResultView>> getAllMatches(@RequestParam("username") String username){
+       return ResponseEntity.ok(service.getAllMatches(username));
     }
     @PutMapping("/edit-match")
     public ResponseEntity<MatchResultView> editMatch(@RequestBody MatchResultView match, @RequestParam("time") LocalTime time){

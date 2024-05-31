@@ -44,15 +44,10 @@ public class MatchServiceImpl implements MatchService {
     }
 
     @Override
-    public List<MatchResultView> getAllMatches(Long id) {
-        List<Long> matchIds = betRepository.getAllMatchIdsBetByUserId(id);
+    public List<MatchResultView> getAllMatches(String username) {
 
-        //TODO да се направи по-красиво
-        if(matchIds.size() == 0){
-            matchIds.add(-1L);
-        }
 
-        return matchRepository.findAllByStartTimeAfterAndIdNotIn(DateUtil.parseInstant(Instant.now()), matchIds).stream().map(match -> MatchResultView.builder()
+        return matchRepository.findAllMatchesUserCanBetOn(DateUtil.parseInstant(Instant.now())).stream().map(match -> MatchResultView.builder()
                         .id(match.getId())
                         .homeTeamId(match.getHomeTeam().getId())
                         .homeTeam(match.getHomeTeam().getName())

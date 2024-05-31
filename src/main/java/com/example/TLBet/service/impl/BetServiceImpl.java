@@ -2,7 +2,6 @@ package com.example.TLBet.service.impl;
 
 import com.example.TLBet.models.entities.Bet;
 import com.example.TLBet.models.entities.Match;
-import com.example.TLBet.models.entities.User;
 import com.example.TLBet.models.exeptions.MatchStartedException;
 import com.example.TLBet.models.service.BetRankingServiceModel;
 import com.example.TLBet.models.view.BetView;
@@ -17,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -26,37 +26,6 @@ public class BetServiceImpl implements BetService {
     private final AuthenticationService userService;
     private final BetRepository repository;
     private final MatchService matchService;
-
-    @Override
-    @Transactional
-    public NewBetView createBet(NewBetView bet) {
-
-        User userByUsername = userService.getUserByUsername(bet.getUsername());
-        Match match = matchService.getMatchById(bet.getMatchId());
-
-
-
-        if(Instant.now().isAfter(match.getStartTime())){
-             throw new MatchStartedException();
-        }
-
-        Bet betToSave = Bet.builder()
-                .user(userByUsername)
-                .match(match)
-                .build();
-        betToSave.setHomeTeamGoals(bet.getHomeTeamGoals());
-        betToSave.setAwayTeamGoals(bet.getAwayTeamGoals());
-
-        Bet save = repository.save(betToSave);
-
-        return NewBetView.builder()
-                .username(save.getUser().getUsername())
-                .matchId(save.getMatch().getId())
-                .awayTeamGoals(save.getAwayTeamGoals())
-                .homeTeamGoals(save.getHomeTeamGoals())
-                .build();
-
-    }
 
     @Override
     public List<BetView> getAllBetsByUser(long id) {
@@ -87,17 +56,6 @@ public class BetServiceImpl implements BetService {
                         .toList();
 
 
-    }
-
-    @Override
-    public List<BetView> getAllBets() {
-        return repository.findAll().stream().map(bet -> BetView
-                .builder()
-                .homeTeamGoals(bet.getHomeTeamGoals())
-                .awayTeamGoals(bet.getAwayTeamGoals())
-                .tournamentName(bet.getMatch().getTournament().getName())
-                .build())
-                .toList();
     }
 
     @Override
@@ -144,7 +102,25 @@ public class BetServiceImpl implements BetService {
     }
 
     @Override
-    public List<Long> getAllMatchIdsBetByUserId(Long id) {
-       return repository.getAllMatchIdsBetByUserId(id);
+    @Transactional
+    public List<NewBetView> createBets(List<NewBetView> bets) {
+        List<Bet> betsToSave = new ArrayList<>();
+
+        bets
+                .forEach((b) -> {
+                    Match match = this.matchService.getMatchById(b.getMatchId());
+                    if(Instant.now().isAfter(match.getStartTime())){
+                        throw new MatchStartedException();
+                    }
+                    Bet bet = Bet.builder()
+                            .match(match)
+                            .user(this.userService.getUserByUsername(b.getUsername()))
+                            .build();
+                    bet.setHomeTeamGoals(b.getHomeTeamGoals());
+                    bet.setAwayTeamGoals(b.getAwayTeamGoals());
+                    betsToSave.add(bet);
+                } );
+        this.repository.saveAll(betsToSave);
+        return null;
     }
 }

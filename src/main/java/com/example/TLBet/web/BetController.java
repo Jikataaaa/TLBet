@@ -16,9 +16,9 @@ public class BetController {
 
     private final BetService betService;
 
-    @PostMapping("/new-bet")
-    public ResponseEntity<NewBetView> createBet(@RequestBody NewBetView bet){
-        return ResponseEntity.ok(betService.createBet(bet));
+    @PostMapping("/new-bets")
+    public ResponseEntity<List<NewBetView>> createBet(@RequestBody List<NewBetView> bets){
+        return ResponseEntity.ok(betService.createBets(bets));
     }
     @GetMapping("all-user-bets")
     public ResponseEntity<List<BetView>> allBetsByUser(@RequestParam("id") long id){

@@ -23,7 +23,5 @@ public class Team extends BaseEntity {
     private String name;
     private String imageUrl;
 
-    @OneToMany(mappedBy = "team", targetEntity = Player.class)
-    private Set<Player> players;
 
 }

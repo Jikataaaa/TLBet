@@ -7,13 +7,10 @@ import com.example.TLBet.models.view.NewBetView;
 import java.util.List;
 
 public interface BetService {
-    NewBetView createBet(NewBetView bet);
 
     List<BetView> getAllBetsByUser(long id);
 
     List<BetView> getAllBetsByUsername(String username);
-
-    List<BetView> getAllBets();
 
     List<BetRankingServiceModel> getAllBetsForRanking();
 
@@ -21,5 +18,5 @@ public interface BetService {
 
     List<BetRankingServiceModel> getAllBetsForCurrentYearRanking();
 
-    List<Long> getAllMatchIdsBetByUserId(Long id);
+    List<NewBetView> createBets(List<NewBetView> bets);
 }

@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Observable, of } from 'rxjs';
@@ -26,10 +26,8 @@ export class MatchService extends BaseRequestService {
     }
 
     getAllMatches(): Observable<Match[]> {
-        //Mock
-        return of(MockData.matches);
-        // const params = new HttpParams().set('userId', '2');
-        // return this.get<Match[]>('match/all-matches', params);
+         const params = new HttpParams().set('username', 'jivko');
+         return this.get<Match[]>('match/all-matches', params);
     }
 
     editMatch(form: FormGroup, id: number, homeTeamId: number, awayTeamId: number, tournamentId: number) {

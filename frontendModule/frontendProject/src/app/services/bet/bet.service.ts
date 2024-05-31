@@ -11,6 +11,18 @@ export class BetService {
 
   constructor(private http: HttpClient) {}
 
+  createBets(bets : NewBet[]){
+    return this.http.post(
+      'http://localhost:8080/bet/new-bets',
+      bets,
+      {
+        headers: {
+          Authorization: `Bearer ${this.token}`,
+        },
+      }
+    );
+  }
+
   createBet(homeTeamGoals: number, awayTeamGoals: number, matchId: number) {
     let username = localStorage.getItem('username');
     return this.http.post<NewBet>(

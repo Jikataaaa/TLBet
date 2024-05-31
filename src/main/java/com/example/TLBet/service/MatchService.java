@@ -11,7 +11,7 @@ import java.util.List;
 public interface MatchService {
     MatchView createMatch(MatchView view);
 
-    List<MatchResultView> getAllMatches(Long id);
+    List<MatchResultView> getAllMatches(String username);
 
     Match getMatchById(long id);
 

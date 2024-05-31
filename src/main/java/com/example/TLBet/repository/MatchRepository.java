@@ -18,5 +18,7 @@ public interface MatchRepository extends JpaRepository<Match, Long> {
             "limit 1")
     Optional<Integer> getLastRound();
 
-    List<Match> findAllByStartTimeAfterAndIdNotIn(Instant now, List<Long> matchIds);
+    @Query(value = "select new Match (m.startTime, m.round, m.tournament, m.homeTeam, m.awayTeam) from Match m " +
+                    "where m.startTime > :now")
+    List<Match> findAllMatchesUserCanBetOn(Instant now);
 }
