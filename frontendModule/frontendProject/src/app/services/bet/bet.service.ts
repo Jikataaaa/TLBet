@@ -22,19 +22,6 @@ export class BetService {
       }
     );
   }
-
-  createBet(homeTeamGoals: number, awayTeamGoals: number, matchId: number) {
-    let username = localStorage.getItem('username');
-    return this.http.post<NewBet>(
-      'http://localhost:8080/bet/new-bet',
-      { homeTeamGoals, awayTeamGoals, matchId, username },
-      {
-        headers: {
-          Authorization: `Bearer ${this.token}`,
-        },
-      }
-    );
-  }
   getAllBetsByUser(id: number) {
     return this.http.get<PersonalBet[]>(
       'http://localhost:8080/bet/all-user-bets',

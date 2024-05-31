@@ -6,13 +6,11 @@ import { PersonalBetPanelComponent } from '../components/personal-bet-panel/pers
 import { StandingComponent } from '../components/standing/standing.component';
 import { MaterialModule } from '../material/material.module';
 import { MatchEditDialogComponent } from './dialogs/match-edit-dialog/match-edit-dialog.component';
-import { NewBetDialogComponent } from './dialogs/new-bet-dialog/new-bet-dialog.component';
 
 
 @NgModule({
     declarations: [
         MatchEditDialogComponent,
-        NewBetDialogComponent,
         GoalsPickerComponent,
         StandingComponent,
         PersonalBetPanelComponent,
