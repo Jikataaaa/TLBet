@@ -14,12 +14,9 @@ import java.time.LocalTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class MatchResultView {
+public class MatchTeamResultView {
     private long id;
-    private MatchTeamResultView homeTeam;
-    private MatchTeamResultView awayTeam;
-    private Instant startTime;
-    private long tournamentId;
-    private String tournamentName;
-    private int round;
+    private String name;
+    private String imageUrl;
+    private int goals;
 }

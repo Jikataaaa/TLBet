@@ -46,23 +46,26 @@ public class MatchServiceImpl implements MatchService {
     @Override
     public List<MatchResultView> getAllMatches(String username) {
 
-
         return matchRepository.findAllMatchesUserCanBetOn(DateUtil.parseInstant(Instant.now())).stream().map(match -> MatchResultView.builder()
-                        .id(match.getId())
-                        .homeTeamId(match.getHomeTeam().getId())
-                        .homeTeam(match.getHomeTeam().getName())
-                        .homeTeamGoals(match.getHomeTeamGoals())
-                        .homeTeamImageUrl(match.getHomeTeam().getImageUrl())
-                        .awayTeamId(match.getAwayTeam().getId())
-                        .awayTeam(match.getAwayTeam().getName())
-                        .awayTeamImageUrl(match.getAwayTeam().getImageUrl())
-                        .awayTeamGoals(match.getAwayTeamGoals())
-                        .tournamentId(match.getTournament().getId())
-                        .tournamentName(match.getTournament().getName())
-                        .startTime(match.getStartTime())
-                        .round(match.getRound())
-                        .build()
-       ).toList();
+                .id(match.getId())
+                .homeTeam(MatchTeamResultView.builder()
+                        .id(match.getHomeTeam().getId())
+                        .name(match.getHomeTeam().getName())
+                        .imageUrl(match.getHomeTeam().getImageUrl())
+                        .goals(match.getHomeTeamGoals())
+                        .build())
+                .awayTeam(MatchTeamResultView.builder()
+                        .id(match.getAwayTeam().getId())
+                        .name(match.getAwayTeam().getName())
+                        .imageUrl(match.getAwayTeam().getImageUrl())
+                        .goals(match.getAwayTeamGoals())
+                        .build())
+                .startTime(match.getStartTime())
+                .tournamentId(match.getTournament().getId())
+                .tournamentName(match.getTournament().getName())
+                .round(match.getRound())
+                .build()
+        ).toList();
     }
 
     @Override
@@ -72,21 +75,18 @@ public class MatchServiceImpl implements MatchService {
 
     @Override
     public MatchResultView editMatch(MatchResultView match, LocalTime time) {
-
-
-
         // edit teamNames
         TeamView homeTeam = TeamView
                 .builder()
-                .id(match.getHomeTeamId())
-                .name(match.getHomeTeam())
+                .id(match.getHomeTeam().getId())
+                .name(match.getHomeTeam().getName())
                 .build();
         Team homeEditedTeam = teamService.editTeam(homeTeam);
 
         TeamView awayTeam = TeamView
                 .builder()
-                .id(match.getAwayTeamId())
-                .name(match.getAwayTeam())
+                .id(match.getAwayTeam().getId())
+                .name(match.getAwayTeam().getName())
                 .build();
         Team awayEditedTeam = teamService.editTeam(awayTeam);
 
@@ -111,18 +111,22 @@ public class MatchServiceImpl implements MatchService {
 
         builtMatch.setId(match.getId());
 
-
-
         Match save = matchRepository.save(builtMatch);
         return MatchResultView
                 .builder()
                 .id(save.getId())
-                .homeTeamId(save.getHomeTeam().getId())
-                .homeTeam(save.getHomeTeam().getName())
-                .homeTeamGoals(save.getHomeTeamGoals())
-                .awayTeamId(save.getAwayTeam().getId())
-                .awayTeam(save.getAwayTeam().getName())
-                .awayTeamGoals(save.getAwayTeamGoals())
+                .homeTeam(MatchTeamResultView.builder()
+                        .id(save.getHomeTeam().getId())
+                        .name(save.getHomeTeam().getName())
+                        .imageUrl(save.getHomeTeam().getImageUrl())
+                        .goals(save.getHomeTeamGoals())
+                        .build())
+                .awayTeam(MatchTeamResultView.builder()
+                        .id(save.getAwayTeam().getId())
+                        .name(save.getAwayTeam().getName())
+                        .imageUrl(save.getAwayTeam().getImageUrl())
+                        .goals(save.getAwayTeamGoals())
+                        .build())
                 .tournamentId(save.getTournament().getId())
                 .tournamentName(save.getTournament().getName())
                 .startTime(save.getStartTime())
@@ -132,10 +136,7 @@ public class MatchServiceImpl implements MatchService {
 
     @Override
     public int getLastRound() {
-
         Optional<Integer> lastRound = matchRepository.getLastRound();
-
         return lastRound.orElse(0);
-
     }
 }
