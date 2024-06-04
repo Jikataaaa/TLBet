@@ -1,11 +1,13 @@
 package com.example.TLBet.service.impl;
 
+import com.example.TLBet.models.entities.Round;
 import com.example.TLBet.models.service.BetRankingServiceModel;
 import com.example.TLBet.models.service.RankingServiceModel;
 import com.example.TLBet.models.view.RankingView;
 import com.example.TLBet.service.BetService;
 import com.example.TLBet.service.MatchService;
 import com.example.TLBet.service.RankingService;
+import com.example.TLBet.service.RoundService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +19,7 @@ import java.util.stream.Collectors;
 public class RankingServiceImpl implements RankingService {
     private final BetService betService;
     private final MatchService matchService;
+    private final RoundService roundService;
     private static final int POINTS_FOR_MATCH_RESULT = 5;
     private static final int POINTS_FOR_MATCH_SIGN = 2;
 
@@ -24,10 +27,10 @@ public class RankingServiceImpl implements RankingService {
     @Override
     public List<RankingView> getInGeneralRanking() {
 
-        int lastRound = matchService.getLastRound();
+        Round lastRound = roundService.getLastRound();
 
         List<BetRankingServiceModel> currentBets = betService.getAllBetsForRanking();
-        List<BetRankingServiceModel> lastRoundBets = betService.getAllBetsForRankingByRound(lastRound - 1);
+        List<BetRankingServiceModel> lastRoundBets = betService.getAllBetsForRankingByRound(roundService.getById(lastRound.getId() - 1));
 
         Map<String, RankingServiceModel> currentView = calculateRanking(currentBets);
         Map<String, RankingServiceModel> lastRoundView = calculateRanking(lastRoundBets);
@@ -37,10 +40,10 @@ public class RankingServiceImpl implements RankingService {
 
     @Override
     public List<RankingView> getLastRoundRanking() {
-        int lastRound = matchService.getLastRound();
+        Round lastRound = roundService.getLastRound();
 
-        List<BetRankingServiceModel> currentBets = betService.getAllBetsForRankingByRound(lastRound);
-        List<BetRankingServiceModel>  lastRoundBets = betService.getAllBetsForRankingByRound(lastRound - 1);
+        List<BetRankingServiceModel> currentBets = betService.getAllBetsForRankingByRound(roundService.getById(lastRound.getId()));
+        List<BetRankingServiceModel>  lastRoundBets = betService.getAllBetsForRankingByRound(roundService.getById(lastRound.getId() - 1));
 
 
         Map<String, RankingServiceModel> currentView = calculateRanking(currentBets);
@@ -52,10 +55,10 @@ public class RankingServiceImpl implements RankingService {
     @Override
     public List<RankingView> getCurrentYearRanking() {
 
-        int lastRound = matchService.getLastRound();
+        Round lastRound = roundService.getLastRound();
 
         List<BetRankingServiceModel> currentBets = betService.getAllBetsForCurrentYearRanking();
-        List<BetRankingServiceModel> lastRoundBets = betService.getAllBetsForRankingByRound(lastRound - 1);
+        List<BetRankingServiceModel> lastRoundBets = betService.getAllBetsForRankingByRound(roundService.getById(lastRound.getId() - 1));
 
         Map<String, RankingServiceModel> currentView = calculateRanking(currentBets);
         Map<String, RankingServiceModel> lastRoundView = calculateRanking(lastRoundBets);

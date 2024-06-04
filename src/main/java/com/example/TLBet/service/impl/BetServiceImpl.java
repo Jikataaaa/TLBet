@@ -2,6 +2,7 @@ package com.example.TLBet.service.impl;
 
 import com.example.TLBet.models.entities.Bet;
 import com.example.TLBet.models.entities.Match;
+import com.example.TLBet.models.entities.Round;
 import com.example.TLBet.models.exeptions.MatchStartedException;
 import com.example.TLBet.models.service.BetRankingServiceModel;
 import com.example.TLBet.models.view.BetView;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 import java.time.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -73,7 +75,7 @@ public class BetServiceImpl implements BetService {
     }
 
     @Override
-    public List<BetRankingServiceModel> getAllBetsForRankingByRound(int round) {
+    public List<BetRankingServiceModel> getAllBetsForRankingByRound(Round round) {
         return repository.findAllByMatchRound(round).stream().map(bet ->
                 BetRankingServiceModel
                         .builder()
@@ -120,7 +122,14 @@ public class BetServiceImpl implements BetService {
                     bet.setAwayTeamGoals(b.getAwayTeamGoals());
                     betsToSave.add(bet);
                 } );
-        this.repository.saveAll(betsToSave);
-        return null;
+        List<Bet> savedBets = this.repository.saveAll(betsToSave);
+
+        return savedBets.stream().map(b -> NewBetView.builder()
+                .username(b.getUser().getUsername())
+                .homeTeamGoals(b.getHomeTeamGoals())
+                .awayTeamGoals(b.getAwayTeamGoals())
+                .matchId(b.getMatch().getId())
+                .build())
+                .collect(Collectors.toList());
     }
 }

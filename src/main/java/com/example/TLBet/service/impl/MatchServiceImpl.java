@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 import java.time.*;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -132,11 +131,5 @@ public class MatchServiceImpl implements MatchService {
                 .startTime(save.getStartTime())
                 .round(save.getRound())
                 .build();
-    }
-
-    @Override
-    public int getLastRound() {
-        Optional<Integer> lastRound = matchRepository.getLastRound();
-        return lastRound.orElse(0);
     }
 }

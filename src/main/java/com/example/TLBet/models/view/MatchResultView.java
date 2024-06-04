@@ -1,5 +1,6 @@
 package com.example.TLBet.models.view;
 
+import com.example.TLBet.models.entities.Round;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,5 +22,5 @@ public class MatchResultView {
     private Instant startTime;
     private long tournamentId;
     private String tournamentName;
-    private int round;
+    private Round round;
 }

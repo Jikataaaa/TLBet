@@ -1,5 +1,6 @@
 package com.example.TLBet.service;
 
+import com.example.TLBet.models.entities.Round;
 import com.example.TLBet.models.service.BetRankingServiceModel;
 import com.example.TLBet.models.view.BetView;
 import com.example.TLBet.models.view.NewBetView;
@@ -14,7 +15,7 @@ public interface BetService {
 
     List<BetRankingServiceModel> getAllBetsForRanking();
 
-    List<BetRankingServiceModel> getAllBetsForRankingByRound(int round);
+    List<BetRankingServiceModel> getAllBetsForRankingByRound(Round round);
 
     List<BetRankingServiceModel> getAllBetsForCurrentYearRanking();
 

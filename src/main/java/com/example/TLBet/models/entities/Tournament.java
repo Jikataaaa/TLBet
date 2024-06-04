@@ -17,6 +17,7 @@ import java.util.Set;
 @NoArgsConstructor
 public class Tournament extends BaseEntity {
     private String name;
+    private boolean isActive;
 
     @OneToMany(mappedBy = "tournament", targetEntity = Match.class)
     private Set<Match> matches;

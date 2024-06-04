@@ -1,13 +1,7 @@
 package com.example.TLBet.init;
-import com.example.TLBet.models.entities.Match;
-import com.example.TLBet.models.entities.Team;
-import com.example.TLBet.models.entities.Tournament;
-import com.example.TLBet.models.entities.User;
+import com.example.TLBet.models.entities.*;
 import com.example.TLBet.models.enums.UserRole;
-import com.example.TLBet.repository.MatchRepository;
-import com.example.TLBet.repository.TeamRepository;
-import com.example.TLBet.repository.TournamentRepository;
-import com.example.TLBet.repository.UserRepository;
+import com.example.TLBet.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,6 +17,7 @@ public class DbInit implements CommandLineRunner {
     private final TeamRepository teamRepository;
     private final MatchRepository matchRepository;
     private final TournamentRepository tournamentRepository;
+    private final RoundRepository roundRepository;
 
 
     @Override
@@ -60,6 +55,9 @@ public class DbInit implements CommandLineRunner {
                     .name("La Liga")
                     .build());
         }
+        if(roundRepository.count() == 0){
+            roundRepository.save(Round.builder().name("test").isActive(true).build());
+        }
         if (matchRepository.count() == 0){
             matchRepository.save(Match
                     .builder()
@@ -67,7 +65,7 @@ public class DbInit implements CommandLineRunner {
                     .homeTeam(teamRepository.findTeamByName("Манчестър Юнайтед").orElseThrow())
                     .tournament(tournamentRepository.findTournamentByName("Premier League").orElseThrow())
                     .startTime(Instant.now().plusSeconds(259200))
-                    .round(1)
+                    .round(roundRepository.getReferenceById(1L))
                     .build());
 
             matchRepository.save(Match
@@ -76,7 +74,7 @@ public class DbInit implements CommandLineRunner {
                     .homeTeam(teamRepository.findTeamByName("Реал Мадрид").orElseThrow())
                     .tournament(tournamentRepository.findTournamentByName("La Liga").orElseThrow())
                     .startTime(Instant.now().plusSeconds(259200))
-                    .round(1)
+                    .round(roundRepository.getReferenceById(1L))
                     .build());
         }
 
