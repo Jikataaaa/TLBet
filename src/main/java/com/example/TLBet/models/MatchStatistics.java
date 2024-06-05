@@ -5,6 +5,6 @@ import lombok.Data;
 @MappedSuperclass
 @Data
 public abstract class MatchStatistics extends BaseEntity {
-    private int homeTeamGoals;
-    private int awayTeamGoals;
+    private Integer homeTeamGoals;
+    private Integer awayTeamGoals;
 }

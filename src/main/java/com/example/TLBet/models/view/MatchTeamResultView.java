@@ -18,5 +18,5 @@ public class MatchTeamResultView {
     private long id;
     private String name;
     private String imageUrl;
-    private int goals;
+    private Integer goals;
 }

@@ -12,12 +12,6 @@ import java.util.Optional;
 @Repository
 public interface MatchRepository extends JpaRepository<Match, Long> {
 
-//    @Query(nativeQuery = true
-//            ,value = "select round from matches\n" +
-//            "order by round desc\n" +
-//            "limit 1")
-//    Optional<Integer> getLastRound();
-
     @Query(value =
             "select m                   " +
             "from Match m               " +

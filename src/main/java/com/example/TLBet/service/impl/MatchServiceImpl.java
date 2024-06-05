@@ -1,18 +1,14 @@
 package com.example.TLBet.service.impl;
 
-import com.example.TLBet.models.entities.Match;
-import com.example.TLBet.models.entities.Round;
-import com.example.TLBet.models.entities.Team;
-import com.example.TLBet.models.entities.Tournament;
+import com.example.TLBet.models.entities.*;
+import com.example.TLBet.models.enums.MatchStatus;
 import com.example.TLBet.models.view.*;
 import com.example.TLBet.repository.MatchRepository;
-import com.example.TLBet.repository.RoundRepository;
 import com.example.TLBet.service.*;
 import com.example.TLBet.utils.DateUtil;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -20,6 +16,7 @@ import java.time.Instant;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -27,12 +24,6 @@ public class MatchServiceImpl implements MatchService {
     private final MatchRepository matchRepository;
     private final TeamService teamService;
     private final TournamentService tournamentService;
-    private final AuthenticationService authenticationService;
-    private final RoundService roundService;
-
-
-    @Autowired
-    private ModelMapper mapper;
 
     @Override
     public MatchView createMatch(@RequestBody MatchView matchView) {
@@ -51,34 +42,61 @@ public class MatchServiceImpl implements MatchService {
     }
 
     @Override
-    public List<MatchResultView> getLastRoundMatches() {
-
-        Round round = roundService.getLastRound();
+    public List<MatchResultView> getLastRoundMatches(String username, Round round, List<Bet> createdBets) {
 
         List<Match> lastRoundMatches = matchRepository.getLastRoundMatches(round.getId());
-
         List<MatchResultView> result = new ArrayList<>();
+        lastRoundMatches
+                .forEach(match -> {
+                    Bet optionalBet = createdBets.stream().filter(x -> x.getMatch().getId() == match.getId()).findFirst().orElse(null);
+                    MatchStatus status = MatchStatus.PLAYABLE;
+                    if(optionalBet != null){
+                        if(match.getAwayTeamGoals() == null || match.getHomeTeamGoals() == null){
+                            status = MatchStatus.AWAITING_RESULT;
+                        }else if(match.getAwayTeamGoals().equals(optionalBet.getAwayTeamGoals()) && match.getHomeTeamGoals().equals(optionalBet.getHomeTeamGoals())){
+                            status = MatchStatus.EXACT_WIN;
+                        } else if((match.getHomeTeamGoals() > match.getAwayTeamGoals()  && optionalBet.getHomeTeamGoals() > optionalBet.getAwayTeamGoals() )
+                                || (match.getHomeTeamGoals() < match.getAwayTeamGoals()  && optionalBet.getHomeTeamGoals() < optionalBet.getAwayTeamGoals())
+                                ||(match.getHomeTeamGoals().equals(match.getAwayTeamGoals()) && Objects.equals(optionalBet.getHomeTeamGoals(), optionalBet.getAwayTeamGoals()))){
+                            status = MatchStatus.WON;
+                        }else {
+                            status = MatchStatus.LOST;
+                        }
+                    }
+                    else if(Instant.now().isAfter(match.getStartTime())){
+                        status = MatchStatus.EXPIRED;
+                    }
 
-        lastRoundMatches.forEach(match -> {
-            MatchResultView matchResultView = MatchResultView.builder()
-                    .id(match.getId())
-                    .homeTeam(MatchTeamResultView.builder()
-                            .id(match.getHomeTeam().getId())
-                            .name(match.getHomeTeam().getName())
-                            .imageUrl(match.getHomeTeam().getImageUrl())
-                            .goals(match.getHomeTeamGoals()).build())
-                    .awayTeam(MatchTeamResultView.builder()
-                            .id(match.getAwayTeam().getId())
-                            .name(match.getAwayTeam().getName())
-                            .imageUrl(match.getAwayTeam().getImageUrl())
-                            .goals(match.getAwayTeamGoals()).build())
-                    .startTime(match.getStartTime())
-                    .tournamentId(match.getTournament().getId())
-                    .tournamentName(match.getTournament().getName())
-                    .round(match.getRound()).build();
+                    Integer awayTeamGoals = match.getAwayTeamGoals();
+                    Integer homeTeamGoals = match.getHomeTeamGoals();
+                    if(status == MatchStatus.PLAYABLE){
+                        awayTeamGoals = 0;
+                        homeTeamGoals = 0;
 
-            result.add(matchResultView);
-        });
+                    }
+
+
+                    MatchResultView matchResultView = MatchResultView.builder()
+                            .id(match.getId())
+                            .homeTeam(MatchTeamResultView.builder()
+                                    .id(match.getHomeTeam().getId())
+                                    .name(match.getHomeTeam().getName())
+                                    .imageUrl(match.getHomeTeam().getImageUrl())
+                                    .goals(homeTeamGoals).build())
+                            .awayTeam(MatchTeamResultView.builder()
+                                    .id(match.getAwayTeam().getId())
+                                    .name(match.getAwayTeam().getName())
+                                    .imageUrl(match.getAwayTeam().getImageUrl())
+                                    .goals(awayTeamGoals).build())
+                            .startTime(match.getStartTime())
+                            .tournamentId(match.getTournament().getId())
+                            .tournamentName(match.getTournament().getName())
+                            .round(match.getRound())
+                            .status(status)
+                            .build();
+
+                    result.add(matchResultView);
+                });
         return result;
     }
 

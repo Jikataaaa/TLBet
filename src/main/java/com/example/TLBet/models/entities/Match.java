@@ -20,8 +20,6 @@ public class Match extends MatchStatistics {
 
     private Instant startTime;
 
-    private String status;
-
     @ManyToOne
     @JoinColumn(name = "tournament_id", referencedColumnName = "id")
     private Tournament tournament;

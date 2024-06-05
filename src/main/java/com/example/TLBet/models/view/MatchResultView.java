@@ -1,6 +1,7 @@
 package com.example.TLBet.models.view;
 
 import com.example.TLBet.models.entities.Round;
+import com.example.TLBet.models.enums.MatchStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,4 +24,5 @@ public class MatchResultView {
     private long tournamentId;
     private String tournamentName;
     private Round round;
+    private MatchStatus status;
 }

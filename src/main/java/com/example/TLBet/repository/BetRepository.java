@@ -24,4 +24,6 @@ public interface BetRepository extends JpaRepository<Bet, Long> {
     List<Bet> findBetsByMatchStartTimeFromCurrentYear();
 
     boolean existsBetByMatchAndUserUsername(Match match, String username);
+
+    List<Bet> findBetsByUserUsernameAndMatchRound(String username, Round round);
 }
