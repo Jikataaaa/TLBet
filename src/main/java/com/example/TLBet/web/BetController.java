@@ -12,13 +12,13 @@ import java.util.List;
 @RestController
 @RequestMapping("/bet")
 @RequiredArgsConstructor
-public class BetController {
+public class BetController extends BaseController{
 
     private final BetService betService;
 
     @PostMapping("/new-bets")
     public ResponseEntity<List<NewBetView>> createBet(@RequestBody List<NewBetView> bets){
-        return ResponseEntity.ok(betService.createBets(bets));
+        return ResponseEntity.ok(betService.createBets(bets, super.getCurrentUserUsername()));
     }
     @GetMapping("all-user-bets")
     public ResponseEntity<List<BetView>> allBetsByUser(@RequestParam("id") long id){

@@ -17,7 +17,6 @@ public class TournamentController{
 
     private final TournamentService service;
     private final ModelMapper mapper;
-    // tournament/new-tournament
 
     @PostMapping("/new-tournament")
     public ResponseEntity<TournamentView> createTournament(@RequestBody TournamentView tournamentView){

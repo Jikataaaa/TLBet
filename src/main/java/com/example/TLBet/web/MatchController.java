@@ -15,7 +15,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/match")
 @RequiredArgsConstructor
-public class MatchController {
+public class MatchController extends BaseController{
 
     private final MatchService service;
 
@@ -25,8 +25,8 @@ public class MatchController {
        return ResponseEntity.ok(service.createMatch(match));
     }
     @GetMapping("/all-matches")
-    public ResponseEntity<List<MatchResultView>> getAllMatches(@RequestParam("username") String username){
-       return ResponseEntity.ok(service.getAllMatches(username));
+    public ResponseEntity<List<MatchResultView>> getAllMatches(){
+       return ResponseEntity.ok(service.getAllMatches(super.getCurrentUserUsername()));
     }
     @PutMapping("/edit-match")
     public ResponseEntity<MatchResultView> editMatch(@RequestBody MatchResultView match, @RequestParam("time") LocalTime time){

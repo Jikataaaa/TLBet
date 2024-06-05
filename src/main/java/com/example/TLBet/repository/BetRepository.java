@@ -1,11 +1,10 @@
 package com.example.TLBet.repository;
 
 import com.example.TLBet.models.entities.Bet;
+import com.example.TLBet.models.entities.Match;
 import com.example.TLBet.models.entities.Round;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.Instant;
@@ -24,7 +23,5 @@ public interface BetRepository extends JpaRepository<Bet, Long> {
             "where YEAR(m.start_time) = YEAR(CURDATE());")
     List<Bet> findBetsByMatchStartTimeFromCurrentYear();
 
-    @Query(nativeQuery = true, value = "select  b.match_id from bets b\n" +
-            "where user_id = :userId")
-    List<Long> getAllMatchIdsBetByUserId(@Param("userId") Long id);
+    boolean existsBetByMatchAndUserUsername(Match match, String username);
 }
