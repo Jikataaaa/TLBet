@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AllMatchesComponent } from './components/match/all-matches/all-matches.component';
 import { NewMatchComponent } from './components/match/new-match/new-match.component';
-import { NewPlayerComponent } from './components/player/new-player/new-player.component';
 import { NewTeamComponent } from './components/team/new-team/new-team.component';
 import { NewTournamentComponent } from './components/tournament/new-tournament/new-tournament.component';
 import { AuthGuard } from './core/guards/AuthGuard';
@@ -58,14 +57,6 @@ const routes: Routes = [
   {
     path: 'team/new-team',
     component: NewTeamComponent,
-    canActivate: [AuthGuard],
-    data: {
-      role: "ADMIN",
-    },
-  },
-  {
-    path: 'player/new-player',
-    component: NewPlayerComponent,
     canActivate: [AuthGuard],
     data: {
       role: "ADMIN",

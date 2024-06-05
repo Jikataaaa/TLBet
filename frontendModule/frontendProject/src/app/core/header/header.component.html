@@ -4,30 +4,31 @@
             <span>
                 <img src="/../logo.png"
                      class="logo"
-                     alt="TL BET">
+                     alt="TL BET"
+                     *ngIf="!isLogged">
+                <img src="/../logo.png"
+                     class="logo"
+                     alt="TL BET"
+                     *ngIf="isLogged"
+                     routerLink="match/all-matches">
             </span>
             <nav>
                 <ul class="nav-list">
                     <li mat-button
-                        routerLink="/home">Демо</li>
-                    <li mat-button
-                        *ngIf="isAdmin"
-                        routerLink="team/new-team">new-team</li>
-                    <li mat-button
-                        *ngIf="isAdmin"
-                        routerLink="player/new-player">new player</li>
-                    <li mat-button
-                        *ngIf="isAdmin"
-                        routerLink="tournament/new-tournament">new-tournament</li>
-                    <li mat-button
                         *ngIf="isLogged"
                         routerLink="match/all-matches">Мачове</li>
                     <li mat-button
-                        *ngIf="isAdmin"
-                        routerLink="match/new-match">new-match</li>
-                    <li mat-button
                         *ngIf="isLogged"
                         routerLink="user/ranking">Класиране</li>
+                    <li mat-button
+                        *ngIf="isAdmin"
+                        routerLink="team/new-team">Нов отбор</li>
+                    <li mat-button
+                        *ngIf="isAdmin"
+                        routerLink="tournament/new-tournament">Турнир</li>
+                    <li mat-button
+                        *ngIf="isAdmin"
+                        routerLink="match/new-match">Нов двубой</li>
                 </ul>
             </nav>
             <span class="nav-spacer"></span>
