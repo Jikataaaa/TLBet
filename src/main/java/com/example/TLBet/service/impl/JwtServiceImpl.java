@@ -1,5 +1,6 @@
 package com.example.TLBet.service.impl;
 
+import com.example.TLBet.models.entities.User;
 import com.example.TLBet.service.JwtService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -37,6 +38,8 @@ public class JwtServiceImpl implements JwtService {
 
     @Override
     public String generateToken(Map<String, Object> claims, UserDetails userDetails){
+        claims.put("role", ((User) userDetails).getRole().name());
+
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(userDetails.getUsername())
