@@ -1,5 +1,4 @@
 package com.example.TLBet.web;
-import com.example.TLBet.models.entities.Team;
 import com.example.TLBet.models.service.TeamServiceModel;
 import com.example.TLBet.models.view.TeamView;
 import com.example.TLBet.service.TeamService;
@@ -9,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("/team")

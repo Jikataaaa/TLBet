@@ -1,5 +1,6 @@
 package com.example.TLBet.service;
 
+import com.example.TLBet.models.entities.Match;
 import com.example.TLBet.models.entities.Round;
 import com.example.TLBet.models.service.BetRankingServiceModel;
 import com.example.TLBet.models.view.BetView;
@@ -19,5 +20,7 @@ public interface BetService {
 
     List<BetRankingServiceModel> getAllBetsForCurrentYearRanking();
 
-    List<NewBetView> createBets(List<NewBetView> bets);
+    List<NewBetView> createBets(List<NewBetView> bets, String username);
+
+    boolean checkExistingBetOnMatch(Match match, String username);
 }

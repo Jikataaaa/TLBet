@@ -3,7 +3,7 @@ package com.example.TLBet.service.impl;
 import com.example.TLBet.models.entities.Bet;
 import com.example.TLBet.models.entities.Match;
 import com.example.TLBet.models.entities.Round;
-import com.example.TLBet.models.exeptions.MatchStartedException;
+import com.example.TLBet.models.exeptions.NewBetException;
 import com.example.TLBet.models.service.BetRankingServiceModel;
 import com.example.TLBet.models.view.BetView;
 import com.example.TLBet.models.view.NewBetView;
@@ -16,7 +16,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.*;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -33,7 +33,7 @@ public class BetServiceImpl implements BetService {
     public List<BetView> getAllBetsByUser(long id) {
         Instant now = Instant.now();
         Instant instant = DateUtil.parseInstant(now);
-       return repository.findAllByUserIdAndMatchStartTimeBefore(id, instant)
+        return repository.findAllByUserIdAndMatchStartTimeBefore(id, instant)
                 .stream()
                 .map(bet -> BetView.builder()
                         .homeTeamGoals(bet.getHomeTeamGoals())
@@ -105,14 +105,17 @@ public class BetServiceImpl implements BetService {
 
     @Override
     @Transactional
-    public List<NewBetView> createBets(List<NewBetView> bets) {
+    public List<NewBetView> createBets(List<NewBetView> bets, String username) {
         List<Bet> betsToSave = new ArrayList<>();
 
         bets
                 .forEach((b) -> {
                     Match match = this.matchService.getMatchById(b.getMatchId());
                     if(Instant.now().isAfter(match.getStartTime())){
-                        throw new MatchStartedException();
+                        throw new NewBetException("Не можете да направите залог на мач, който е започнал!");
+                    }
+                    if(checkExistingBetOnMatch(match, username)){
+                        throw new NewBetException("Имате вече направен залог на мач, на който искате да заложите отново!");
                     }
                     Bet bet = Bet.builder()
                             .match(match)
@@ -131,5 +134,10 @@ public class BetServiceImpl implements BetService {
                 .matchId(b.getMatch().getId())
                 .build())
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public boolean checkExistingBetOnMatch(Match match, String username) {
+        return repository.existsBetByMatchAndUserUsername(match, username);
     }
 }

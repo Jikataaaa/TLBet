@@ -1,19 +1,24 @@
 package com.example.TLBet.service.impl;
 
 import com.example.TLBet.models.entities.Match;
+import com.example.TLBet.models.entities.Round;
 import com.example.TLBet.models.entities.Team;
 import com.example.TLBet.models.entities.Tournament;
 import com.example.TLBet.models.view.*;
-import com.example.TLBet.repository.BetRepository;
 import com.example.TLBet.repository.MatchRepository;
-import com.example.TLBet.service.MatchService;
-import com.example.TLBet.service.TeamService;
-import com.example.TLBet.service.TournamentService;
+import com.example.TLBet.repository.RoundRepository;
+import com.example.TLBet.service.*;
 import com.example.TLBet.utils.DateUtil;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
-import java.time.*;
+
+import java.time.Instant;
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -22,9 +27,12 @@ public class MatchServiceImpl implements MatchService {
     private final MatchRepository matchRepository;
     private final TeamService teamService;
     private final TournamentService tournamentService;
-    private final BetRepository betRepository;
+    private final AuthenticationService authenticationService;
+    private final RoundService roundService;
 
-   // private final ModelMapper mapper;
+
+    @Autowired
+    private ModelMapper mapper;
 
     @Override
     public MatchView createMatch(@RequestBody MatchView matchView) {
@@ -43,33 +51,40 @@ public class MatchServiceImpl implements MatchService {
     }
 
     @Override
-    public List<MatchResultView> getAllMatches(String username) {
+    public List<MatchResultView> getLastRoundMatches() {
 
-        return matchRepository.findAllMatchesUserCanBetOn(DateUtil.parseInstant(Instant.now())).stream().map(match -> MatchResultView.builder()
-                .id(match.getId())
-                .homeTeam(MatchTeamResultView.builder()
-                        .id(match.getHomeTeam().getId())
-                        .name(match.getHomeTeam().getName())
-                        .imageUrl(match.getHomeTeam().getImageUrl())
-                        .goals(match.getHomeTeamGoals())
-                        .build())
-                .awayTeam(MatchTeamResultView.builder()
-                        .id(match.getAwayTeam().getId())
-                        .name(match.getAwayTeam().getName())
-                        .imageUrl(match.getAwayTeam().getImageUrl())
-                        .goals(match.getAwayTeamGoals())
-                        .build())
-                .startTime(match.getStartTime())
-                .tournamentId(match.getTournament().getId())
-                .tournamentName(match.getTournament().getName())
-                .round(match.getRound())
-                .build()
-        ).toList();
+        Round round = roundService.getLastRound();
+
+        List<Match> lastRoundMatches = matchRepository.getLastRoundMatches(round.getId());
+
+        List<MatchResultView> result = new ArrayList<>();
+
+        lastRoundMatches.forEach(match -> {
+            MatchResultView matchResultView = MatchResultView.builder()
+                    .id(match.getId())
+                    .homeTeam(MatchTeamResultView.builder()
+                            .id(match.getHomeTeam().getId())
+                            .name(match.getHomeTeam().getName())
+                            .imageUrl(match.getHomeTeam().getImageUrl())
+                            .goals(match.getHomeTeamGoals()).build())
+                    .awayTeam(MatchTeamResultView.builder()
+                            .id(match.getAwayTeam().getId())
+                            .name(match.getAwayTeam().getName())
+                            .imageUrl(match.getAwayTeam().getImageUrl())
+                            .goals(match.getAwayTeamGoals()).build())
+                    .startTime(match.getStartTime())
+                    .tournamentId(match.getTournament().getId())
+                    .tournamentName(match.getTournament().getName())
+                    .round(match.getRound()).build();
+
+            result.add(matchResultView);
+        });
+        return result;
     }
 
     @Override
     public Match getMatchById(long id) {
-       return matchRepository.findById(id).orElseThrow();
+        return matchRepository.findById(id).orElseThrow();
     }
 
     @Override

@@ -26,8 +26,8 @@ export class MatchService extends BaseRequestService {
     }
 
     getAllMatches(): Observable<Match[]> {
-         const params = new HttpParams().set('username', 'jivko');
-         return this.get<Match[]>('match/all-matches', params);
+        //  const params = new HttpParams().set('username', 'jivko');
+         return this.get<Match[]>('match/all-matches');
     }
 
     editMatch(form: FormGroup, id: number, homeTeamId: number, awayTeamId: number, tournamentId: number) {
