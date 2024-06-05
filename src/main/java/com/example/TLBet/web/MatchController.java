@@ -26,7 +26,7 @@ public class MatchController extends BaseController{
     }
     @GetMapping("/all-matches")
     public ResponseEntity<List<MatchResultView>> getAllMatches(){
-       return ResponseEntity.ok(service.getAllMatches(super.getCurrentUserUsername()));
+       return ResponseEntity.ok(service.getLastRoundMatches());
     }
     @PutMapping("/edit-match")
     public ResponseEntity<MatchResultView> editMatch(@RequestBody MatchResultView match, @RequestParam("time") LocalTime time){
