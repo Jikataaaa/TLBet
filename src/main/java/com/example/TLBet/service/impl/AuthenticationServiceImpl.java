@@ -33,9 +33,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     public AuthenticationResponse register(@Valid RegisterRequest request) {
         User user = User.builder()
                 .username(request.getUsername())
+                .email(request.getEmail())
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
-                .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(UserRole.USER)
                 .build();

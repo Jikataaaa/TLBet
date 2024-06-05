@@ -15,20 +15,31 @@ export class RegisterComponent {
   emailRegex = RegExp(/^\S+@\S+\.\S+$/);
 
   registerForm = new FormGroup({
-    username: new FormControl("", [Validators.required, Validators.minLength(3)]),
-    // emailFormControl: new FormControl("",[ Validators.email, Validators.required]),
-    password: new FormControl("",[Validators.required, Validators.minLength(8), Validators.maxLength(20)]),
+    username: new FormControl("", [Validators.required, Validators.minLength(3), Validators.maxLength(100)]),
+    email: new FormControl("", [Validators.email, Validators.required]),
+    firstName: new FormControl("", [Validators.required, Validators.minLength(3), Validators.maxLength(100)]),
+    lastName: new FormControl("", [Validators.required, Validators.minLength(3), Validators.maxLength(100)]),
+    password: new FormControl("", [Validators.required, Validators.minLength(8), Validators.maxLength(20)]),
     repassword: new FormControl("", [Validators.required, Validators.minLength(8), Validators.maxLength(20)]),
   });
 
-  constructor(private service : UserService, private router: Router, private _snackBar: MatSnackBar){ }
+  constructor(private service: UserService, private router: Router, private _snackBar: MatSnackBar) { }
 
-  register(){
+  register() {
     const username = this.registerForm.get('username');
+    const email = this.registerForm.get('email');
+    const firstName = this.registerForm.get('firstName');
+    const lastName = this.registerForm.get('lastName');
     const password = this.registerForm.get('password');
     const repassword = this.registerForm.get('repassword');
 
-    if (username?.invalid || password?.invalid || repassword?.invalid) {
+    if (username?.invalid ||
+      password?.invalid ||
+      repassword?.invalid ||
+      email?.invalid ||
+      firstName?.invalid ||
+      lastName?.invalid) {
+      this.openSnackBar("Липващи или некоректни данни!", "Затвори");
       return;
     }
 

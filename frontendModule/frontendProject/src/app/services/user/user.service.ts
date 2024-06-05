@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { Observable, map, of } from 'rxjs';
+import { Observable, first, map, of } from 'rxjs';
 import { AuthUser } from 'src/app/shared/interfaces/AuthUser';
 import { User } from 'src/app/shared/interfaces/User';
 import { BaseRequestService } from '../common/base-request.service';
@@ -56,14 +56,18 @@ export class UserService extends BaseRequestService {
     }
 
     register(form: FormGroup) {
+        debugger
         if (form.invalid) {
             return;
         }
 
-        const { username, password } = form.value;
+        const { username, email, firstName, lastName, password } = form.value;
         this.http
             .post<AuthUser>(`http://localhost:8080/${this.resourceUrl}/register`, {
                 username,
+                email,
+                firstName,
+                lastName,
                 password,
             })
             .subscribe((response) => {

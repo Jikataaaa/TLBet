@@ -14,7 +14,7 @@ export class LoginFormComponent {
   hide: boolean = true;
 
   loginForm = new FormGroup({
-    username: new FormControl("", [Validators.required, Validators.minLength(3)]),
+    username: new FormControl("", [Validators.required, Validators.minLength(3), Validators.maxLength(100)]),
     password: new FormControl("", [Validators.required, Validators.minLength(5), Validators.maxLength(20)]) // Validators.minLength(5) shold be changed to Validators.minLength(8)
   })
 
