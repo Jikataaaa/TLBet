@@ -140,4 +140,9 @@ public class BetServiceImpl implements BetService {
     public boolean checkExistingBetOnMatch(Match match, String username) {
         return repository.existsBetByMatchAndUserUsername(match, username);
     }
+
+    @Override
+    public List<Bet> findBetsByUserUsernameAndMatchRound(String username, Round round) {
+        return repository.findBetsByUserUsernameAndMatchRound(username, round);
+    }
 }

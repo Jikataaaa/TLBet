@@ -1,10 +1,14 @@
 package com.example.TLBet.web;
 
+import com.example.TLBet.models.entities.Bet;
 import com.example.TLBet.models.entities.Match;
+import com.example.TLBet.models.entities.Round;
 import com.example.TLBet.models.view.MatchBetView;
 import com.example.TLBet.models.view.MatchResultView;
 import com.example.TLBet.models.view.MatchView;
+import com.example.TLBet.service.BetService;
 import com.example.TLBet.service.MatchService;
+import com.example.TLBet.service.RoundService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +22,8 @@ import java.util.List;
 public class MatchController extends BaseController{
 
     private final MatchService service;
+    private final RoundService roundService;
+    private final BetService betService;
 
 
     @PostMapping("/new-match")
@@ -26,7 +32,10 @@ public class MatchController extends BaseController{
     }
     @GetMapping("/all-matches")
     public ResponseEntity<List<MatchResultView>> getAllMatches(){
-       return ResponseEntity.ok(service.getLastRoundMatches());
+        String username = super.getCurrentUserUsername();
+        Round round = roundService.getLastRound();
+        List<Bet> createdBets = betService.findBetsByUserUsernameAndMatchRound(username, round);
+        return ResponseEntity.ok(service.getLastRoundMatches(username, round, createdBets));
     }
     @PutMapping("/edit-match")
     public ResponseEntity<MatchResultView> editMatch(@RequestBody MatchResultView match, @RequestParam("time") LocalTime time){
