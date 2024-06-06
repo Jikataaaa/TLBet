@@ -5,6 +5,7 @@ import { Observable, first, map, of } from 'rxjs';
 import { AuthUser } from 'src/app/shared/interfaces/AuthUser';
 import { User } from 'src/app/shared/interfaces/User';
 import { BaseRequestService } from '../common/base-request.service';
+import { Login } from './models/Login';
 
 @Injectable({
     providedIn: 'root',
@@ -39,24 +40,11 @@ export class UserService extends BaseRequestService {
             .pipe(map((res) => res === 'true'));
     }
 
-    login(form: FormGroup) {
-        if (form.invalid) {
-            return;
-        }
-        const username = form.value.username;
-        const password = form.value.password;
-        this.http
-            .post<AuthUser>(`http://localhost:8080/${this.resourceUrl}/login`, {
-                username,
-                password,
-            })
-            .subscribe((response) => {
-                form.reset();
-            });
+    login(login: Login): Observable<AuthUser> {
+        return this.post<AuthUser, Login>(`${this.resourceUrl}/login`, login);
     }
 
     register(form: FormGroup) {
-        debugger
         if (form.invalid) {
             return;
         }

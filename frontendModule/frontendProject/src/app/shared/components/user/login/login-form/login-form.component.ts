@@ -2,42 +2,43 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { Login } from 'src/app/services/user/models/Login';
 import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
-  selector: 'app-login-form',
-  templateUrl: './login-form.component.html',
-  styleUrls: ['./login-form.component.scss']
+    selector: 'app-login-form',
+    templateUrl: './login-form.component.html',
+    styleUrls: ['./login-form.component.scss']
 })
 export class LoginFormComponent {
-  @Output() changeTab = new EventEmitter<number>();
-  hide: boolean = true;
+    @Output() changeTab = new EventEmitter<number>();
+    hide: boolean = true;
 
-  loginForm = new FormGroup({
-    username: new FormControl("", [Validators.required, Validators.minLength(3), Validators.maxLength(100)]),
-    password: new FormControl("", [Validators.required, Validators.minLength(5), Validators.maxLength(20)]) // Validators.minLength(5) shold be changed to Validators.minLength(8)
-  })
+    loginForm = new FormGroup({
+        username: new FormControl("", [Validators.required, Validators.minLength(3), Validators.maxLength(100)]),
+        password: new FormControl("", [Validators.required, Validators.minLength(5), Validators.maxLength(20)]) // Validators.minLength(5) shold be changed to Validators.minLength(8)
+    });
 
-  constructor(private service : UserService, private router: Router, private _snackBar: MatSnackBar){
-  }
-
-  login(){
-    const username = this.loginForm.get('username')?.value;
-    const password = this.loginForm.get('password')?.value;
-
-    if (!username || !password) {
-      this._snackBar.open("Моля попълнете всички полета", "Затвори",{
-        duration: 2000,
-      });
-      return;
+    constructor(private service: UserService, private router: Router, private _snackBar: MatSnackBar) {
     }
 
-    this.service.login(this.loginForm);
-    this.router.navigate(["/"])
-  }
+    login() {
+        const username = this.loginForm.get('username')?.value;
+        const password = this.loginForm.get('password')?.value;
 
-  triggerTabChange(){
-    this.changeTab.emit(1);
-  }
+        if (!username || !password) {
+            this._snackBar.open("Моля попълнете всички полета", "Затвори", {
+                duration: 2000,
+            });
+            return;
+        }
+        const login: Login = new Login({ username, password });
+        this.service.login(login).subscribe((data) => {
+            this.router.navigate(["/"]);
+        });
+    }
 
+    triggerTabChange() {
+        this.changeTab.emit(1);
+    }
 }

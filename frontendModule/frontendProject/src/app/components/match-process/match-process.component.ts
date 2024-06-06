@@ -6,6 +6,7 @@ import {
     NG_VALUE_ACCESSOR
 } from '@angular/forms';
 import { Match } from 'src/app/services/match/models/Match';
+import { MatchStatusEnum } from 'src/app/services/match/models/MatchStatusEnum';
 
 @Component({
     selector: 'match-process',
@@ -37,7 +38,11 @@ export class MatchProcessComponent implements ControlValueAccessor {
 
     match!: Match;
 
+    isMatchPlayable: boolean = true;
+
     writeValue(match: Match): void {
+        this.isMatchPlayable = match.status == MatchStatusEnum.PLAYABLE;
+        console.log('isMatchPlayable', this.isMatchPlayable);
         this.match = match;
         this.form.get('homeTeam')?.setValue(match.homeTeam);
         this.form.get('awayTeam')?.setValue(match.awayTeam);

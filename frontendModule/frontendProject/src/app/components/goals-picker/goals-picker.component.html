@@ -17,7 +17,7 @@
 
 <ng-template #buttons>
     <div class="flex flex-col items-center justify-center gap-1">
-        <button *ngIf="!disabled"
+        <button *ngIf="!disabled && isMatchPlayable"
                 (click)="incrementGoals()"
                 class="flex items-center justify-center rounded-full h-5 w-10 hover:bg-gray-300 transition-colors duration-200">
             <mat-icon>expand_less</mat-icon>
@@ -27,7 +27,7 @@
                [value]="team.goals"
                readonly>
 
-        <button *ngIf="!disabled"
+        <button *ngIf="!disabled && isMatchPlayable"
                 (click)="decrementGoals()"
                 class="flex items-center justify-center rounded-full h-5 w-10 hover:bg-gray-300 transition-colors duration-200">
             <mat-icon>expand_more</mat-icon>

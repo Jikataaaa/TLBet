@@ -9,5 +9,6 @@
     </div>
     <button mat-flat-button
             color="primary"
+            *ngIf="hasPlayableMatches"
             (click)="onSubmit()">Заложи</button>
 </div>

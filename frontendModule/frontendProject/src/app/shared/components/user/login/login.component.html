@@ -1,8 +1,8 @@
 <div class="py-12 px-6 min-h-screen flex items-center justify-center">
     <div class="bg-primary-700 text-white pb-8 rounded-lg max-w-lg w-full">
         <mat-tab-group [(selectedIndex)]="selectedTabIndex" mat-stretch-tabs>
-            <mat-tab label="ВХОД"><app-login-form (changeTab)="onTabChange($event)"></app-login-form></mat-tab>
-            <mat-tab label="СЪЗДАВАНЕ НА АКАУНТ"><app-register></app-register> </mat-tab>
+            <mat-tab label="Вход"><app-login-form (changeTab)="onTabChange($event)"></app-login-form></mat-tab>
+            <mat-tab label="Регистрация"><app-register></app-register> </mat-tab>
         </mat-tab-group>
     </div>
 </div>

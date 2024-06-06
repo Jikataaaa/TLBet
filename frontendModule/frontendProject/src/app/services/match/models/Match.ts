@@ -1,3 +1,4 @@
+import { MatchStatusEnum } from './MatchStatusEnum';
 import { MatchTeam } from './MatchTeam';
 
 export class Match {
@@ -10,6 +11,7 @@ export class Match {
     homeTeam!: MatchTeam;
     awayTeam!: MatchTeam;
     startTime!: Date;
+    status!: MatchStatusEnum;
     tournamentId!: number;
     tournamentName!: string;
     round!: number;

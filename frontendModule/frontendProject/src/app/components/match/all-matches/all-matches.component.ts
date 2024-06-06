@@ -3,66 +3,77 @@ import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { BetService } from 'src/app/services/bet/bet.service';
 import { MatchService } from 'src/app/services/match/match.service';
 import { Match } from 'src/app/services/match/models/Match';
+import { MatchStatusEnum } from 'src/app/services/match/models/MatchStatusEnum';
 import { NewBet } from 'src/app/shared/interfaces/NewBet';
 
 @Component({
-  selector: 'all-matches',
-  templateUrl: './all-matches.component.html',
-  styleUrls: ['./all-matches.component.scss'],
+    selector: 'all-matches',
+    templateUrl: './all-matches.component.html',
+    styleUrls: ['./all-matches.component.scss'],
 })
 export class AllMatchesComponent implements OnInit {
-  matchesCount!: Number;
-  form!: FormGroup;
-  matchesFormArray!: FormArray;
+    matchesCount!: Number;
+    form!: FormGroup;
+    matchesFormArray!: FormArray;
+    hasPlayableMatches: boolean = false;
 
-  constructor(
-    private matchService: MatchService,
-    private betService: BetService
-  ) {
-    this.matchesFormArray = new FormArray<FormGroup>([]);
-    this.form = new FormGroup({
-      matches: this.matchesFormArray,
-    });
-  }
-
-  get isAdmin(): boolean {
-    let role = localStorage.getItem('role');
-    if (role == 'ADMIN') {
-      return true;
+    constructor(
+        private matchService: MatchService,
+        private betService: BetService
+    ) {
+        this.matchesFormArray = new FormArray<FormGroup>([]);
+        this.form = new FormGroup({
+            matches: this.matchesFormArray,
+        });
     }
-    return false;
-  }
 
-  ngOnInit() {
-    this.matchService.getAllMatches().subscribe((data) => {
-      this.fillForm(data);
-    });
-  }
-
-  fillForm(matches: Match[]) {
-    const groups: FormGroup[] = matches.map(
-      (match) =>
-        new FormGroup({
-          match: new FormControl(match),
-        })
-    );
-    groups.forEach((group) => this.matchesFormArray.push(group));
-  }
-
-  onSubmit() {
-    const result: Match[] = this.matchesFormArray.value.map((x: { match: Partial<Match> | undefined; }) => new Match(x.match));
-    let bets: NewBet[] = [];
-
-    for (const bet of result) {
-      bets.push(
-        new NewBet({
-          homeTeamGoals: bet.homeTeam.goals,
-          awayTeamGoals: bet.awayTeam.goals,
-          matchId: bet.id,
-          username: localStorage.getItem('username')!,
-        })
-      );
+    get isAdmin(): boolean {
+        let role = localStorage.getItem('role');
+        if (role == 'ADMIN') {
+            return true;
+        }
+        return false;
     }
-    this.betService.createBets(bets).subscribe(data => console.log(data));
-  }
+
+    ngOnInit() {
+        this.loadAllMatches();
+    }
+
+    private loadAllMatches() {
+        this.matchService.getAllMatches().subscribe((data) => {
+            this.fillForm(data);
+        });
+    }
+
+    fillForm(matches: Match[]) {
+        this.hasPlayableMatches = matches.some((x) => x.status == MatchStatusEnum.PLAYABLE);
+        console.log('test', this.hasPlayableMatches);
+        this.matchesFormArray.clear();
+        const groups: FormGroup[] = matches.map(
+            (match) =>
+                new FormGroup({
+                    match: new FormControl(match),
+                })
+        );
+        groups.forEach((group) => this.matchesFormArray.push(group));
+    }
+
+    onSubmit() {
+        const result: Match[] = this.matchesFormArray.value.map((x: { match: Partial<Match> | undefined; }) => new Match(x.match));
+        let bets: NewBet[] = [];
+
+        for (const bet of result) {
+            bets.push(
+                new NewBet({
+                    homeTeamGoals: bet.homeTeam.goals,
+                    awayTeamGoals: bet.awayTeam.goals,
+                    matchId: bet.id,
+                    username: localStorage.getItem('username')!,
+                })
+            );
+        }
+        this.betService.createBets(bets).subscribe(data => {
+            this.loadAllMatches();
+        });
+    }
 }

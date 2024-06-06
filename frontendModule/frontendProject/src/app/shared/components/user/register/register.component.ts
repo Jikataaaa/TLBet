@@ -39,7 +39,7 @@ export class RegisterComponent {
       email?.invalid ||
       firstName?.invalid ||
       lastName?.invalid) {
-      this.openSnackBar("Липващи или некоректни данни!", "Затвори");
+      this.openSnackBar("Липващи или невалидни данни!", "Затвори");
       return;
     }
 

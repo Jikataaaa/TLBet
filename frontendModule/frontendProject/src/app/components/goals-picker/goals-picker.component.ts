@@ -20,7 +20,10 @@ import { MatchTeam } from 'src/app/services/match/models/MatchTeam';
 export class GoalsPickerComponent implements ControlValueAccessor {
     @Input()
     isHomeTeam: boolean = true;
-    
+
+    @Input()
+    isMatchPlayable: boolean = true;
+
     team!: MatchTeam;
 
     onChange = (value: MatchTeam) => {
