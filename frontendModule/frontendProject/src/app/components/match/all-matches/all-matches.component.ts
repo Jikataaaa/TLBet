@@ -17,7 +17,7 @@ export class AllMatchesComponent implements OnInit {
     matchesFormArray!: FormArray;
     hasPlayableMatches: boolean = false;
 
-    constructor(
+    constructor (
         private matchService: MatchService,
         private betService: BetService
     ) {
@@ -47,7 +47,6 @@ export class AllMatchesComponent implements OnInit {
 
     fillForm(matches: Match[]) {
         this.hasPlayableMatches = matches.some((x) => x.status == MatchStatusEnum.PLAYABLE);
-        console.log('test', this.hasPlayableMatches);
         this.matchesFormArray.clear();
         const groups: FormGroup[] = matches.map(
             (match) =>

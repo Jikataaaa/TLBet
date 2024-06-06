@@ -1,7 +1,8 @@
 <div class="flex flex-row justify-center items-center gap-1"
      *ngIf="match"
      [formGroup]="form">
-    <div class="flex flex-row justify-center items-center gap-2 border border-gray-300 rounded">
+    <div class="flex flex-row justify-center items-center gap-2 border border-gray-300 rounded"
+         [ngStyle]="{'background-color': getColor(match.status)}">
         <goals-picker formControlName="homeTeam"
                       [isMatchPlayable]="isMatchPlayable"></goals-picker>
         <span class="dash-line">-</span>
