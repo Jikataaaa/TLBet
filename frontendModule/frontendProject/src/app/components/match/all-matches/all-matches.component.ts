@@ -46,9 +46,20 @@ export class AllMatchesComponent implements OnInit {
     }
 
     fillForm(matches: Match[]) {
-        this.hasPlayableMatches = matches.some((x) => x.status == MatchStatusEnum.PLAYABLE);
+        const sortedMatches = matches.sort((a, b) => {
+            if (a.status === MatchStatusEnum.PLAYABLE && b.status !== MatchStatusEnum.PLAYABLE) {
+                return -1;
+            }
+            if (a.status !== MatchStatusEnum.PLAYABLE && b.status === MatchStatusEnum.PLAYABLE) {
+                return 1;
+            }
+            return 0;
+        });
+
+        this.hasPlayableMatches = sortedMatches.some((x) => x.status == MatchStatusEnum.PLAYABLE);
+
         this.matchesFormArray.clear();
-        const groups: FormGroup[] = matches.map(
+        const groups: FormGroup[] = sortedMatches.map(
             (match) =>
                 new FormGroup({
                     match: new FormControl(match),
