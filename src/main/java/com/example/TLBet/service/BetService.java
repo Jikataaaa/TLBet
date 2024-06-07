@@ -3,6 +3,7 @@ package com.example.TLBet.service;
 import com.example.TLBet.models.entities.Bet;
 import com.example.TLBet.models.entities.Match;
 import com.example.TLBet.models.entities.Round;
+import com.example.TLBet.models.exeptions.UserErrorException;
 import com.example.TLBet.models.service.BetRankingServiceModel;
 import com.example.TLBet.models.view.BetView;
 import com.example.TLBet.models.view.NewBetView;
@@ -21,7 +22,7 @@ public interface BetService {
 
     List<BetRankingServiceModel> getAllBetsForCurrentYearRanking();
 
-    List<NewBetView> createBets(List<NewBetView> bets, String username);
+    List<NewBetView> createBets(List<NewBetView> bets, String username) throws UserErrorException;
 
     boolean checkExistingBetOnMatch(Match match, String username);
 

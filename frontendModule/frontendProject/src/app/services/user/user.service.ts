@@ -78,4 +78,15 @@ export class UserService extends BaseRequestService {
     get resourceUrl(): string {
         return 'api/v1/auth';
     }
+
+    getUserByUsername(username: string): Observable<User> {
+        return this.http.get<User>(`http://localhost:8080/${this.resourceUrl}/user-by-name`, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
+            params: {
+                username: username,
+            },
+        });
+    }
 }
