@@ -15,6 +15,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatMenuModule } from '@angular/material/menu';
 
 @NgModule({
     declarations: [],
@@ -35,6 +36,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
         MatTooltipModule,
         MatButtonModule,
         MatToolbarModule,
+        MatMenuModule,
     ],
     exports: [
         MatAutocompleteModule,
@@ -52,6 +54,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
         MatTooltipModule,
         MatButtonModule,
         MatToolbarModule,
+        MatMenuModule,
     ],
 })
 export class MaterialModule { }

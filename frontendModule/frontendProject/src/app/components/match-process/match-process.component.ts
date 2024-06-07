@@ -22,7 +22,7 @@ import { MatchStatusEnum } from 'src/app/services/match/models/MatchStatusEnum';
 })
 export class MatchProcessComponent implements ControlValueAccessor {
     form!: FormGroup;
-    constructor() {
+    constructor () {
         this.form = new FormGroup({
             homeTeam: new FormControl({}),
             awayTeam: new FormControl({}),
@@ -70,6 +70,23 @@ export class MatchProcessComponent implements ControlValueAccessor {
         if (!this.touched) {
             this.onTouched();
             this.touched = true;
+        }
+    }
+
+    getColor(status: MatchStatusEnum): string {
+        switch (status) {
+            case MatchStatusEnum.PLAYABLE:
+                case MatchStatusEnum.AWAITING_RESULT:
+                return 'gray';
+            case MatchStatusEnum.EXACT_WIN:
+                return '#003F2B';
+            case MatchStatusEnum.WON:
+                return 'darkgreen';
+            case MatchStatusEnum.EXPIRED:
+                case MatchStatusEnum.LOST:
+                return 'darkred';
+            default:
+                return 'transparent';
         }
     }
 }

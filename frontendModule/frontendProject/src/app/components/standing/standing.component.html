@@ -1,27 +1,46 @@
-<div class="ml-[20rem] mr-[20rem]">
-  <table mat-table [dataSource]="ranking" cdkDropList cdkDropListOrientation="horizontal">
+<div class="w-full">
+    <div class="w-full mx-auto max-w-full px-4 sm:px-6 lg:px-8">
+        <table mat-table
+               [dataSource]="ranking"
+               cdkDropList
+               cdkDropListOrientation="horizontal"
+               class="w-full">
+            <ng-container matColumnDef="position">
+                <th mat-header-cell
+                    cdkDrag
+                    *matHeaderCellDef> # </th>
+                <td mat-cell
+                    *matCellDef="let rank"> {{rank.place}} </td>
+            </ng-container>
 
-    <ng-container matColumnDef="position">
-      <th mat-header-cell cdkDrag *matHeaderCellDef> # </th>
-      <td mat-cell *matCellDef="let rank"> {{ranking.indexOf(rank) + 1}} </td>
-    </ng-container>
+            <ng-container matColumnDef="username">
+                <th mat-header-cell
+                    cdkDrag
+                    *matHeaderCellDef> Име </th>
+                <td mat-cell
+                    *matCellDef="let rank"> {{rank.username}} </td>
+            </ng-container>
 
-    <ng-container matColumnDef="username">
-      <th mat-header-cell cdkDrag *matHeaderCellDef> Име </th>
-      <td mat-cell *matCellDef="let rank"> {{rank.username}} </td>
-    </ng-container>
+            <ng-container matColumnDef="points">
+                <th mat-header-cell
+                    cdkDrag
+                    *matHeaderCellDef> Точки </th>
+                <td mat-cell
+                    *matCellDef="let rank">
+                    <div class="flex items-center">
+                        <span>{{ rank.points }}</span>
+                        <mat-icon *ngIf="rank.rankingDifferences>0"
+                                  class="up">keyboard_arrow_up</mat-icon>
+                        <mat-icon *ngIf="rank.rankingDifferences<0"
+                                  class="down">keyboard_arrow_down</mat-icon>
+                    </div>
+                </td>
+            </ng-container>
 
-    <ng-container matColumnDef="points">
-      <th mat-header-cell cdkDrag *matHeaderCellDef> Точки </th>
-      <td mat-cell *matCellDef="let rank"> {{rank.points}} </td>
-    </ng-container>
-
-    <ng-container matColumnDef="rankingDifferences">
-      <th mat-header-cell cdkDrag *matHeaderCellDef> Разлика </th>
-      <td mat-cell *matCellDef="let rank"> {{rank.rankingDifferences}} </td>
-    </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="columns"></tr>
-    <tr mat-row *matRowDef="let row; columns: columns;"></tr>
-  </table>
+            <tr mat-header-row
+                *matHeaderRowDef="columns"></tr>
+            <tr mat-row
+                *matRowDef="let row; columns: columns;"></tr>
+        </table>
+    </div>
 </div>

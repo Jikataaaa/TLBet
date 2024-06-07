@@ -5,6 +5,8 @@ import com.example.TLBet.models.auth.LoginRequest;
 import com.example.TLBet.models.auth.RegisterRequest;
 import com.example.TLBet.models.entities.User;
 import com.example.TLBet.models.enums.UserRole;
+import com.example.TLBet.models.exeptions.UserErrorException;
+import com.example.TLBet.models.view.UserOutView;
 import com.example.TLBet.models.view.UserView;
 
 import java.util.List;
@@ -18,6 +20,7 @@ public interface AuthenticationService {
     UserRole getUserRole(String username);
 
     User getUserByUsername(String username);
+    UserOutView getUserByName(String username) throws UserErrorException;
 
     List<UserView> getAllUsers();
 

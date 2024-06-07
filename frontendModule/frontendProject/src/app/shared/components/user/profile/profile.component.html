@@ -1,1 +1,52 @@
 <app-personal-bet-panel [bets]="bets"></app-personal-bet-panel>
+
+<div *ngIf="user"
+     class="py-12 px-6 min-h-screen flex items-center justify-center">
+    <div class="bg-primary-500 text-white pb-8 rounded-lg max-w-lg w-full"
+         style="pointer-events: none;">
+        <h2 class="text-3xl font-bold mt-6 mb-2 text-center">Профил</h2>
+        <form class="flex flex-col p-8">
+            <mat-form-field appearance="outline"
+                            class="w-full mb-4">
+                <mat-label>Потребителско име</mat-label>
+                <input [readonly]="true"
+                       [value]="user.username"
+                       matInput
+                       placeholder="Въведете вашето потребителско име.."
+                       type="text"
+                       class="!text-white" />
+            </mat-form-field>
+            <mat-form-field appearance="outline"
+                            class="w-full mb-4">
+                <mat-label>Име</mat-label>
+                <input [readonly]="true"
+                       [value]="user.firstName"
+                       matInput
+                       placeholder="Въведете вашето потребителско име.."
+                       type="text"
+                       class="!text-white" />
+            </mat-form-field>
+
+            <mat-form-field appearance="outline"
+                            class="w-full mb-4">
+                <mat-label>Фамилия</mat-label>
+                <input [readonly]="true"
+                       [value]="user.lastName"
+                       matInput
+                       placeholder="Въведете вашето потребителско име.."
+                       type="text"
+                       class="!text-white" />
+            </mat-form-field>
+            <mat-form-field appearance="outline"
+                            class="w-full mb-4">
+                <mat-label>Имейл адрес</mat-label>
+                <input [readonly]="true"
+                       [value]="user.email"
+                       matInput
+                       placeholder="Въведете вашето потребителско име.."
+                       type="text"
+                       class="!text-white" />
+            </mat-form-field>
+        </form>
+    </div>
+</div>

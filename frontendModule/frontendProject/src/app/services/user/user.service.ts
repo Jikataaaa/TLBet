@@ -6,12 +6,13 @@ import { AuthUser } from 'src/app/shared/interfaces/AuthUser';
 import { User } from 'src/app/shared/interfaces/User';
 import { BaseRequestService } from '../common/base-request.service';
 import { Login } from './models/Login';
+import { Register } from './models/Register';
 
 @Injectable({
     providedIn: 'root',
 })
 export class UserService extends BaseRequestService {
-    constructor(http: HttpClient) {
+    constructor (http: HttpClient) {
         super(http);
     }
 
@@ -44,23 +45,8 @@ export class UserService extends BaseRequestService {
         return this.post<AuthUser, Login>(`${this.resourceUrl}/login`, login);
     }
 
-    register(form: FormGroup) {
-        if (form.invalid) {
-            return;
-        }
-
-        const { username, email, firstName, lastName, password } = form.value;
-        this.http
-            .post<AuthUser>(`http://localhost:8080/${this.resourceUrl}/register`, {
-                username,
-                email,
-                firstName,
-                lastName,
-                password,
-            })
-            .subscribe((response) => {
-                form.reset();
-            });
+    register(model: Register): Observable<AuthUser> {
+        return this.post<AuthUser, Register>(`${this.resourceUrl}/register`, model);
     }
 
     logout() {
@@ -91,5 +77,16 @@ export class UserService extends BaseRequestService {
 
     get resourceUrl(): string {
         return 'api/v1/auth';
+    }
+
+    getUserByUsername(username: string): Observable<User> {
+        return this.http.get<User>(`http://localhost:8080/${this.resourceUrl}/user-by-name`, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
+            params: {
+                username: username,
+            },
+        });
     }
 }
