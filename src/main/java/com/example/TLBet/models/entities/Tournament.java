@@ -27,6 +27,6 @@ public class Tournament extends BaseEntity {
             inverseJoinColumns = @JoinColumn(name = "team_id", referencedColumnName = "id"))
     private Set<Team> teams;
 
-    @OneToMany(mappedBy = "tournament_id", targetEntity = Tournament.class)
+    @OneToMany(mappedBy = "tournament", targetEntity = Round.class)
     private Set<Round> rounds;
 }
