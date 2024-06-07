@@ -1,5 +1,6 @@
 export interface Ranking {
-  username: string;
-  points: Number;
-  rankingDifferences: number;
+    position: number;
+    username: string;
+    points: Number;
+    rankingDifferences: number;
 }

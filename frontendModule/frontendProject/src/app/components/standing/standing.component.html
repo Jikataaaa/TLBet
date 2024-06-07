@@ -10,7 +10,7 @@
                     cdkDrag
                     *matHeaderCellDef> # </th>
                 <td mat-cell
-                    *matCellDef="let rank"> {{ranking.indexOf(rank) + 1}} </td>
+                    *matCellDef="let rank"> {{rank.position}} </td>
             </ng-container>
 
             <ng-container matColumnDef="username">
@@ -26,15 +26,15 @@
                     cdkDrag
                     *matHeaderCellDef> Точки </th>
                 <td mat-cell
-                    *matCellDef="let rank"> {{rank.points}} </td>
-            </ng-container>
-
-            <ng-container matColumnDef="rankingDifferences">
-                <th mat-header-cell
-                    cdkDrag
-                    *matHeaderCellDef> Разлика </th>
-                <td mat-cell
-                    *matCellDef="let rank"> {{rank.rankingDifferences}} </td>
+                    *matCellDef="let rank">
+                    <div class="flex items-center">
+                        <span>{{ rank.points }}</span>
+                        <mat-icon *ngIf="rank.rankingDifferences>0"
+                                  class="up">keyboard_arrow_up</mat-icon>
+                        <mat-icon *ngIf="rank.rankingDifferences<0"
+                                  class="down">keyboard_arrow_down</mat-icon>
+                    </div>
+                </td>
             </ng-container>
 
             <tr mat-header-row

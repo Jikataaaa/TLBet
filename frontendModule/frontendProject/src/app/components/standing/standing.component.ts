@@ -8,7 +8,7 @@ import { Ranking } from 'src/app/shared/interfaces/Ranking';
 })
 export class StandingComponent implements OnInit{
 
-  columns: string[] = ['position', 'username', 'points', 'rankingDifferences'];
+  columns: string[] = ['position', 'username', 'points'];
 
   ngOnInit(): void {
   }
