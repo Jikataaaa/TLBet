@@ -5,7 +5,9 @@ import com.example.TLBet.service.impl.JwtServiceImpl;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RequiredArgsConstructor
 public class AuthUtil {
 

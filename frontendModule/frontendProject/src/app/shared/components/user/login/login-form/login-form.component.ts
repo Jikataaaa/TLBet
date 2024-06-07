@@ -41,9 +41,16 @@ export class LoginFormComponent implements OnDestroy {
 
         const login: Login = new Login({ username, password });
 
-        this.service.login(login).pipe(takeUntil(this._unsubscribeAll)).subscribe((data) => {
-            this._snackbarService.openSuccess("Успешно влязохте в профила си.");
-            this.router.navigate(["/"]);
+        this.service.login(login).pipe(takeUntil(this._unsubscribeAll)).subscribe({
+            // this._snackbarService.openSuccess("Успешно влязохте в профила си.");
+            // this.router.navigate(["/"]);
+            next: (response) => {
+                this._snackbarService.openSuccess("Успешно влязохте в профила си.");
+                this.router.navigate(["/"]);
+            },
+            error: (error) => {
+                this._snackbarService.openError("Грешно потребителско име или парола", "Затвори");
+            }
         });
     }
 
