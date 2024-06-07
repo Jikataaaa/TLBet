@@ -1,7 +1,7 @@
 package com.example.TLBet.models.enums;
 
 public enum ExceptionEnum {
-
+    EXCEPTION_INVALID_TOKEN("EXCEPTION.INVALID.TOKEN"),
     EXCEPTION_USER_NOT_FOUND("EXCEPTION.USER.NOT.FOUND");
 
     final String code;

@@ -3,7 +3,10 @@ package com.example.TLBet.web;
 import com.example.TLBet.models.auth.AuthenticationResponse;
 import com.example.TLBet.models.auth.LoginRequest;
 import com.example.TLBet.models.auth.RegisterRequest;
+import com.example.TLBet.models.enums.ExceptionEnum;
 import com.example.TLBet.models.enums.UserRole;
+import com.example.TLBet.models.exeptions.ExpiredTokenException;
+import com.example.TLBet.models.exeptions.InvalidTokenException;
 import com.example.TLBet.models.exeptions.UserErrorException;
 import com.example.TLBet.models.view.UserOutView;
 import com.example.TLBet.models.view.UserView;
@@ -64,16 +67,17 @@ public class AuthenticationController {
     }
     @GetMapping("/verifyAuthentication")
     public ResponseEntity<Boolean> verifyAuthentication(@RequestParam("token") String token,
-                                                        @RequestParam("username") String username){
+                                                        @RequestParam("username") String username) throws InvalidTokenException, ExpiredTokenException {
 
         String extractUsername = validateToken(token);
         if(extractUsername == null){
-            return ResponseEntity.ok(false);
+            throw new ExpiredTokenException("Token is invalid or missing.");
         }
         if(extractUsername.equals(username)){
             return ResponseEntity.ok(true);
         }else {
-            return ResponseEntity.ok(false);
+            throw new InvalidTokenException(ExceptionEnum.EXCEPTION_INVALID_TOKEN,
+                    new Throwable("Token is invalid or missing."));
         }
     }
 

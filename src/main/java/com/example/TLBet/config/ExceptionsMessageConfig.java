@@ -13,7 +13,7 @@ public class ExceptionsMessageConfig {
     @Qualifier("bundles")
     public HierarchicalMessageSource exceptionsMessageSource() {
         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
-        messageSource.setBasenames("classpath:TLBet");
+        messageSource.setBasenames("classpath:exceptions");
         messageSource.setDefaultEncoding("UTF-8");
         return messageSource;
     }
