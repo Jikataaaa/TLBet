@@ -94,14 +94,15 @@ public class RankingServiceImpl implements RankingService {
             list.add(view);
 
         }
+         list = list
+                .stream()
+                .sorted((e1, e2) -> Long.compare(e2.getPoints(), e1.getPoints()))
+                .collect(Collectors.toList());
         int place = 0;
         for (RankingView rankingView : list) {
             rankingView.setPlace(++place);
         }
-        return list
-                .stream()
-                .sorted((e1, e2) -> Long.compare(e2.getPoints(), e1.getPoints()))
-                .collect(Collectors.toList());
+        return list;
     }
 
 
