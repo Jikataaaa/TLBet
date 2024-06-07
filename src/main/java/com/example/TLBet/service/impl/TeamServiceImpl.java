@@ -42,4 +42,9 @@ public class TeamServiceImpl implements TeamService {
         repository.save(team);
         return team;
     }
+
+    @Override
+    public void deleteByTeamId(long id) {
+        this.repository.deleteById(id);
+    }
 }

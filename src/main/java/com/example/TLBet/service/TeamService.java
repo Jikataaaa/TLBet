@@ -15,4 +15,6 @@ public interface TeamService {
    List<TeamServiceModel> getAllTeams();
 
    Team editTeam(TeamView team);
+
+   void deleteByTeamId(long id);
 }
