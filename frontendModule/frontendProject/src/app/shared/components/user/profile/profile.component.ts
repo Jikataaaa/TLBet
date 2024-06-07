@@ -13,10 +13,10 @@ import { User } from 'src/app/shared/interfaces/User';
 })
 export class ProfileComponent implements OnInit {
   bets!: PersonalBet[];
-  viewUserFormGroup: FormGroup = new FormGroup({});
   user: User | undefined;
 
   constructor(private betService: BetService, private userService: UserService) {}
+
   async ngOnInit() {
     await this.populateBets();
     await this.populateUser();

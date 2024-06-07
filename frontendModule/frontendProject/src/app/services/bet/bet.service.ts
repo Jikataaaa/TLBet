@@ -35,6 +35,7 @@ export class BetService extends BaseRequestService {
       }
     );
   }
+  
   getAllBetsByUsername(username: string) {
     return this.http.get<PersonalBet[]>(
       'http://localhost:8080/bet/personal-bets',
