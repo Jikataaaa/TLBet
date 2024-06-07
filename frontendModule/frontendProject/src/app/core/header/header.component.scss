@@ -40,3 +40,10 @@
     height: auto;
     margin-right: 16px;
 }
+
+::ng-deep .admin-menu .mat-mdc-menu-content {
+    background-color: var(--primary-color);
+    color:white;
+    font-weight: bold!important;
+    padding: 10px!important;
+}
