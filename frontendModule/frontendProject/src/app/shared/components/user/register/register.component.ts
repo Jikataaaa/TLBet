@@ -55,7 +55,7 @@ export class RegisterComponent {
 
         this.service.register(register).subscribe((res) => {
             this.openSnackBar("Успешна регистрация!", "Затвори");
-            this.router.navigate(["/login"]);
+            this.router.navigate(["/"]);
         });
     }
 

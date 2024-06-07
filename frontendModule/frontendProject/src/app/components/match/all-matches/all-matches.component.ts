@@ -17,7 +17,7 @@ export class AllMatchesComponent implements OnInit {
     matchesFormArray!: FormArray;
     hasPlayableMatches: boolean = false;
 
-    constructor (
+    constructor(
         private matchService: MatchService,
         private betService: BetService
     ) {
