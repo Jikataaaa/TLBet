@@ -2,8 +2,8 @@
 <form class="flex flex-col p-8" (ngSubmit)="login()" [formGroup]="loginForm">
   <mat-form-field appearance="outline" class="w-full mb-4">
     <mat-label>Потребителско име</mat-label>
-    <input matInput placeholder="Въведете вашето потребителско име.." type="text" formControlName="username"
-      class="bg-purple-700 text-white" />
+    <input  matInput placeholder="Въведете вашето потребителско име.." type="text" formControlName="username"
+      class="bg-primary-500 !text-white" />
     <mat-error *ngIf="loginForm.get('username')?.hasError('required')">
       Полето за потребителско име e задължително.
     </mat-error>
@@ -18,7 +18,7 @@
   <mat-form-field appearance="outline" class="w-full mb-4">
     <mat-label>Парола</mat-label>
     <input matInput placeholder="Въведете вашата парола.." [type]="hide ? 'password' : 'text'" formControlName="password"
-      class="bg-purple-700 text-white" />
+      class="bg-primary-500 !text-white" />
 
     <mat-error *ngIf="loginForm.get('password')?.hasError('required')">
       Полето за парола e задължително.
