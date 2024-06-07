@@ -6,6 +6,7 @@ import { PersonalBetPanelComponent } from '../components/personal-bet-panel/pers
 import { StandingComponent } from '../components/standing/standing.component';
 import { MaterialModule } from '../material/material.module';
 import { MatchEditDialogComponent } from './dialogs/match-edit-dialog/match-edit-dialog.component';
+import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { MatchEditDialogComponent } from './dialogs/match-edit-dialog/match-edit
         GoalsPickerComponent,
         StandingComponent,
         PersonalBetPanelComponent,
-        MatchProcessComponent
+        MatchProcessComponent,
+        ConfirmDialogComponent
     ],
     imports: [CommonModule, MaterialModule],
     exports: [GoalsPickerComponent, MatchProcessComponent, StandingComponent, PersonalBetPanelComponent],

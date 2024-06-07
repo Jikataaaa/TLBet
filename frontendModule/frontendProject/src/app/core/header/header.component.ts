@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { SnackbarService } from 'src/app/services/snackbar.service';
 import { UserService } from 'src/app/services/user/user.service';
+import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -24,7 +27,11 @@ export class HeaderComponent implements OnInit {
     return false
   }
 
-  constructor(private service : UserService, private router: Router){
+  constructor(
+    private service : UserService,
+    private router: Router,
+    private _snackbarService: SnackbarService,
+    private _dialog: MatDialog){
   }
 
   async ngOnInit() {
@@ -37,7 +44,20 @@ export class HeaderComponent implements OnInit {
   }
   
   logout(){
-    this.service.logout();
-    this.router.navigate(['/user/login'])
+
+    const dialog = this._dialog.open(ConfirmDialogComponent, {
+      data: {
+        title: 'Изход',
+        message: 'Сигурни ли сте, че искате да излезете от профила си?'
+      }
+    });
+
+    dialog.afterClosed().subscribe(result => {
+      if(result){
+        this.service.logout();
+        this.router.navigate(['/user/login']);
+        this._snackbarService.openSuccess("Успешно излязохте от профила си");
+      }
+    })
   }
 }
