@@ -89,13 +89,15 @@ public class RankingServiceImpl implements RankingService {
             if (lastRoundModel == null) {
                 view.setRankingDifferences(0);
             } else {
-                view.setRankingDifferences(currentPlace - lastRoundModel.getPlace());
+                view.setRankingDifferences((currentPlace - lastRoundModel.getPlace()) * -1);
             }
             list.add(view);
 
         }
-
-
+        int place = 0;
+        for (RankingView rankingView : list) {
+            rankingView.setPlace(++place);
+        }
         return list
                 .stream()
                 .sorted((e1, e2) -> Long.compare(e2.getPoints(), e1.getPoints()))

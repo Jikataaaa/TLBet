@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RankingView {
+    private int place;
     private String username;
     private long points;
     private int rankingDifferences;
