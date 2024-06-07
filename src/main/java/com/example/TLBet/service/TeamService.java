@@ -14,7 +14,5 @@ public interface TeamService {
 
    List<TeamServiceModel> getAllTeams();
 
-   Team getTeamByName(String name);
-
    Team editTeam(TeamView team);
 }

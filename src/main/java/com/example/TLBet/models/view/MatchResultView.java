@@ -17,6 +17,8 @@ import java.time.LocalTime;
 @NoArgsConstructor
 @Builder
 public class MatchResultView {
+    ///matches/edit -> request: id, homeTeamGoals, awayTeamGoals, startTime, homeTeamId, awayTeamId, roundId; | response: id
+//
     private long id;
     private MatchTeamResultView homeTeam;
     private MatchTeamResultView awayTeam;

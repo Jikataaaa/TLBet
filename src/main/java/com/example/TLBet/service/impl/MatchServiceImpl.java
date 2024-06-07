@@ -137,7 +137,7 @@ public class MatchServiceImpl implements MatchService {
                 .id(match.getTournamentId())
                 .name(match.getTournamentName())
                 .build();
-        Tournament editTournament = tournamentService.editTournament(tournament);
+        long editTournament = tournamentService.editTournament(tournament);
 
         Instant instant = DateUtil.parseInstant(match.getStartTime());
 
@@ -147,7 +147,7 @@ public class MatchServiceImpl implements MatchService {
                 .homeTeam(homeEditedTeam)
                 .awayTeam(awayEditedTeam)
                 .startTime(instant)
-                .tournament(editTournament)
+                .tournament(tournamentService.getTournamentById(editTournament))
                 .build();
 
         builtMatch.setId(match.getId());
