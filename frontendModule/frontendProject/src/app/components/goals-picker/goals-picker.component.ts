@@ -3,7 +3,7 @@ import {
     Input
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { MatchTeam } from 'src/app/services/match/models/MatchTeam';
+import { MatchTeamModel } from '../match/models/match-team.model.ts';
 
 @Component({
     selector: 'goals-picker',
@@ -24,9 +24,9 @@ export class GoalsPickerComponent implements ControlValueAccessor {
     @Input()
     isMatchPlayable: boolean = true;
 
-    team!: MatchTeam;
+    team!: MatchTeamModel;
 
-    onChange = (value: MatchTeam) => {
+    onChange = (value: MatchTeamModel) => {
     };
 
     onTouched = () => { };
@@ -50,7 +50,7 @@ export class GoalsPickerComponent implements ControlValueAccessor {
         this.onTouched();
     }
 
-    writeValue(team: MatchTeam) {
+    writeValue(team: MatchTeamModel) {
         this.team = team;
     }
 

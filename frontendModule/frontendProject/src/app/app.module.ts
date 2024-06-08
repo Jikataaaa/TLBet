@@ -11,6 +11,7 @@ import { CoreModule } from './core/core.module';
 import { HomeComponent } from './core/home/home.component';
 import { UserModule } from './shared/components/user/user.module';
 import { SharedModule } from './shared/shared.module';
+import { RoundModule } from './components/round/round.module';
 
 
 @NgModule({
@@ -28,7 +29,7 @@ import { SharedModule } from './shared/shared.module';
         TournamentModule,
         TeamModule,
         BrowserAnimationsModule,
-        MatSnackBarModule
+        RoundModule
     ],
     providers: [],
     bootstrap: [AppComponent]

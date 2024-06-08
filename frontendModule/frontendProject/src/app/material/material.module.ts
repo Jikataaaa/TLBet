@@ -16,6 +16,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
     declarations: [],
@@ -37,6 +38,7 @@ import { MatMenuModule } from '@angular/material/menu';
         MatButtonModule,
         MatToolbarModule,
         MatMenuModule,
+        MatSnackBarModule,
     ],
     exports: [
         MatAutocompleteModule,
@@ -55,6 +57,7 @@ import { MatMenuModule } from '@angular/material/menu';
         MatButtonModule,
         MatToolbarModule,
         MatMenuModule,
+        MatSnackBarModule,
     ],
 })
 export class MaterialModule { }

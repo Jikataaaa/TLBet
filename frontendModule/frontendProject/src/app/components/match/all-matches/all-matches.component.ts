@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
+import { MatchStatusEnum } from 'src/app/components/match/models/MatchStatusEnum';
 import { BetService } from 'src/app/services/bet/bet.service';
-import { MatchService } from 'src/app/services/match/match.service';
-import { Match } from 'src/app/services/match/models/Match';
-import { MatchStatusEnum } from 'src/app/services/match/models/MatchStatusEnum';
 import { NewBet } from 'src/app/shared/interfaces/NewBet';
+import { BetMatchModel } from '../models/bet-match.model';
+import { MatchService } from '../services/match.service';
 
 @Component({
     selector: 'all-matches',
@@ -45,7 +45,7 @@ export class AllMatchesComponent implements OnInit {
         });
     }
 
-    fillForm(matches: Match[]) {
+    fillForm(matches: BetMatchModel[]) {
         const sortedMatches = matches.sort((a, b) => {
             if (a.status === MatchStatusEnum.PLAYABLE && b.status !== MatchStatusEnum.PLAYABLE) {
                 return -1;
@@ -69,7 +69,7 @@ export class AllMatchesComponent implements OnInit {
     }
 
     onSubmit() {
-        const result: Match[] = this.matchesFormArray.value.map((x: { match: Partial<Match> | undefined; }) => new Match(x.match));
+        const result: BetMatchModel[] = this.matchesFormArray.value.map((x: { match: Partial<BetMatchModel> | undefined; }) => new BetMatchModel(x.match));
         let bets: NewBet[] = [];
 
         for (const bet of result) {

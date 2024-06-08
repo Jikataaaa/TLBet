@@ -1,6 +1,6 @@
-export class MatchTeam {
+export class MatchTeamModel {
 
-    constructor(init?: Partial<MatchTeam>) {
+    constructor(init?: Partial<MatchTeamModel>) {
         Object.assign(this, init);
     }
 

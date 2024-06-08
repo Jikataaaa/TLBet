@@ -1,21 +1,23 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MaterialModule } from 'src/app/material/material.module';
-import { MatchService } from 'src/app/services/match/match.service';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { AllMatchesComponent } from './all-matches/all-matches.component';
-import { NewMatchComponent } from './new-match/new-match.component';
+import { MatchService } from './services/match.service';
+import { MatchComponent } from './match/match.component';
+import { MatchesComponent } from './matches/matches.component';
 
 
 @NgModule({
     declarations: [
-        NewMatchComponent,
-        AllMatchesComponent
+        AllMatchesComponent,
+        MatchComponent,
+        MatchesComponent
     ],
     imports: [
         CommonModule,
         MaterialModule,
-        SharedModule
+        SharedModule,
     ], providers: [
         MatchService
     ]

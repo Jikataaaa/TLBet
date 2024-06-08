@@ -44,11 +44,10 @@ export class HeaderComponent implements OnInit {
   }
   
   logout(){
-
     const dialog = this._dialog.open(ConfirmDialogComponent, {
       data: {
         title: 'Изход',
-        message: 'Сигурни ли сте, че искате да излезете от профила си?'
+        message: 'Сигурни ли сте, че желаете да излезете от профила си?'
       }
     });
 

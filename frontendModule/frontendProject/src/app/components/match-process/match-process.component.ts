@@ -5,8 +5,8 @@ import {
     FormGroup,
     NG_VALUE_ACCESSOR
 } from '@angular/forms';
-import { Match } from 'src/app/services/match/models/Match';
-import { MatchStatusEnum } from 'src/app/services/match/models/MatchStatusEnum';
+import { MatchStatusEnum } from 'src/app/components/match/models/MatchStatusEnum';
+import { BetMatchModel } from '../match/models/bet-match.model';
 
 @Component({
     selector: 'match-process',
@@ -28,7 +28,7 @@ export class MatchProcessComponent implements ControlValueAccessor {
             awayTeam: new FormControl({}),
         });
     }
-    onChange = (match: Match) => { };
+    onChange = (match: BetMatchModel) => { };
 
     onTouched = () => { };
 
@@ -36,13 +36,12 @@ export class MatchProcessComponent implements ControlValueAccessor {
 
     disabled = false;
 
-    match!: Match;
+    match!: BetMatchModel;
 
     isMatchPlayable: boolean = true;
 
-    writeValue(match: Match): void {
+    writeValue(match: BetMatchModel): void {
         this.isMatchPlayable = match.status == MatchStatusEnum.PLAYABLE;
-        console.log('isMatchPlayable', this.isMatchPlayable);
         this.match = match;
         this.form.get('homeTeam')?.setValue(match.homeTeam);
         this.form.get('awayTeam')?.setValue(match.awayTeam);

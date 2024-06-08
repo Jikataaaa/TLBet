@@ -1,0 +1,28 @@
+<div class="container mx-auto max-w-2xl mt-4">
+    <h1 class="text-center text-2xl font-bold mb-4">Мач</h1>
+    <form [formGroup]="matchForm" (ngSubmit)="onSubmit()">
+      <div class="mb-4">
+        <label for="homeGoals" class="block text-sm font-medium text-gray-700">Голове на домакините</label>
+        <input id="homeGoals" type="number" formControlName="homeGoals" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm">
+      </div>
+      <div class="mb-4">
+        <label for="awayGoals" class="block text-sm font-medium text-gray-700">Голове на гостите</label>
+        <input id="awayGoals" type="number" formControlName="awayGoals" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm">
+      </div>
+      <div class="mb-4">
+        <label for="homeTeamId" class="block text-sm font-medium text-gray-700">ID на домакините</label>
+        <input id="homeTeamId" type="number" formControlName="homeTeamId" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm">
+      </div>
+      <div class="mb-4">
+        <label for="awayTeamId" class="block text-sm font-medium text-gray-700">ID на гостите</label>
+        <input id="awayTeamId" type="number" formControlName="awayTeamId" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm">
+      </div>
+      <div class="mb-4">
+        <label for="startTime" class="block text-sm font-medium text-gray-700">Начално време</label>
+        <input id="startTime" type="datetime-local" formControlName="startTime" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm">
+      </div>
+      <div class="flex justify-end">
+        <button type="submit" [disabled]="matchForm.invalid" mat-raised-button color="primary">Запази</button>
+      </div>
+    </form>
+  </div>

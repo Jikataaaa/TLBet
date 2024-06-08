@@ -36,7 +36,7 @@ public class TeamController {
     }
     @DeleteMapping("/delete")
     @ResponseStatus(HttpStatus.OK)
-    public void deleteTeam(@RequestBody Long id){
+    public void deleteTeam(@RequestParam Long id){
         this.teamService.deleteByTeamId(id);
     }
 }

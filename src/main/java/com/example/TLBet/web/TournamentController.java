@@ -28,11 +28,13 @@ public class TournamentController{
         Long tournament = service.editTournament(tournamentView);
         return ResponseEntity.ok(tournament);
     }
+
     @DeleteMapping("/delete")
     @ResponseStatus(HttpStatus.OK)
-    public void deleteTournament(@RequestBody Long id){
+    public void deleteTournament(@RequestParam Long id){
         this.service.deleteTournamentById(id);
     }
+
     @GetMapping("/getAll")
     public ResponseEntity<List<TournamentView>> getAllTournament(){
         List<TournamentView> allTournaments = service.getAll();

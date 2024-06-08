@@ -33,6 +33,7 @@ public class MatchController extends BaseController{
     public ResponseEntity<MatchView> createMatch(@RequestBody MatchView match){
        return ResponseEntity.ok(service.createMatch(match));
     }
+
     @GetMapping("/all-matches")
     public ResponseEntity<List<MatchResultView>> getAllMatches(){
         String username = super.getCurrentUserUsername();
@@ -40,6 +41,7 @@ public class MatchController extends BaseController{
         List<Bet> createdBets = betService.findBetsByUserUsernameAndMatchRound(username, round);
         return ResponseEntity.ok(service.getLastRoundMatches(username, round, createdBets));
     }
+
     @PutMapping("/edit-match")
     public ResponseEntity<MatchResultView> editMatch(@RequestBody MatchResultView match, @RequestParam("time") LocalTime time){
         return ResponseEntity.ok(service.editMatch(match, time));

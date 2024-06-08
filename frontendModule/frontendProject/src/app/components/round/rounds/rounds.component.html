@@ -1,0 +1,40 @@
+<div class="container mx-auto max-w-7xl mt-4">
+    <h1 class="text-center text-2xl font-bold mb-4">Кръгове {{tournament.name}}</h1>
+    <table mat-table [dataSource]="data" class="min-w-full">
+        <!-- ID Column -->
+        <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef> ID </th>
+            <td mat-cell *matCellDef="let round"> {{round.id}} </td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef> Име </th>
+            <td mat-cell *matCellDef="let round"> {{round.name}} </td>
+        </ng-container>
+
+        <!-- Active Column -->
+        <ng-container matColumnDef="active">
+            <th mat-header-cell *matHeaderCellDef> Активен </th>
+            <td mat-cell *matCellDef="let round">
+                <mat-icon *ngIf="round.active" class="text-green-500">check_circle</mat-icon>
+                <mat-icon *ngIf="!round.active" class="text-red-500">cancel</mat-icon>
+            </td>
+        </ng-container>
+
+        <!-- Actions Column -->
+        <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef>
+                <button mat-raised-button color="primary" (click)="addRound()">Добавяне на кръг</button>
+            </th>
+            <td mat-cell *matCellDef="let round">
+                <button mat-raised-button color="primary" class="mr-2" (click)="goToMatches(round)">Мачове</button>
+                <button mat-raised-button color="accent" class="mr-2" (click)="editRound(round)">Редакция</button>
+                <button mat-raised-button color="warn" (click)="deleteRound(round)">Изтриване</button>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+</div>

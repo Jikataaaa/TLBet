@@ -5,13 +5,11 @@ import { MatchProcessComponent } from '../components/match-process/match-process
 import { PersonalBetPanelComponent } from '../components/personal-bet-panel/personal-bet-panel.component';
 import { StandingComponent } from '../components/standing/standing.component';
 import { MaterialModule } from '../material/material.module';
-import { MatchEditDialogComponent } from './dialogs/match-edit-dialog/match-edit-dialog.component';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 
 
 @NgModule({
     declarations: [
-        MatchEditDialogComponent,
         GoalsPickerComponent,
         StandingComponent,
         PersonalBetPanelComponent,

@@ -1,14 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { TeamService } from 'src/app/services/team/team.service';
-import { NewTeamComponent } from './new-team/new-team.component';
+import { TeamService } from './services/team.service';
 
 
 
 @NgModule({
   declarations: [
-    NewTeamComponent
   ],
   imports: [
     CommonModule,

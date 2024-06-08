@@ -1,22 +1,22 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { TournamentService } from './services/tournament.service';
-import { TournamentComponent } from './tournament/tournament.component';
-import { TournamentsComponent } from './tournaments/tournaments.component';
 import { MaterialModule } from 'src/app/material/material.module';
+import { RoundComponent } from './round/round.component';
+import { RoundsComponent } from './rounds/rounds.component';
+import { RoundService } from './services/round.service';
 
 @NgModule({
     declarations: [
-        TournamentComponent,
-        TournamentsComponent
+        RoundComponent,
+        RoundsComponent
     ],
     imports: [
         CommonModule,
         ReactiveFormsModule,
         MaterialModule,
     ], providers: [
-        TournamentService
+        RoundService
     ]
 })
-export class TournamentModule { }
+export class RoundModule { }
