@@ -30,6 +30,12 @@ public class TeamController {
         return ResponseEntity.ok(result);
     }
 
+    @GetMapping("/all-teams-by-league/{leagueId}")
+    public ResponseEntity<List<TeamView>> getAllTeamsByLeague(@PathVariable("leagueId") Long leagueId){
+        List<TeamView> result = teamService.getAllTeamsByLeague(leagueId);
+        return ResponseEntity.ok(result);
+    }
+
     @PutMapping("/edit")
     public ResponseEntity<Long> editTeam(@RequestBody TeamView teamView){
         return ResponseEntity.ok(this.teamService.editTeam(teamView).getId());
