@@ -4,11 +4,14 @@ import com.example.TLBet.models.entities.*;
 import com.example.TLBet.models.enums.MatchStatus;
 import com.example.TLBet.models.view.*;
 import com.example.TLBet.repository.MatchRepository;
-import com.example.TLBet.service.*;
+import com.example.TLBet.repository.RoundRepository;
+import com.example.TLBet.service.MatchService;
+import com.example.TLBet.service.TeamService;
+import com.example.TLBet.service.TournamentService;
+import com.example.TLBet.service.UserService;
 import com.example.TLBet.utils.DateUtil;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -22,8 +25,11 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class MatchServiceImpl implements MatchService {
     private final MatchRepository matchRepository;
+    private final UserService userService;
     private final TeamService teamService;
+    private final RoundRepository roundRepository;
     private final TournamentService tournamentService;
+    private final ModelMapper modelMapper;
 
     @Override
     public MatchView createMatch(@RequestBody MatchView matchView) {
@@ -112,6 +118,87 @@ public class MatchServiceImpl implements MatchService {
     @Override
     public Match getMatchById(long id) {
         return matchRepository.findById(id).orElseThrow();
+    }
+
+    @Override
+    public List<MatchResultView> getAll(Long roundId) {
+
+        List<Match> matches = matchRepository.getAllByRoundId(roundId);
+        List<MatchResultView> result = new ArrayList<>();
+        matches.forEach(match -> {
+            MatchResultView matchResultView = MatchResultView.builder()
+                    .id(match.getId())
+                    .homeTeam(MatchTeamResultView.builder()
+                            .id(match.getHomeTeam().getId())
+                            .name(match.getHomeTeam().getName())
+                            .imageUrl(match.getHomeTeam().getImageUrl())
+                            .goals(match.getHomeTeamGoals()).build())
+                    .awayTeam(MatchTeamResultView.builder()
+                            .id(match.getAwayTeam().getId())
+                            .name(match.getAwayTeam().getName())
+                            .imageUrl(match.getAwayTeam().getImageUrl())
+                            .goals(match.getAwayTeamGoals()).build())
+                    .startTime(match.getStartTime())
+                    .tournamentId(match.getTournament().getId())
+                    .tournamentName(match.getTournament().getName())
+                    .round(match.getRound())
+//                    .status(MatchStatus.PLAYABLE) // TODO -> check this and fix it if needed
+                    .build();
+            result.add(matchResultView);
+        });
+        return result;
+    }
+
+    @Override
+    public Long add(MatchInView inView) {
+        Match match = new Match();
+        Team homeTeam = teamService.getTeamById(inView.getHomeTeamId());
+        Team awayTeam = teamService.getTeamById(inView.getAwayTeamId());
+        match.setHomeTeam(homeTeam);
+        match.setAwayTeam(awayTeam);
+
+        match.setHomeTeamGoals(inView.getHomeTeamGoals());
+        match.setAwayTeamGoals(inView.getAwayTeamGoals());
+        match.setStartTime(inView.getStartTime());
+        match.setStatus(String.valueOf(MatchStatus.PLAYABLE));
+
+        Round round = roundRepository.findById(inView.getRoundId()).orElseThrow();
+        match.setRound(round);
+
+        match.setTournament(round.getTournament());
+
+        Match save = matchRepository.save(match);
+        return save.getId();
+    }
+
+    @Override
+    public MatchResultView deleteOne(Long id) {
+        Match match = matchRepository.findById(id).orElseThrow();
+        matchRepository.delete(match);
+        return modelMapper.map(match, MatchResultView.class);
+    }
+
+    @Override
+    public MatchResultView updateOne(MatchInView inView) {
+        Match match = matchRepository.findById(inView.getId()).orElseThrow();
+
+        Team homeTeam = teamService.getTeamById(inView.getHomeTeamId());
+        Team awayTeam = teamService.getTeamById(inView.getAwayTeamId());
+        match.setHomeTeam(homeTeam);
+        match.setAwayTeam(awayTeam);
+
+        match.setHomeTeamGoals(inView.getHomeTeamGoals());
+        match.setAwayTeamGoals(inView.getAwayTeamGoals());
+        match.setStartTime(inView.getStartTime());
+//        match.setStatus(String.valueOf(MatchStatus.PLAYABLE)); // TODO -> check this and fix it if needed
+
+        Round round = roundRepository.findById(inView.getRoundId()).orElseThrow();
+        match.setRound(round);
+
+        match.setTournament(round.getTournament());
+
+        Match save = matchRepository.save(match);
+        return modelMapper.map(save, MatchResultView.class);
     }
 
     @Override

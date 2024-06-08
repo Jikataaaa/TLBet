@@ -3,6 +3,7 @@ package com.example.TLBet.service;
 import com.example.TLBet.models.entities.Bet;
 import com.example.TLBet.models.entities.Match;
 import com.example.TLBet.models.entities.Round;
+import com.example.TLBet.models.view.MatchInView;
 import com.example.TLBet.models.view.MatchResultView;
 import com.example.TLBet.models.view.MatchView;
 
@@ -17,4 +18,12 @@ public interface MatchService {
     Match getMatchById(long id);
 
     MatchResultView editMatch(MatchResultView match, LocalTime time);
+
+    List<MatchResultView> getAll(Long roundId);
+
+    Long add(MatchInView inView);
+
+    MatchResultView deleteOne(Long id);
+
+    MatchResultView updateOne(MatchInView inView);
 }

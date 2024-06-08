@@ -24,6 +24,9 @@ public class Match extends MatchStatistics {
     @JoinColumn(name = "tournament_id", referencedColumnName = "id")
     private Tournament tournament;
 
+    @Column(name = "status")
+    private String status;
+
     @OneToOne
     @JoinColumn(name = "home_team_id", referencedColumnName = "id")
     private Team homeTeam;
@@ -35,7 +38,7 @@ public class Match extends MatchStatistics {
     @JoinColumn(name = "round_id", referencedColumnName = "id")
     private Round round;
 
-    public Match(long id, Instant startTime, Round round, Tournament tournament, Team homeTeam, Team awayTeam){
+    public Match(long id, Instant startTime, Round round, Tournament tournament, Team homeTeam, Team awayTeam) {
         this.setId(id);
         this.startTime = startTime;
         this.round = round;

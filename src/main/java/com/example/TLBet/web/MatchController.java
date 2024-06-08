@@ -1,9 +1,8 @@
 package com.example.TLBet.web;
 
 import com.example.TLBet.models.entities.Bet;
-import com.example.TLBet.models.entities.Match;
 import com.example.TLBet.models.entities.Round;
-import com.example.TLBet.models.view.MatchBetView;
+import com.example.TLBet.models.view.MatchInView;
 import com.example.TLBet.models.view.MatchResultView;
 import com.example.TLBet.models.view.MatchView;
 import com.example.TLBet.service.BetService;
@@ -19,23 +18,23 @@ import java.util.List;
 @RestController
 @RequestMapping("/match")
 @RequiredArgsConstructor
-public class MatchController extends BaseController{
+public class MatchController extends BaseController {
 
     private final MatchService service;
     private final RoundService roundService;
     private final BetService betService;
 
-///matches/getAll?round={roundId}
+    ///matches/getAll?round={roundId} //
 //
 ///matches/add -> request: id(always null on add) , homeTeamGoals(always null on add) ,awayTeamGoals(always null on add), startTime, homeTeamId, awayTeamId, roundId; | response: id
 ///matches/delete ->request:i
     @PostMapping("/new-match")
-    public ResponseEntity<MatchView> createMatch(@RequestBody MatchView match){
-       return ResponseEntity.ok(service.createMatch(match));
+    public ResponseEntity<MatchView> createMatch(@RequestBody MatchView match) {
+        return ResponseEntity.ok(service.createMatch(match));
     }
 
     @GetMapping("/all-matches")
-    public ResponseEntity<List<MatchResultView>> getAllMatches(){
+    public ResponseEntity<List<MatchResultView>> getAllMatches() {
         String username = super.getCurrentUserUsername();
         Round round = roundService.getLastRound();
         List<Bet> createdBets = betService.findBetsByUserUsernameAndMatchRound(username, round);
@@ -43,7 +42,28 @@ public class MatchController extends BaseController{
     }
 
     @PutMapping("/edit-match")
-    public ResponseEntity<MatchResultView> editMatch(@RequestBody MatchResultView match, @RequestParam("time") LocalTime time){
+    public ResponseEntity<MatchResultView> editMatch(@RequestBody MatchResultView match, @RequestParam("time") LocalTime time) {
         return ResponseEntity.ok(service.editMatch(match, time));
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<MatchResultView>> getAll(@RequestParam("roundId") Long roundId) {
+
+        return ResponseEntity.ok(service.getAll(roundId));
+    }
+
+    @PostMapping("/add")
+    public ResponseEntity<Long> add(@RequestBody MatchInView inView) {
+        return ResponseEntity.ok(service.add(inView));
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<MatchResultView> deleteOne(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(service.deleteOne(id));
+    }
+
+    @PutMapping("/edit")
+    public ResponseEntity<MatchResultView> updateOne(@RequestBody MatchInView inView) {
+        return ResponseEntity.ok(service.updateOne(inView));
     }
 }

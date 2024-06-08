@@ -17,4 +17,6 @@ public interface MatchRepository extends JpaRepository<Match, Long> {
             "from Match m               " +
             "where m.round.id = :round  ")
     List<Match> getLastRoundMatches(@Param("round") long round);
+
+    List<Match> getAllByRoundId(Long roundId);
 }
