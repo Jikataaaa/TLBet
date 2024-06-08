@@ -2,6 +2,7 @@ package com.example.TLBet.service.impl;
 
 import com.example.TLBet.models.entities.Team;
 import com.example.TLBet.models.service.TeamServiceModel;
+import com.example.TLBet.models.view.TeamInsertUpdateOutView;
 import com.example.TLBet.models.view.TeamView;
 import com.example.TLBet.repository.TeamRepository;
 import com.example.TLBet.service.TeamService;
@@ -25,7 +26,7 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
-    public TeamServiceModel createTeam(TeamView team) {
+    public TeamServiceModel createTeam(TeamInsertUpdateOutView team) {
         Team savedTeam = repository.save(mapper.map(team, Team.class));
         return mapper.map(savedTeam, TeamServiceModel.class);
     }
@@ -41,7 +42,7 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
-    public Team editTeam(TeamView teamView) {
+    public Team editTeam(TeamInsertUpdateOutView teamView) {
         Optional<Team> foundTeam = repository.findById(teamView.getId());
         Team team = foundTeam.orElseThrow();
         team.setName(teamView.getName());

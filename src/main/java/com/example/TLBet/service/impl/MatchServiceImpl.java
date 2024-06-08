@@ -203,14 +203,14 @@ public class MatchServiceImpl implements MatchService {
     @Override
     public MatchResultView editMatch(MatchResultView match, LocalTime time) {
         // edit teamNames
-        TeamView homeTeam = TeamView
+        TeamInsertUpdateOutView homeTeam = TeamInsertUpdateOutView
                 .builder()
                 .id(match.getHomeTeam().getId())
                 .name(match.getHomeTeam().getName())
                 .build();
         Team homeEditedTeam = teamService.editTeam(homeTeam);
 
-        TeamView awayTeam = TeamView
+        TeamInsertUpdateOutView awayTeam = TeamInsertUpdateOutView
                 .builder()
                 .id(match.getAwayTeam().getId())
                 .name(match.getAwayTeam().getName())

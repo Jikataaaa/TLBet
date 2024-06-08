@@ -1,5 +1,6 @@
 package com.example.TLBet.web;
 import com.example.TLBet.models.service.TeamServiceModel;
+import com.example.TLBet.models.view.TeamInsertUpdateOutView;
 import com.example.TLBet.models.view.TeamView;
 import com.example.TLBet.service.TeamService;
 import lombok.RequiredArgsConstructor;
@@ -19,9 +20,9 @@ public class TeamController {
     private final TeamService teamService;
 
     @PostMapping("/new-team")
-    public ResponseEntity<TeamView> createTeam(@RequestBody TeamView teamView){
+    public ResponseEntity<TeamInsertUpdateOutView> createTeam(@RequestBody TeamInsertUpdateOutView teamView){
         TeamServiceModel team = teamService.createTeam(teamView);
-        return ResponseEntity.ok(mapper.map(team, TeamView.class));
+        return ResponseEntity.ok(mapper.map(team, TeamInsertUpdateOutView.class));
     }
 
     @GetMapping("/all-teams")
@@ -37,7 +38,7 @@ public class TeamController {
     }
 
     @PutMapping("/edit")
-    public ResponseEntity<Long> editTeam(@RequestBody TeamView teamView){
+    public ResponseEntity<Long> editTeam(@RequestBody TeamInsertUpdateOutView teamView){
         return ResponseEntity.ok(this.teamService.editTeam(teamView).getId());
     }
     @DeleteMapping("/delete")
