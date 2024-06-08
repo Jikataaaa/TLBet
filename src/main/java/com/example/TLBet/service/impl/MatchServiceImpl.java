@@ -5,7 +5,10 @@ import com.example.TLBet.models.enums.MatchStatus;
 import com.example.TLBet.models.view.*;
 import com.example.TLBet.repository.MatchRepository;
 import com.example.TLBet.repository.RoundRepository;
-import com.example.TLBet.service.*;
+import com.example.TLBet.service.MatchService;
+import com.example.TLBet.service.TeamService;
+import com.example.TLBet.service.TournamentService;
+import com.example.TLBet.service.UserService;
 import com.example.TLBet.utils.DateUtil;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -157,7 +160,6 @@ public class MatchServiceImpl implements MatchService {
         match.setHomeTeamGoals(inView.getHomeTeamGoals());
         match.setAwayTeamGoals(inView.getAwayTeamGoals());
         match.setStartTime(inView.getStartTime());
-        match.setStatus(String.valueOf(MatchStatus.PLAYABLE));
 
         Round round = roundRepository.findById(inView.getRoundId()).orElseThrow();
         match.setRound(round);
