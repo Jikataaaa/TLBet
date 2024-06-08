@@ -5,6 +5,7 @@ import { TournamentModel } from '../../tournament/models/tournament.model';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
 import { RoundService } from '../services/round.service';
+import { concatMap } from 'rxjs';
 
 @Component({
     selector: 'app-rounds',
@@ -53,6 +54,14 @@ export class RoundsComponent implements OnInit {
             this.roundService.deleteRound(round.id).subscribe(() => {
                 this.data = this.data.filter(x => x.id != round.id);
             });
+        });
+    }
+
+    setAsActive(round: RoundModel): void {
+        this.roundService.setRoundActiveById(round.id).pipe(
+            concatMap(() => this.roundService.getAll(this.tournament.id))
+        ).subscribe((data) => {
+            this.data = data;
         });
     }
 

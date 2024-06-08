@@ -36,8 +36,9 @@ public class RoundController {
     public void deleteRoundById(@RequestParam long id){
         roundService.deleteRoundById(id);
     }
-    @PutMapping
-    public ResponseEntity<Long> setRoundActiveById(@RequestParam long id){
+
+    @PostMapping("/setActive")
+    public ResponseEntity<Long> setRoundActiveById(@RequestBody long id){
         return ResponseEntity.ok(roundService.setRoundActiveById(id));
     }
 }

@@ -29,7 +29,7 @@ export class RoundService extends BaseRequestService {
         return this.delete<void>(`rounds/delete`, new HttpParams().set('id', id));
     }
 
-    setRoundActiveById(id: number): Observable<void> {
-        return this.put<void, number>('rounds/setRoundActiveById', id);
+    setRoundActiveById(id: number): Observable<number> {
+        return this.post<number, number>('rounds/setActive', id);
     }
 }
