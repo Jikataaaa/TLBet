@@ -1,6 +1,5 @@
 package com.example.TLBet.models.view;
 
-import com.example.TLBet.models.enums.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
