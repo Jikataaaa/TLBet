@@ -2,6 +2,7 @@ package com.example.TLBet.web;
 
 import com.example.TLBet.models.exeptions.UserErrorException;
 import com.example.TLBet.models.view.BetView;
+import com.example.TLBet.models.view.MatchResultView;
 import com.example.TLBet.models.view.NewBetView;
 import com.example.TLBet.service.BetService;
 import lombok.RequiredArgsConstructor;
@@ -32,4 +33,9 @@ public class BetController extends BaseController {
         return ResponseEntity.ok(betService.getAllBetsByUsername(username));
     }
 
+    @GetMapping("/user-ended-matches")
+    public ResponseEntity<List<MatchResultView>> getAllUserPlayedMatches() {
+        String username = super.getCurrentUserUsername();
+        return ResponseEntity.ok(betService.getAllUserPlayedMatches(username));
+    }
 }

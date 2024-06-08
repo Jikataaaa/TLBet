@@ -6,6 +6,7 @@ import com.example.TLBet.models.entities.Round;
 import com.example.TLBet.models.exeptions.UserErrorException;
 import com.example.TLBet.models.service.BetRankingServiceModel;
 import com.example.TLBet.models.view.BetView;
+import com.example.TLBet.models.view.MatchResultView;
 import com.example.TLBet.models.view.NewBetView;
 
 import java.util.List;
@@ -27,4 +28,6 @@ public interface BetService {
     boolean checkExistingBetOnMatch(Match match, String username);
 
     List<Bet> findBetsByUserUsernameAndMatchRound(String username, Round round);
+    List<MatchResultView> getAllUserPlayedMatches(String username);
+
 }
