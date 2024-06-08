@@ -57,6 +57,7 @@ public class RoundServiceImpl implements RoundService {
         repository.setAllIsActiveFalse();
         Round byId = this.getById(id);
         byId.setActive(true);
-        return repository.save(byId).getId();
+        repository.save(byId);
+        return byId.getId();
     }
 }
