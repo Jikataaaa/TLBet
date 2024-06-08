@@ -1,28 +1,61 @@
 <div class="container mx-auto max-w-2xl mt-4">
     <h1 class="text-center text-2xl font-bold mb-4">Мач</h1>
-    <form [formGroup]="matchForm" (ngSubmit)="onSubmit()">
-      <div class="mb-4">
-        <label for="homeGoals" class="block text-sm font-medium text-gray-700">Голове на домакините</label>
-        <input id="homeGoals" type="number" formControlName="homeGoals" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm">
-      </div>
-      <div class="mb-4">
-        <label for="awayGoals" class="block text-sm font-medium text-gray-700">Голове на гостите</label>
-        <input id="awayGoals" type="number" formControlName="awayGoals" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm">
-      </div>
-      <div class="mb-4">
-        <label for="homeTeamId" class="block text-sm font-medium text-gray-700">ID на домакините</label>
-        <input id="homeTeamId" type="number" formControlName="homeTeamId" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm">
-      </div>
-      <div class="mb-4">
-        <label for="awayTeamId" class="block text-sm font-medium text-gray-700">ID на гостите</label>
-        <input id="awayTeamId" type="number" formControlName="awayTeamId" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm">
-      </div>
-      <div class="mb-4">
-        <label for="startTime" class="block text-sm font-medium text-gray-700">Начално време</label>
-        <input id="startTime" type="datetime-local" formControlName="startTime" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm">
-      </div>
-      <div class="flex justify-end">
-        <button type="submit" [disabled]="matchForm.invalid" mat-raised-button color="primary">Запази</button>
-      </div>
+    <form [formGroup]="matchForm">
+        <div class="mb-4">
+            <mat-form-field class="mt-1 p-2 block w-full">
+                <mat-label>Домакин</mat-label>
+                <input type="text" matInput formControlName="homeTeam" [matAutocomplete]="autoHome">
+                <mat-autocomplete #autoHome="matAutocomplete" [displayWith]="displayTeamName" (optionSelected)="onHomeTeamSelected($event.option.value)">
+                    <mat-option *ngFor="let option of filteredTeamsHome | async" [value]="option">
+                        <div class="flex flex-row gap-1">
+                            <img [src]="option.imageUrl" alt="{{ option.name }}" width="20" height="20">
+                            <span>{{ option.name }} </span>
+                        </div>
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+        </div>
+        <div class="mb-4">
+            <mat-form-field class="mt-1 p-2 block w-full">
+                <mat-label>Гост</mat-label>
+                <input type="text" matInput formControlName="awayTeam" [matAutocomplete]="autoAway">
+                <mat-autocomplete #autoAway="matAutocomplete" [displayWith]="displayTeamName" (optionSelected)="onAwayTeamSelected($event.option.value)">
+                    <mat-option *ngFor="let option of filteredTeamsAway | async" [value]="option">
+                        <div class="flex flex-row gap-2">
+                            <img [src]="option.imageUrl" alt="{{ option.name }}" width="20" height="20">
+                            <span>{{ option.name }} </span>
+                        </div>
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+        </div>
+        <div class="mb-4">
+            <mat-form-field class="mt-1 p-2 block w-full">
+                <mat-label>Голове на домакините</mat-label>
+                <input matInput id="homeGoals" type="number" formControlName="homeGoals">
+            </mat-form-field>
+        </div>
+        <div class="mb-4">
+            <mat-form-field class="mt-1 p-2 block w-full">
+                <mat-label>Голове на гостите</mat-label>
+                <input matInput id="awayGoals" type="number" formControlName="awayGoals">
+            </mat-form-field>
+        </div>
+        <div class="mb-4">
+            <mat-form-field class="w-full">
+                <mat-label>Начално време</mat-label>
+                <input matInput [ngxMatDatetimePicker]="startTimePicker" formControlName="startTime" class="custom-datetime-picker">
+                <mat-datepicker-toggle matSuffix [for]="$any(startTimePicker)"></mat-datepicker-toggle>
+                <ngx-mat-datetime-picker #startTimePicker [showSpinners]="true" [showSeconds]="false" [stepHour]="1" [stepMinute]="1" [stepSecond]="1" [touchUi]="false" [color]="'primary'" [enableMeridian]="false" [disableMinute]="false" [hideTime]="false">
+                </ngx-mat-datetime-picker>
+            </mat-form-field>
+        </div>
+        <div class="flex justify-between items-center">
+            <button mat-raised-button color="primary" (click)="back()">
+                <mat-icon>arrow_back</mat-icon>
+                Назад
+            </button>
+            <button (click)="onSubmit()" [disabled]="matchForm.invalid" mat-raised-button color="primary">Запази</button>
+        </div>
     </form>
-  </div>
+</div>

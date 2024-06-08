@@ -57,12 +57,12 @@ public class MatchController extends BaseController {
         return ResponseEntity.ok(service.add(inView));
     }
 
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<MatchResultView> deleteOne(@PathVariable("id") Long id) {
+    @DeleteMapping("/delete")
+    public ResponseEntity<MatchResultView> deleteOne(@RequestParam("id") Long id) {
         return ResponseEntity.ok(service.deleteOne(id));
     }
 
-    @PutMapping("/edit")
+    @PostMapping("/edit")
     public ResponseEntity<MatchResultView> updateOne(@RequestBody MatchInView inView) {
         return ResponseEntity.ok(service.updateOne(inView));
     }

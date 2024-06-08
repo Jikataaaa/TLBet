@@ -29,6 +29,10 @@ export class TournamentComponent implements OnInit, OnDestroy {
             active: [this.tournament?.active || false]
         });
     }
+    
+    back(): void {
+        this.router.navigate(['/admin/tournaments']);
+    }
 
     onSubmit(): void {
         if (this.tournamentForm.valid) {

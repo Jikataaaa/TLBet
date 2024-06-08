@@ -29,9 +29,10 @@ public class LeagueController {
     public ResponseEntity<Long> editLeague(@RequestBody LeagueView leagueView){
         return ResponseEntity.ok(leagueService.editLeague(leagueView));
     }
+
     @DeleteMapping("/delete")
     @ResponseStatus(HttpStatus.OK)
-    public void editLeague(@RequestBody Long id){
+    public void editLeague(@RequestParam Long id){
         leagueService.deleteLeagueById(id);
     }
 

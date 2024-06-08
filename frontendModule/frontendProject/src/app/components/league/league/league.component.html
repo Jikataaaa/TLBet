@@ -1,23 +1,19 @@
 <div class="container mx-auto max-w-2xl mt-4">
-    <h1 class="text-center text-2xl font-bold mb-4">Кръг</h1>
-    <form [formGroup]="roundForm">
+    <h1 class="text-center text-2xl font-bold mb-4">Футболна лига</h1>
+    <form [formGroup]="leagueForm">
         <div class="mb-4">
             <label for="name" class="block text-sm font-medium text-gray-700">Име</label>
             <input id="name" formControlName="name" class="mt-1 p-2 block w-full border border-gray-300 rounded-md shadow-sm">
-            <div *ngIf="roundForm.get('name')?.invalid && (roundForm.get('name')?.dirty || roundForm.get('name')?.touched)" class="text-red-500 text-sm mt-2">
+            <div *ngIf="leagueForm.get('name')?.invalid && (leagueForm.get('name')?.dirty || leagueForm.get('name')?.touched)" class="text-red-500 text-sm mt-2">
                 Името е задължително.
             </div>
-        </div>
-        <div class="mb-4">
-            <label for="active" class="block text-sm font-medium text-gray-700">Активен</label>
-            <input id="active" type="checkbox" formControlName="active" class="mt-1 p-2">
         </div>
         <div class="flex justify-between items-center">
             <button mat-raised-button color="primary" (click)="back()">
                 <mat-icon>arrow_back</mat-icon>
                 Назад
             </button>
-            <button (click)="onSubmit()" [disabled]="roundForm.invalid" mat-raised-button color="primary">Запази</button>
+            <button  (click)="onSubmit()" [disabled]="leagueForm.invalid" mat-raised-button color="primary">Запази</button>
         </div>
     </form>
 </div>

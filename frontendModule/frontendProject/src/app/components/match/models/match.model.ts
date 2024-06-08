@@ -5,14 +5,10 @@ export class MatchModel {
     }
 
     id!: number;
-    homeGoals!: number;
-    awayGoals!: number;
+    homeTeamGoals!: number;
+    awayTeamGoals!: number;
     homeTeamId!: number;
-    homeTeamName!: string;
-    homeTeamImageUrl!: string;
     awayTeamId!: number;
-    awayTeamName!: string;
-    awayTeamImageUrl!: string;
     startTime!: Date;
     roundId!: number;
 }

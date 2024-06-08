@@ -2,21 +2,21 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from 'src/app/material/material.module';
-import { TeamService } from './services/team.service';
-import { TeamComponent } from './team/team.component';
-import { TeamsComponent } from './teams/teams.component';
+import { LeagueComponent } from './league/league.component';
+import { LeaguesComponent } from './leagues/leagues.component';
+import { LeagueService } from './services/league.service';
 
 @NgModule({
     declarations: [
-        TeamComponent,
-        TeamsComponent,
+        LeagueComponent,
+        LeaguesComponent
     ],
     imports: [
         CommonModule,
         ReactiveFormsModule,
-        MaterialModule
+        MaterialModule,
     ], providers: [
-        TeamService
+        LeagueService
     ]
 })
-export class TeamModule { }
+export class LeagueModule { }

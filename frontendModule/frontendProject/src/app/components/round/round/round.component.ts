@@ -33,6 +33,10 @@ export class RoundComponent implements OnInit {
         });
     }
 
+    back(): void {
+        this.router.navigate(['/admin/rounds'], { state: { tournament: this.tournament } });
+    }
+
     onSubmit(): void {
         if (this.roundForm.valid) {
             const updatedRound = this.roundForm.value as RoundModel;

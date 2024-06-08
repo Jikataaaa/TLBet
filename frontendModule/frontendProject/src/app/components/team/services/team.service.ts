@@ -16,6 +16,10 @@ export class TeamService extends BaseRequestService {
     getAll(): Observable<TeamModel[]> {
         return this.get<TeamModel[]>('team/all-teams');
     }
+    
+    getAllByLeagueId(id: number): Observable<TeamModel[]> {
+        return this.get<TeamModel[]>('team/getAllByLeagueId', new HttpParams().set('id', id));
+    }
 
     add(round: TeamModel): Observable<number> {
         return this.post<number, TeamModel>('team/new-team', round);

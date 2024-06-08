@@ -7,4 +7,5 @@ export class TeamModel {
     id!: number;
     name!: string;
     imageUrl!: string;
+    leagueId!: number;
 }

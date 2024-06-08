@@ -42,9 +42,11 @@ export class TournamentsComponent implements OnInit {
         });
 
         dialog.afterClosed().subscribe(result => {
-            this.tournamentService.deleteTournament(tournament.id).subscribe(() => {
-                this.data = this.data.filter(x => x.id != tournament.id);
-            });
+            if (result) {
+                this.tournamentService.deleteTournament(tournament.id).subscribe(() => {
+                    this.data = this.data.filter(x => x.id != tournament.id);
+                });
+            }
         });
 
     }

@@ -34,6 +34,10 @@ export class RoundsComponent implements OnInit {
         }
     }
 
+    back(): void {
+        this.router.navigate(['/admin/tournaments']);
+    }
+
     addRound(): void {
         this.router.navigate(['/admin/round'], { state: { tournament: this.tournament } });
     }
@@ -51,9 +55,11 @@ export class RoundsComponent implements OnInit {
         });
 
         dialog.afterClosed().subscribe(result => {
-            this.roundService.deleteRound(round.id).subscribe(() => {
-                this.data = this.data.filter(x => x.id != round.id);
-            });
+            if (result) {
+                this.roundService.deleteRound(round.id).subscribe(() => {
+                    this.data = this.data.filter(x => x.id != round.id);
+                });
+            }
         });
     }
 
@@ -66,6 +72,6 @@ export class RoundsComponent implements OnInit {
     }
 
     goToMatches(round: RoundModel): void {
-        // this.router.navigate(['/admin/matches'], { state: { roundId: round.id } });
+        this.router.navigate(['/admin/matches'], { state: { roundId: round.id, tournament: this.tournament } });
     }
 }

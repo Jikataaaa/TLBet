@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
 import { MatchModel } from '../models/match.model';
 import { MatchService } from '../services/match.service';
+import { BetMatchModel } from '../models/bet-match.model';
 
 @Component({
     selector: 'app-matches',
@@ -11,10 +12,10 @@ import { MatchService } from '../services/match.service';
     styleUrls: ['./matches.component.css']
 })
 export class MatchesComponent implements OnInit {
-    data: MatchModel[] = [];
+    data: BetMatchModel[] = [];
     roundId!: number;
 
-    displayedColumns: string[] = ['id', 'homeTeamName', 'homeGoals', 'awayGoals', 'awayTeamName', 'startTime', 'actions'];
+    displayedColumns: string[] = ['id', 'match', 'score', 'startTime', 'actions'];
 
     constructor (
         private router: Router,
@@ -34,15 +35,19 @@ export class MatchesComponent implements OnInit {
         }
     }
 
+    back(): void {
+        this.router.navigate(['/admin/rounds'], { state: { tournament: history.state.tournament } });
+    }
+
     addMatch(): void {
-        this.router.navigate(['/admin/match'], { state: { roundId: this.roundId } });
+        this.router.navigate(['/admin/match'], { state: { roundId: this.roundId, tournament: history.state.tournament } });
     }
 
-    editMatch(match: MatchModel): void {
-        this.router.navigate(['/admin/match'], { state: { match, roundId: this.roundId } });
+    editMatch(match: BetMatchModel): void {
+        this.router.navigate(['/admin/match'], { state: { match, roundId: this.roundId, tournament: history.state.tournament } });
     }
 
-    deleteMatch(match: MatchModel): void {
+    deleteMatch(match: BetMatchModel): void {
         const dialog = this.dialog.open(ConfirmDialogComponent, {
             data: {
                 title: `Изтриване`,

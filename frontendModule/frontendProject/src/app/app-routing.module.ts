@@ -14,6 +14,10 @@ import { RoundsComponent } from './components/round/rounds/rounds.component';
 import { RoundComponent } from './components/round/round/round.component';
 import { MatchesComponent } from './components/match/matches/matches.component';
 import { MatchComponent } from './components/match/match/match.component';
+import { LeaguesComponent } from './components/league/leagues/leagues.component';
+import { LeagueComponent } from './components/league/league/league.component';
+import { TeamsComponent } from './components/team/teams/teams.component';
+import { TeamComponent } from './components/team/team/team.component';
 
 const routes: Routes = [
     {
@@ -111,6 +115,38 @@ const routes: Routes = [
         canActivate: [AuthGuard],
         data: {
             role: "USER",
+        },
+    },
+    {
+        path: 'admin/leagues',
+        component: LeaguesComponent,
+        canActivate: [AuthGuard],
+        data: {
+            role: "ADMIN",
+        },
+    },
+    {
+        path: 'admin/league',
+        component: LeagueComponent,
+        canActivate: [AuthGuard],
+        data: {
+            role: "ADMIN",
+        },
+    },
+    {
+        path: 'admin/teams',
+        component: TeamsComponent,
+        canActivate: [AuthGuard],
+        data: {
+            role: "ADMIN",
+        },
+    },
+    {
+        path: 'admin/team',
+        component: TeamComponent,
+        canActivate: [AuthGuard],
+        data: {
+            role: "ADMIN",
         },
     },
     {
