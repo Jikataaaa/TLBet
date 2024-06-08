@@ -2,6 +2,7 @@ package com.example.TLBet.service;
 
 import com.example.TLBet.models.entities.Round;
 import com.example.TLBet.models.view.AddRoundView;
+import com.example.TLBet.models.view.RoundOutView;
 import com.example.TLBet.models.view.RoundView;
 
 import java.util.List;
@@ -21,4 +22,6 @@ public interface RoundService {
     void deleteRoundById(long id);
 
     long setRoundActiveById(long id);
+
+    RoundOutView getActiveRound();
 }

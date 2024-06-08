@@ -1,6 +1,7 @@
 package com.example.TLBet.web;
 
 import com.example.TLBet.models.view.AddRoundView;
+import com.example.TLBet.models.view.RoundOutView;
 import com.example.TLBet.models.view.RoundView;
 import com.example.TLBet.service.RoundService;
 import lombok.AllArgsConstructor;
@@ -40,5 +41,10 @@ public class RoundController {
     @PutMapping(path = "/{id}")
     public ResponseEntity<Long> setRoundActiveById(@PathVariable("id") long id){
         return ResponseEntity.ok(roundService.setRoundActiveById(id));
+    }
+
+    @GetMapping("/activeRound")
+    public ResponseEntity<RoundOutView> getActiveRound(){
+        return ResponseEntity.ok(roundService.getActiveRound());
     }
 }
