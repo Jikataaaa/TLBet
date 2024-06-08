@@ -5,6 +5,6 @@ export class ActiveRound {
         Object.assign(this, init);
     }
 
-    roundId!: number;
+    id!: number;
     tournament!: TournamentModel;
 }

@@ -18,6 +18,7 @@ import { LeaguesComponent } from './components/league/leagues/leagues.component'
 import { LeagueComponent } from './components/league/league/league.component';
 import { TeamsComponent } from './components/team/teams/teams.component';
 import { TeamComponent } from './components/team/team/team.component';
+import { ActiveRoundComponent } from './components/round/active-round/active-round.component';
 
 const routes: Routes = [
     {
@@ -88,6 +89,14 @@ const routes: Routes = [
     {
         path: 'admin/round',
         component: RoundComponent,
+        canActivate: [AuthGuard],
+        data: {
+            role: "ADMIN",
+        },
+    },
+    {
+        path: 'admin/active-round',
+        component: ActiveRoundComponent,
         canActivate: [AuthGuard],
         data: {
             role: "ADMIN",

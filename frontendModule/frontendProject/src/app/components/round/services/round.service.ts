@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BaseRequestService } from 'src/app/services/common/base-request.service';
 import { RoundModel } from '../models/round.model';
+import { ActiveRound } from '../models/active-round.model';
 
 @Injectable({
     providedIn: 'root',
@@ -31,5 +32,9 @@ export class RoundService extends BaseRequestService {
 
     setRoundActiveById(id: number): Observable<number> {
         return this.post<number, number>('rounds/setActive', id);
+    }
+
+    getActiveRound(): Observable<ActiveRound> {
+        return this.get<ActiveRound>('rounds/activeRound');
     }
 }
