@@ -26,7 +26,7 @@ public class TournamentServiceImpl implements TournamentService {
 
     @Override
     public List<TournamentView> getAll() {
-        return (repository.findAll().stream()
+        return (repository.findAllByOrderByIdDesc().stream()
                 .map(t -> mapper.map(t, TournamentView.class))
                  .collect(Collectors.toList()));
 

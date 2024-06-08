@@ -3,7 +3,6 @@ package com.example.TLBet.service.impl;
 import com.example.TLBet.models.entities.League;
 import com.example.TLBet.models.view.LeagueView;
 import com.example.TLBet.repository.LeagueRepository;
-import com.example.TLBet.repository.RoundRepository;
 import com.example.TLBet.service.LeagueService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -21,7 +20,7 @@ public class LeagueServiceImpl implements LeagueService {
 
     @Override
     public List<LeagueView> getAll() {
-        return repository.findAll()
+        return repository.findAllByOrderByIdDesc()
                 .stream()
                 .map(x -> mapper.map(x, LeagueView.class))
                 .collect(Collectors.toList());

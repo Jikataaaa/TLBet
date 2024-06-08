@@ -36,7 +36,7 @@ public class BetServiceImpl implements BetService {
     public List<BetView> getAllBetsByUser(long id) {
         Instant now = Instant.now();
         Instant instant = DateUtil.parseInstant(now);
-        return repository.findAllByUserIdAndMatchStartTimeBefore(id, instant)
+        return repository.findAllByUserIdAndMatchStartTimeBeforeOrderByIdDesc(id, instant)
                 .stream()
                 .map(bet -> BetView.builder()
                         .homeTeamGoals(bet.getHomeTeamGoals())
@@ -48,7 +48,7 @@ public class BetServiceImpl implements BetService {
 
     @Override
     public List<BetView> getAllBetsByUsername(String username) {
-        return repository.findBetsByUserUsernameAndMatchStartTimeAfter(username, DateUtil.parseInstant(Instant.now()))
+        return repository.findBetsByUserUsernameAndMatchStartTimeAfterOrderByIdDesc(username, DateUtil.parseInstant(Instant.now()))
                 .stream()
                 .map(bet -> BetView
                         .builder()
@@ -65,7 +65,7 @@ public class BetServiceImpl implements BetService {
 
     @Override
     public List<BetRankingServiceModel> getAllBetsForRanking() {
-        return repository.findAll().stream().map(bet ->
+        return repository.findAllByOrderByIdDesc().stream().map(bet ->
                 BetRankingServiceModel
                         .builder()
                         .username(bet.getUser().getUsername())
@@ -79,7 +79,7 @@ public class BetServiceImpl implements BetService {
 
     @Override
     public List<BetRankingServiceModel> getAllBetsForRankingByRound(Round round) {
-        return repository.findAllByMatchRound(round).stream().map(bet ->
+        return repository.findAllByMatchRoundOrderByIdDesc(round).stream().map(bet ->
                 BetRankingServiceModel
                         .builder()
                         .username(bet.getUser().getUsername())
@@ -146,17 +146,12 @@ public class BetServiceImpl implements BetService {
 
     @Override
     public List<Bet> findBetsByUserUsernameAndMatchRound(String username, Round round) {
-        return repository.findBetsByUserUsernameAndMatchRound(username, round);
-    }
-
-
-    private List<Bet> getUserBets(String username) {
-        return repository.findBetsByUser_UsernameAndMatch_StartTimeAfter(username, DateUtil.parseInstant(Instant.now()));
+        return repository.findBetsByUserUsernameAndMatchRoundOrderByIdDesc(username, round);
     }
 
     @Override
     public List<MatchResultView> getAllUserPlayedMatches(String username) {
-        List<Bet> getUserBets = this.getUserBets(username);
+        List<Bet> getUserBets = repository.findBetsByUser_UsernameAndMatch_StartTimeAfterOrderByIdDesc(username, DateUtil.parseInstant(Instant.now()));
         List<MatchResultView> result = new ArrayList<>();
 
         getUserBets.forEach(bet -> {

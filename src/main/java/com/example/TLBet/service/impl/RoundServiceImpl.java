@@ -35,7 +35,7 @@ public class RoundServiceImpl implements RoundService {
 
     @Override
     public List<RoundView> getAllByTournamentId(long tournamentId) {
-        return repository.findRoundsByTournamentId(tournamentId)
+        return repository.findRoundsByTournamentIdOrderByIdDesc(tournamentId)
                 .stream()
                 .map(x -> mapper.map(x, RoundView.class))
                 .collect(Collectors.toList());

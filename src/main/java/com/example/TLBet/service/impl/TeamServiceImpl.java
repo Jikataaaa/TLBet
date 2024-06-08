@@ -8,7 +8,6 @@ import com.example.TLBet.repository.TeamRepository;
 import com.example.TLBet.service.TeamService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,12 +32,12 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     public List<TeamServiceModel> getAllTeams() {
-        return repository.findAll().stream().map(team -> mapper.map(team, TeamServiceModel.class)).toList();
+        return repository.findAllByOrderByIdDesc().stream().map(team -> mapper.map(team, TeamServiceModel.class)).toList();
     }
 
     @Override
     public List<TeamView> getAllTeamsByLeague(Long leagueId) {
-        return repository.findAllByLeague_Id(leagueId).stream().map(team -> mapper.map(team, TeamView.class)).toList();
+        return repository.findAllByLeague_IdOrderByIdDesc(leagueId).stream().map(team -> mapper.map(team, TeamView.class)).toList();
     }
 
     @Override

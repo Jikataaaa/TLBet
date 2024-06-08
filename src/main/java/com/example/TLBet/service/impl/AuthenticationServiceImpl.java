@@ -102,7 +102,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public List<UserView> getAllUsers() {
-        return userRepository.findAll().stream().map(user -> UserView
+        return userRepository.findAllByOrderByIdDesc().stream().map(user -> UserView
                         .builder()
                         .id(user.getId())
                         .name(user.getUsername())

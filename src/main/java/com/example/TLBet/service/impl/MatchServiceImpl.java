@@ -123,7 +123,7 @@ public class MatchServiceImpl implements MatchService {
     @Override
     public List<MatchResultView> getAll(Long roundId) {
 
-        List<Match> matches = matchRepository.getAllByRoundId(roundId);
+        List<Match> matches = matchRepository.getAllByRoundIdOrderByIdDesc(roundId);
         List<MatchResultView> result = new ArrayList<>();
         matches.forEach(match -> {
             MatchResultView matchResultView = MatchResultView.builder()

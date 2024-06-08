@@ -14,7 +14,7 @@ import java.util.Optional;
 public interface RoundRepository extends JpaRepository<Round, Long> {
     Round findFirstByOrderByIdDesc();
 
-    List<Round>  findRoundsByTournamentId(long tournamentId);
+    List<Round> findRoundsByTournamentIdOrderByIdDesc(long tournamentId);
     @Modifying
     @Query(value =
             "update Round r             " +

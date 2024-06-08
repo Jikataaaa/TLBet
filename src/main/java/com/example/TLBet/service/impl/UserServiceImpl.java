@@ -32,7 +32,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserOutView> getMany() {
-        return repository.findAll()
+        return repository.findAllByOrderByIdDesc()
                 .stream()
                 .map(x -> mapper.map(x, UserOutView.class))
                 .collect(Collectors.toList());

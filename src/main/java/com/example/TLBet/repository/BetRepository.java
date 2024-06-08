@@ -13,18 +13,22 @@ import java.util.List;
 @Repository
 public interface BetRepository extends JpaRepository<Bet, Long> {
 
-    List<Bet> findAllByUserIdAndMatchStartTimeBefore(Long id, Instant now);
+    List<Bet> findAllByUserIdAndMatchStartTimeBeforeOrderByIdDesc(Long id, Instant now);
 
-    List<Bet> findBetsByUserUsernameAndMatchStartTimeAfter(String username, Instant now);
-    List<Bet> findBetsByUser_UsernameAndMatch_StartTimeAfter(String username, Instant now);
+    List<Bet> findBetsByUserUsernameAndMatchStartTimeAfterOrderByIdDesc(String username, Instant now);
+    List<Bet> findBetsByUser_UsernameAndMatch_StartTimeAfterOrderByIdDesc(String username, Instant now);
 
-    List<Bet> findAllByMatchRound(Round match_round);
-    @Query(nativeQuery = true, value = "select b.id, b.user_id, b.match_id, b.home_team_goals, b.away_team_goals from bets b\n" +
-            "left join matches m on m.id = b.match_id\n" +
-            "where YEAR(m.start_time) = YEAR(CURDATE());")
+    List<Bet> findAllByMatchRoundOrderByIdDesc(Round match_round);
+    @Query(value =
+            "select b.id, b.user_id, b.match_id, b.home_team_goals, b.away_team_goals   " +
+            "from bets b left join matches m on m.id = b.match_id                       " +
+            "where YEAR(m.start_time) = YEAR(CURDATE())                                 " +
+            "order by b.id desc                                                         ",nativeQuery = true)
     List<Bet> findBetsByMatchStartTimeFromCurrentYear();
 
     boolean existsBetByMatchAndUserUsername(Match match, String username);
 
-    List<Bet> findBetsByUserUsernameAndMatchRound(String username, Round round);
+    List<Bet> findBetsByUserUsernameAndMatchRoundOrderByIdDesc(String username, Round round);
+
+    List<Bet> findAllByOrderByIdDesc();
 }
