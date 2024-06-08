@@ -27,13 +27,9 @@ export class TeamsComponent implements OnInit {
         if (!history.state.league) {
             this.router.navigate(['/admin/leagues']);
         } else {
-            this.teamService.getAll().subscribe((data) => {
+            this.teamService.getAllByLeagueId(this.league.id).subscribe((data) => {
                 this.data = data;
             });
-            //TODO: undo this
-            // this.teamService.getAllByLeagueId(this.league.id).subscribe((data) => {
-            //     this.data = data;
-            // });
         }
     }
 

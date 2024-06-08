@@ -28,7 +28,7 @@ export class TeamComponent implements OnInit {
         this.teamForm = this.fb.group({
             id: [this.team?.id],
             name: [this.team?.name, Validators.required],
-            imageUrl: [this.team?.imageUrl],
+            imageUrl: [this.team?.imageUrl, Validators.required],
             leagueId: [this.team?.leagueId]
         });
     }
