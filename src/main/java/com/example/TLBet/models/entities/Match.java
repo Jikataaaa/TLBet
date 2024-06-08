@@ -24,9 +24,6 @@ public class Match extends MatchStatistics {
     @JoinColumn(name = "tournament_id", referencedColumnName = "id")
     private Tournament tournament;
 
-    @Column(name = "status")
-    private String status;
-
     @OneToOne
     @JoinColumn(name = "home_team_id", referencedColumnName = "id")
     private Team homeTeam;

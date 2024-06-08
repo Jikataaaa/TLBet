@@ -2,6 +2,7 @@ package com.example.TLBet.service.impl;
 
 import com.example.TLBet.models.entities.Round;
 import com.example.TLBet.models.view.AddRoundView;
+import com.example.TLBet.models.view.RoundOutView;
 import com.example.TLBet.models.view.RoundView;
 import com.example.TLBet.repository.RoundRepository;
 import com.example.TLBet.service.RoundService;
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
 public class RoundServiceImpl implements RoundService {
     private final RoundRepository repository;
     private final ModelMapper mapper;
+
     @Override
     public Round getLastRound() {
         return repository.findFirstByOrderByIdDesc();
@@ -31,10 +33,10 @@ public class RoundServiceImpl implements RoundService {
 
     @Override
     public List<RoundView> getAllByTournamentId(long tournamentId) {
-       return repository.findRoundsByTournamentId(tournamentId)
-               .stream()
-               .map(x -> mapper.map(x, RoundView.class))
-               .collect(Collectors.toList());
+        return repository.findRoundsByTournamentId(tournamentId)
+                .stream()
+                .map(x -> mapper.map(x, RoundView.class))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -59,5 +61,12 @@ public class RoundServiceImpl implements RoundService {
         byId.setActive(true);
         repository.save(byId);
         return byId.getId();
+    }
+
+    @Override
+    public RoundOutView getActiveRound() {
+        Round round = repository.findByIsActiveIsTrueAndTournament_IsActiveIsTrue().orElse(null);
+
+        return mapper.map(round, RoundOutView.class);
     }
 }

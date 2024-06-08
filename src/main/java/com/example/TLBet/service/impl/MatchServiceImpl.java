@@ -160,7 +160,6 @@ public class MatchServiceImpl implements MatchService {
         match.setHomeTeamGoals(inView.getHomeTeamGoals());
         match.setAwayTeamGoals(inView.getAwayTeamGoals());
         match.setStartTime(inView.getStartTime());
-        match.setStatus(String.valueOf(MatchStatus.PLAYABLE));
 
         Round round = roundRepository.findById(inView.getRoundId()).orElseThrow();
         match.setRound(round);

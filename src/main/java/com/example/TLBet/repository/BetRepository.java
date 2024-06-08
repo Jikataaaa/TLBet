@@ -16,6 +16,7 @@ public interface BetRepository extends JpaRepository<Bet, Long> {
     List<Bet> findAllByUserIdAndMatchStartTimeBefore(Long id, Instant now);
 
     List<Bet> findBetsByUserUsernameAndMatchStartTimeAfter(String username, Instant now);
+    List<Bet> findBetsByUser_UsernameAndMatch_StartTimeAfter(String username, Instant now);
 
     List<Bet> findAllByMatchRound(Round match_round);
     @Query(nativeQuery = true, value = "select b.id, b.user_id, b.match_id, b.home_team_goals, b.away_team_goals from bets b\n" +

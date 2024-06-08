@@ -34,6 +34,12 @@ public class TeamServiceImpl implements TeamService {
     public List<TeamServiceModel> getAllTeams() {
         return repository.findAll().stream().map(team -> mapper.map(team, TeamServiceModel.class)).toList();
     }
+
+    @Override
+    public List<TeamView> getAllTeamsByLeague(Long leagueId) {
+        return repository.findAllByLeague_Id(leagueId).stream().map(team -> mapper.map(team, TeamView.class)).toList();
+    }
+
     @Override
     public Team editTeam(TeamView teamView) {
         Optional<Team> foundTeam = repository.findById(teamView.getId());
