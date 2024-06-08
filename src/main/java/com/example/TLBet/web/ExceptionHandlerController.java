@@ -4,6 +4,7 @@ import com.example.TLBet.config.ApiResponse;
 import com.example.TLBet.config.ErrorModel;
 import com.example.TLBet.models.exeptions.ExpiredTokenException;
 import com.example.TLBet.models.exeptions.InvalidTokenException;
+import com.example.TLBet.models.exeptions.NoContentException;
 import com.example.TLBet.models.exeptions.UserErrorException;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
@@ -73,5 +74,12 @@ public class ExceptionHandlerController {
     public ResponseEntity<ApiResponse> handleExpiredTokenException(ExpiredTokenException ex) {
         ApiResponse response = new ApiResponse(401, "Token expired");
         return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ExceptionHandler(NoContentException.class)
+    public ResponseEntity<ApiResponse> handleExpiredTokenException(NoContentException ex) {
+        ApiResponse response = new ApiResponse(204, "no content");
+        return new ResponseEntity<>(response, HttpStatus.NO_CONTENT);
     }
 }

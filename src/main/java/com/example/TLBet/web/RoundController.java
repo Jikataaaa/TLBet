@@ -1,5 +1,6 @@
 package com.example.TLBet.web;
 
+import com.example.TLBet.models.exeptions.NoContentException;
 import com.example.TLBet.models.view.AddRoundView;
 import com.example.TLBet.models.view.RoundOutView;
 import com.example.TLBet.models.view.RoundView;
@@ -44,7 +45,7 @@ public class RoundController {
     }
 
     @GetMapping("/activeRound")
-    public ResponseEntity<RoundOutView> getActiveRound(){
+    public ResponseEntity<RoundOutView> getActiveRound() throws NoContentException {
         return ResponseEntity.ok(roundService.getActiveRound());
     }
 }

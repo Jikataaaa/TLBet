@@ -1,6 +1,8 @@
 package com.example.TLBet.service.impl;
 
 import com.example.TLBet.models.entities.Round;
+import com.example.TLBet.models.enums.ExceptionEnum;
+import com.example.TLBet.models.exeptions.NoContentException;
 import com.example.TLBet.models.view.AddRoundView;
 import com.example.TLBet.models.view.RoundOutView;
 import com.example.TLBet.models.view.RoundView;
@@ -64,8 +66,13 @@ public class RoundServiceImpl implements RoundService {
     }
 
     @Override
-    public RoundOutView getActiveRound() {
+    public RoundOutView getActiveRound() throws NoContentException {
         Round round = repository.findByIsActiveIsTrueAndTournament_IsActiveIsTrue().orElse(null);
+
+        if (round == null) {
+            throw new NoContentException(ExceptionEnum.EXCEPTION_NO_CONTENT,
+                    new Throwable("No content"));
+        }
 
         return mapper.map(round, RoundOutView.class);
     }
