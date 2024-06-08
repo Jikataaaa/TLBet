@@ -27,7 +27,6 @@ export class ActiveRoundComponent implements OnInit {
             },
             error: (err) => {
                 this.snackBar.openError('Възникна грешка при зареждането на активния кръг!');
-                console.error(err);
                 this.router.navigate(['/']);
             }
         });

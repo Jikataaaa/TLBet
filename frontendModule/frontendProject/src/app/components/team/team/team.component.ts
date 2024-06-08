@@ -40,7 +40,6 @@ export class TeamComponent implements OnInit {
     onSubmit(): void {
         if (this.teamForm.valid) {
             const updatedTeam = this.teamForm.value as TeamModel;
-            debugger;
             updatedTeam.leagueId = this.league!.id!;
             if (updatedTeam.id) {
                 this.teamService.edit(updatedTeam).subscribe(() => {
