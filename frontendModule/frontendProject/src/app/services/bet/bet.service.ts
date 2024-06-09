@@ -15,13 +15,9 @@ export class BetService extends BaseRequestService {
   }
 
   createBets(bets: NewBet[]) : Observable<NewBet[]>{
-    
-    return this.http.post<NewBet[]>('http://localhost:8080/bet/new-bets', bets, {
-      headers: {
-        Authorization: `Bearer ${this.token}`,
-      },
-    });
+    return this.post<NewBet[], NewBet[]>('bet/new-bets', bets);
   }
+
   getAllBetsByUser(id: number) {
     return this.http.get<PersonalBet[]>(
       'http://localhost:8080/bet/all-user-bets',
