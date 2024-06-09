@@ -7,8 +7,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Set;
-
 @Entity
 @Table(name = "teams")
 @Data
@@ -19,7 +17,7 @@ public class Team extends BaseEntity {
 
     private String name;
 
-    @Column(name = "image_url", length = 500)
+    @Column(name = "image_url", columnDefinition = "TEXT", length = 1000000)
     private String imageUrl;
 
     @ManyToOne

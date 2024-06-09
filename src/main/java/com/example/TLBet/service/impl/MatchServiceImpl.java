@@ -165,9 +165,8 @@ public class MatchServiceImpl implements MatchService {
         match.setRound(round);
 
         match.setTournament(round.getTournament());
-
-        Match save = matchRepository.save(match);
-        return save.getId();
+        match = matchRepository.save(match);
+        return match.getId();
     }
 
     @Override
