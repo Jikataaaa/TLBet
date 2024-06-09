@@ -24,7 +24,7 @@ public class RoundController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Long> createRound(@RequestBody AddRoundView roundView){
+    public ResponseEntity<Long> createRound(@RequestBody AddRoundView roundView) throws NoContentException {
         return ResponseEntity.ok(roundService.createRound(roundView));
     }
 

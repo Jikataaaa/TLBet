@@ -16,7 +16,7 @@ public interface RoundService {
 
     List<RoundView> getAllByTournamentId(long tournamentId);
 
-    long createRound(AddRoundView roundView);
+    long createRound(AddRoundView roundView) throws NoContentException;
 
     long editRound(AddRoundView roundView);
 
