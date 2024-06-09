@@ -18,6 +18,8 @@ import java.util.Set;
 public class Team extends BaseEntity {
 
     private String name;
+
+    @Column(name = "image_url", length = 500)
     private String imageUrl;
 
     @ManyToOne
