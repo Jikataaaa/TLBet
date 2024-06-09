@@ -35,7 +35,7 @@ public class Match extends MatchStatistics {
     @JoinColumn(name = "round_id", referencedColumnName = "id")
     private Round round;
 
-    public Match(long id, Instant startTime, Round round, Tournament tournament, Team homeTeam, Team awayTeam) {
+    public Match(Long id, Instant startTime, Round round, Tournament tournament, Team homeTeam, Team awayTeam) {
         this.setId(id);
         this.startTime = startTime;
         this.round = round;

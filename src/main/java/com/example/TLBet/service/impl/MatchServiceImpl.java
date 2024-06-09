@@ -53,37 +53,14 @@ public class MatchServiceImpl implements MatchService {
         List<MatchResultView> result = new ArrayList<>();
         lastRoundMatches
                 .forEach(match -> {
-                    Bet optionalBet = createdBets.stream().filter(x -> x.getMatch().getId() == match.getId()).findFirst().orElse(null);
-                    MatchStatus status = MatchStatus.PLAYABLE;
+                    Bet optionalBet = createdBets.stream().filter(x -> x.getMatch().getId().equals(match.getId())).findFirst().orElse(null);
+                    MatchStatus status;
 
                     Integer awayTeamGoals = null;
                     Integer homeTeamGoals = null;
 
                     //Потребителят е направил залог
-                    if (optionalBet != null) {
-                        //Попълваме голововете от залога
-                        awayTeamGoals = optionalBet.getAwayTeamGoals();
-                        homeTeamGoals = optionalBet.getHomeTeamGoals();
-
-                        if (match.getAwayTeamGoals() == null || match.getHomeTeamGoals() == null) {
-                            //Резултатът от мача все още не е попълнен в системата(мачът не е завършил)
-                            status = MatchStatus.AWAITING_RESULT;
-                        } else if (match.getAwayTeamGoals().equals(optionalBet.getAwayTeamGoals()) && match.getHomeTeamGoals().equals(optionalBet.getHomeTeamGoals())) {
-                            //Точен резултат
-                            status = MatchStatus.EXACT_WIN;
-                        } else if ((match.getHomeTeamGoals() > match.getAwayTeamGoals() && optionalBet.getHomeTeamGoals() > optionalBet.getAwayTeamGoals())
-                                || (match.getHomeTeamGoals() < match.getAwayTeamGoals() && optionalBet.getHomeTeamGoals() < optionalBet.getAwayTeamGoals())
-                                || (match.getHomeTeamGoals().equals(match.getAwayTeamGoals()) && Objects.equals(optionalBet.getHomeTeamGoals(), optionalBet.getAwayTeamGoals()))) {
-                            //Потребителят е познал знака 1/X/2
-                            status = MatchStatus.WON;
-                        } else {
-                            //Грешна прогноза
-                            status = MatchStatus.LOST;
-                        }
-                    } else if (Instant.now().isAfter(match.getStartTime())) {
-                        //Изтекло време за игра
-                        status = MatchStatus.EXPIRED;
-                    }
+                    status = calculateMatchStatus(optionalBet, match);
 
                     if (status == MatchStatus.PLAYABLE) {
                         //Слагаме голове по подразбиране ако потребителя не е заложил на мача
@@ -258,5 +235,31 @@ public class MatchServiceImpl implements MatchService {
                 .startTime(save.getStartTime())
                 .round(save.getRound())
                 .build();
+    }
+    private MatchStatus calculateMatchStatus(Bet optionalBet, Match match){
+        MatchStatus status = MatchStatus.PLAYABLE;
+        if (optionalBet != null) {
+            //Попълваме голововете от залога
+
+            if (match.getAwayTeamGoals() == null || match.getHomeTeamGoals() == null) {
+                //Резултатът от мача все още не е попълнен в системата(мачът не е завършил)
+                status = MatchStatus.AWAITING_RESULT;
+            } else if (match.getAwayTeamGoals().equals(optionalBet.getAwayTeamGoals()) && match.getHomeTeamGoals().equals(optionalBet.getHomeTeamGoals())) {
+                //Точен резултат
+                status = MatchStatus.EXACT_WIN;
+            } else if ((match.getHomeTeamGoals() > match.getAwayTeamGoals() && optionalBet.getHomeTeamGoals() > optionalBet.getAwayTeamGoals())
+                    || (match.getHomeTeamGoals() < match.getAwayTeamGoals() && optionalBet.getHomeTeamGoals() < optionalBet.getAwayTeamGoals())
+                    || (match.getHomeTeamGoals().equals(match.getAwayTeamGoals()) && Objects.equals(optionalBet.getHomeTeamGoals(), optionalBet.getAwayTeamGoals()))) {
+                //Потребителят е познал знака 1/X/2
+                status = MatchStatus.WON;
+            } else {
+                //Грешна прогноза
+                status = MatchStatus.LOST;
+            }
+        } else if (Instant.now().isAfter(match.getStartTime())) {
+            //Изтекло време за игра
+            status = MatchStatus.EXPIRED;
+        }
+        return status;
     }
 }
