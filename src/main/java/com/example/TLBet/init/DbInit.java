@@ -37,6 +37,7 @@ public class DbInit implements CommandLineRunner {
                 if (tournamentRepository.count() == 0) {
                     AddTournamentView defaultTournament = AddTournamentView.builder()
                             .name(EUROPEAN_CHAMPIONSHIP_2024)
+                            .isActive(true)
                             .build();
                     tournament = tournamentRepository.save(this.modelMapper.map(defaultTournament, Tournament.class));
                 } else {
@@ -46,6 +47,7 @@ public class DbInit implements CommandLineRunner {
                 AddRoundView defaultRound = AddRoundView.builder()
                         .name(FIRST_GROUP_STAGE)
                         .tournamentId(tournament.getId())
+                        .isActive(true)
                         .build();
                 roundRepository.save(this.modelMapper.map(defaultRound, com.example.TLBet.models.entities.Round.class));
             }
