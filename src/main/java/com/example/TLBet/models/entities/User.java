@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,6 +17,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.List;
 
@@ -42,6 +44,10 @@ public class User extends BaseEntity implements UserDetails {
     @NotBlank
     @Size(min = 3)
     private String lastName;
+
+    @Column(name = "created_on", columnDefinition = "TIMESTAMP", updatable = false)
+    @CreatedDate
+    private Timestamp createdOn;
 
     @Email
     @NotNull
