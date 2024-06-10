@@ -1,107 +1,40 @@
-<!-- <app-personal-bet-panel [bets]="bets"></app-personal-bet-panel>
-
-<div *ngIf="user"
-     class="py-12 px-6 min-h-screen flex items-center justify-center">
-    <div class="bg-primary-500 text-white pb-8 rounded-lg max-w-lg w-full"
-         style="pointer-events: none;">
-        <h2 class="text-3xl font-bold mt-6 mb-2 text-center">Профил</h2>
-        <form class="flex flex-col p-8">
-            <mat-form-field appearance="outline"
-                            class="w-full mb-4">
-                <mat-label>Потребителско име</mat-label>
-                <input [readonly]="true"
-                       [value]="user.username"
-                       matInput
-                       placeholder="Въведете вашето потребителско име.."
-                       type="text"
-                       class="!text-white" />
-            </mat-form-field>
-            <mat-form-field appearance="outline"
-                            class="w-full mb-4">
-                <mat-label>Име</mat-label>
-                <input [readonly]="true"
-                       [value]="user.firstName"
-                       matInput
-                       placeholder="Въведете вашето потребителско име.."
-                       type="text"
-                       class="!text-white" />
-            </mat-form-field>
-
-            <mat-form-field appearance="outline"
-                            class="w-full mb-4">
-                <mat-label>Фамилия</mat-label>
-                <input [readonly]="true"
-                       [value]="user.lastName"
-                       matInput
-                       placeholder="Въведете вашето потребителско име.."
-                       type="text"
-                       class="!text-white" />
-            </mat-form-field>
-            <mat-form-field appearance="outline"
-                            class="w-full mb-4">
-                <mat-label>Имейл адрес</mat-label>
-                <input [readonly]="true"
-                       [value]="user.email"
-                       matInput
-                       placeholder="Въведете вашето потребителско име.."
-                       type="text"
-                       class="!text-white" />
-            </mat-form-field>
-        </form>
-    </div>
-</div> -->
-
 <div class="h-112 min-w-screen flex justify-center m-10">
-    <div *ngIf="user" class="w-96 bg-primary-500 text-white rounded-lg" style="pointer-events: none;" >
+    <div *ngIf="user" class="w-96 bg-primary-500 text-white rounded-lg" style="pointer-events: none;">
         <h2 class="text-3xl font-bold mt-6 mb-2 text-center">Профил</h2>
         <form class="flex flex-col p-8">
-            <mat-form-field appearance="outline"
-                            class="w-full mb-4">
+            <mat-form-field appearance="outline" class="w-full mb-4">
                 <mat-label>Потребителско име</mat-label>
-                <input [readonly]="true"
-                       [value]="user.username"
-                       matInput
-                       placeholder="Въведете вашето потребителско име.."
-                       type="text"
-                       class="!text-white" />
+                <input [readonly]="true" [value]="user.username" matInput
+                    placeholder="Въведете вашето потребителско име.." type="text" class="!text-white" />
             </mat-form-field>
-            <mat-form-field appearance="outline"
-                            class="w-full mb-4">
+            <mat-form-field appearance="outline" class="w-full mb-4">
                 <mat-label>Име</mat-label>
-                <input [readonly]="true"
-                       [value]="user.firstName"
-                       matInput
-                       placeholder="Въведете вашето потребителско име.."
-                       type="text"
-                       class="!text-white" />
+                <input [readonly]="true" [value]="user.firstName" matInput
+                    placeholder="Въведете вашето потребителско име.." type="text" class="!text-white" />
             </mat-form-field>
 
-            <mat-form-field appearance="outline"
-                            class="w-full mb-4">
+            <mat-form-field appearance="outline" class="w-full mb-4">
                 <mat-label>Фамилия</mat-label>
-                <input [readonly]="true"
-                       [value]="user.lastName"
-                       matInput
-                       placeholder="Въведете вашето потребителско име.."
-                       type="text"
-                       class="!text-white" />
+                <input [readonly]="true" [value]="user.lastName" matInput
+                    placeholder="Въведете вашето потребителско име.." type="text" class="!text-white" />
             </mat-form-field>
-            <mat-form-field appearance="outline"
-                            class="w-full mb-4">
+            <mat-form-field appearance="outline" class="w-full mb-4">
                 <mat-label>Имейл адрес</mat-label>
-                <input [readonly]="true"
-                       [value]="user.email"
-                       matInput
-                       placeholder="Въведете вашето потребителско име.."
-                       type="text"
-                       class="!text-white" />
+                <input [readonly]="true" [value]="user.email" matInput placeholder="Въведете вашето потребителско име.."
+                    type="text" class="!text-white" />
             </mat-form-field>
         </form>
     </div>
-    <div  class="w-full bg-primary-500 text-white rounded-lg ml-1">
+    <div class="w-full bg-primary-500 text-white rounded-lg ml-1">
         <div class="flex justify-center items-center">
             <h2 class="text-3xl font-bold mt-6 mb-2 text-center">Играни мачове</h2>
-            
+            <div [formGroup]="form" class="flex flex-col gap-2 justify-around items-center pt-2">
+                <div formArrayName="matches" class="flex flex-col gap-2">
+                    <div *ngFor="let match of matchesFormArray.controls; let i = index" [formGroupName]="i">
+                        <match-process formControlName="match"></match-process>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

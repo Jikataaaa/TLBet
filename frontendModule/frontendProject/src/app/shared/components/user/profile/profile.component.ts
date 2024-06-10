@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
-import { lastValueFrom } from 'rxjs';
+import { FormArray, FormControl, FormGroup } from '@angular/forms';
+import { BetMatchModel } from 'src/app/components/match/models/bet-match.model';
+import { MatchStatusEnum } from 'src/app/components/match/models/MatchStatusEnum';
+import { MatchService } from 'src/app/components/match/services/match.service';
 import { BetService } from 'src/app/services/bet/bet.service';
+import { UserModel } from 'src/app/services/user/models/user.model';
 import { UserService } from 'src/app/services/user/user.service';
-import { PersonalBet } from 'src/app/shared/interfaces/PersonalBet';
-import { User } from 'src/app/shared/interfaces/User';
 
 @Component({
   selector: 'app-profile',
@@ -12,31 +13,55 @@ import { User } from 'src/app/shared/interfaces/User';
   styleUrls: ['./profile.component.scss'],
 })
 export class ProfileComponent implements OnInit {
-  bets!: PersonalBet[];
-  user: User | undefined;
+  user: UserModel | undefined;
+  matchesFormArray!: FormArray;
+  form!: FormGroup;
+  hasPlayableMatches: boolean = false;
 
-  constructor(private betService: BetService, private userService: UserService) {}
+  constructor(private betService: BetService, private matchService: MatchService, private userService: UserService) {
+    this.matchesFormArray = new FormArray<FormGroup>([]);
+    this.form = new FormGroup({
+      matches: this.matchesFormArray,
+    });
+  }
 
   async ngOnInit() {
-    await this.populateBets();
-    await this.populateUser();
+    await this.getUserProfile();
   }
 
-  async populateBets() {
-    const username = localStorage.getItem('username');
-    const data = this.betService.getAllBetsByUsername(username ? username : '');
-
-    const bets = await lastValueFrom(data);
-
-    this.bets = bets;
+  getUserProfile() {
+    const data = this.userService.getUserProfile().subscribe((user) => {
+      debugger
+      this.user = user;
+    });
   }
 
-  async populateUser() {
-    const username = localStorage.getItem('username');
-    const data = this.userService.getUserByUsername(username ? username : '');
+  private loadAllMatches() {
+    this.matchService.getAllMatches().subscribe((data) => {
+        this.fillForm(data);
+    });1
+}
 
-    const user = await lastValueFrom(data);
+fillForm(matches: BetMatchModel[]) {
+    const sortedMatches = matches.sort((a, b) => {
+        if (a.status === MatchStatusEnum.PLAYABLE && b.status !== MatchStatusEnum.PLAYABLE) {
+            return -1;
+        }
+        if (a.status !== MatchStatusEnum.PLAYABLE && b.status === MatchStatusEnum.PLAYABLE) {
+            return 1;
+        }
+        return 0;
+    });
 
-    this.user = user;
-  }
+    this.hasPlayableMatches = sortedMatches.some((x) => x.status == MatchStatusEnum.PLAYABLE);
+
+    this.matchesFormArray.clear();
+    const groups: FormGroup[] = sortedMatches.map(
+        (match) =>
+            new FormGroup({
+                match: new FormControl(match),
+            })
+    );
+    groups.forEach((group) => this.matchesFormArray.push(group));
+}
 }
