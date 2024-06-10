@@ -12,8 +12,8 @@ import lombok.NoArgsConstructor;
 public class BetRankingServiceModel {
 
     private String username;
-    private int matchHomeTeamGoals;
-    private int matchAwayTeamGoals;
+    private Integer matchHomeTeamGoals;
+    private Integer matchAwayTeamGoals;
     private int betHomeTeamGoals;
     private int betAwayTeamGoals;
 

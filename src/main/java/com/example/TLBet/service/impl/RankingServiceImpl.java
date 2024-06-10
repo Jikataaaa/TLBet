@@ -112,8 +112,13 @@ public class RankingServiceImpl implements RankingService {
         for (BetRankingServiceModel bet : bets) {
             String username = bet.getUsername();
             map.putIfAbsent(username, 0);
-            int matchHomeTeamGoals = bet.getMatchHomeTeamGoals();
-            int matchAwayTeamGoals = bet.getMatchAwayTeamGoals();
+            Integer matchHomeTeamGoals = bet.getMatchHomeTeamGoals();
+            Integer matchAwayTeamGoals = bet.getMatchAwayTeamGoals();
+
+            if(matchHomeTeamGoals == null || matchAwayTeamGoals == null) {
+                break;
+            }
+
             int betHomeTeamGoals = bet.getBetHomeTeamGoals();
             int betAwayTeamGoals = bet.getBetAwayTeamGoals();
 
