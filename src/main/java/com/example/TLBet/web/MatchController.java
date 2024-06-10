@@ -2,6 +2,7 @@ package com.example.TLBet.web;
 
 import com.example.TLBet.models.entities.Bet;
 import com.example.TLBet.models.entities.Round;
+import com.example.TLBet.models.exeptions.NoContentException;
 import com.example.TLBet.models.view.MatchInView;
 import com.example.TLBet.models.view.MatchResultView;
 import com.example.TLBet.models.view.MatchView;
@@ -34,7 +35,7 @@ public class MatchController extends BaseController {
     }
 
     @GetMapping("/all-matches")
-    public ResponseEntity<List<MatchResultView>> getAllMatches() {
+    public ResponseEntity<List<MatchResultView>> getAllMatches() throws NoContentException {
         String username = super.getCurrentUserUsername();
         Round round = roundService.getLastRound();
         List<Bet> createdBets = betService.findBetsByUserUsernameAndMatchRound(username, round);
