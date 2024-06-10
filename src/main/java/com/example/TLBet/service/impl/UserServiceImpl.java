@@ -82,4 +82,9 @@ public class UserServiceImpl implements UserService {
         throw new UserErrorException(EXCEPTION_USER_NOT_FOUND,
                 new Throwable("User not found"));
     }
+
+    @Override
+    public List<String> findAllFullNames() {
+        return repository.findAllFullNames();
+    }
 }

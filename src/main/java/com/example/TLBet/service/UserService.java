@@ -12,4 +12,6 @@ public interface UserService {
     UserOutView updateOne(Long id, UserInView inView) throws UserErrorException;
 
     UserOutView deleteOne(Long id) throws UserErrorException;
+
+    List<String> findAllFullNames();
 }

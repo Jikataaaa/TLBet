@@ -28,6 +28,8 @@ public interface BetService {
     boolean checkExistingBetOnMatch(Match match, String username);
 
     List<Bet> findBetsByUserUsernameAndMatchRound(String username, Round round);
+
     List<MatchResultView> getAllUserPlayedMatches(String username);
 
+    List<Bet> getBetsByRoundIdLower(Long roundId);
 }

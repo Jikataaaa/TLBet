@@ -177,4 +177,10 @@ public class BetServiceImpl implements BetService {
         });
         return result;
     }
+
+    @Override
+    public List<Bet> getBetsByRoundIdLower(Long roundId) {
+        return repository.getBetsByRoundIdLower(roundId);
+    }
+
 }
