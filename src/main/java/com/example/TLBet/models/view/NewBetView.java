@@ -14,6 +14,4 @@ public class NewBetView {
     private int homeTeamGoals;
     private int awayTeamGoals;
     private long matchId;
-    private String username;
-
 }

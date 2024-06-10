@@ -121,7 +121,7 @@ public class BetServiceImpl implements BetService {
                     }
                     Bet bet = Bet.builder()
                             .match(match)
-                            .user(this.userService.getUserByUsername(b.getUsername()))
+                            .user(this.userService.getUserByUsername(username))
                             .build();
                     bet.setHomeTeamGoals(b.getHomeTeamGoals());
                     bet.setAwayTeamGoals(b.getAwayTeamGoals());
@@ -130,7 +130,6 @@ public class BetServiceImpl implements BetService {
         List<Bet> savedBets = this.repository.saveAll(betsToSave);
 
         return savedBets.stream().map(b -> NewBetView.builder()
-                        .username(b.getUser().getUsername())
                         .homeTeamGoals(b.getHomeTeamGoals())
                         .awayTeamGoals(b.getAwayTeamGoals())
                         .matchId(b.getMatch().getId())
