@@ -6,43 +6,23 @@ import { BaseRequestService } from '../common/base-request.service';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root',
+    providedIn: 'root',
 })
 export class BetService extends BaseRequestService {
-  private token: string | null = localStorage.getItem('token');
-  constructor(http: HttpClient) {
-    super(http);
-  }
+    private token: string | null = localStorage.getItem('token');
+    constructor(http: HttpClient) {
+        super(http);
+    }
 
-  createBets(bets: NewBet[]) : Observable<NewBet[]>{
-    return this.post<NewBet[], NewBet[]>('bet/new-bets', bets);
-  }
+    createBets(bets: NewBet[]): Observable<NewBet[]> {
+        return this.post<NewBet[], NewBet[]>('bet/new-bets', bets);
+    }
 
-  getAllBetsByUser(id: number) {
-    return this.http.get<PersonalBet[]>(
-      'http://localhost:8080/bet/all-user-bets',
-      {
-        params: {
-          id: id,
-        },
-        headers: {
-          Authorization: `Bearer ${this.token}`,
-        },
-      }
-    );
-  }
-  
-  getAllBetsByUsername(username: string) {
-    return this.http.get<PersonalBet[]>(
-      'http://localhost:8080/bet/personal-bets',
-      {
-        params: {
-          username: username,
-        },
-        headers: {
-          Authorization: `Bearer ${this.token}`,
-        },
-      }
-    );
-  }
+    getAllBetsByUser(id: number): Observable<PersonalBet[]> {
+        return this.get<PersonalBet[]>('bet/all-user-bets');
+    }
+
+    getAllBetsByUsername(username: string) {
+        return this.get<PersonalBet[]>('bet/personal-bets', new HttpParams().set('username', username));
+    }
 }

@@ -1,7 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { FormGroup } from '@angular/forms';
-import { Observable, first, map, of } from 'rxjs';
+import { Observable, map, of } from 'rxjs';
 import { AuthUser } from 'src/app/shared/interfaces/AuthUser';
 import { User } from 'src/app/shared/interfaces/User';
 import { BaseRequestService } from '../common/base-request.service';
@@ -12,7 +11,12 @@ import { Register } from './models/Register';
     providedIn: 'root',
 })
 export class UserService extends BaseRequestService {
-    constructor (http: HttpClient) {
+
+    get resourceUrl(): string {
+        return 'api/v1/auth';
+    }
+
+    constructor(http: HttpClient) {
         super(http);
     }
 
@@ -53,40 +57,15 @@ export class UserService extends BaseRequestService {
         localStorage.clear();
     }
 
-    getAllUsers() {
-        return this.http.get<User[]>(
-            `http://localhost:8080/${this.resourceUrl}/all-users`,
-            {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem('token')}`,
-                },
-            }
-        );
+    getAllUsers(): Observable<User[]> {
+        return this.get<User[]>(`${this.resourceUrl}/all-users`);
     }
 
-    async getUserIdByUsername(username: string): Promise<Observable<number>> {
-        return this.http.get<number>(`http://localhost:8080/${this.resourceUrl}/user`, {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem('token')}`,
-            },
-            params: {
-                username: username,
-            },
-        });
-    }
-
-    get resourceUrl(): string {
-        return 'api/v1/auth';
+    getUserIdByUsername(username: string): Observable<number> {
+        return this.get<number>(`${this.resourceUrl}/user`, new HttpParams().set('username', username));
     }
 
     getUserByUsername(username: string): Observable<User> {
-        return this.http.get<User>(`http://localhost:8080/${this.resourceUrl}/user-by-name`, {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem('token')}`,
-            },
-            params: {
-                username: username,
-            },
-        });
+        return this.get<User>(`${this.resourceUrl}/user-by-name`, new HttpParams().set('username', username));
     }
 }
