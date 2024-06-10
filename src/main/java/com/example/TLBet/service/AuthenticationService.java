@@ -20,7 +20,6 @@ public interface AuthenticationService {
     UserRole getUserRole(String username);
 
     User getUserByUsername(String username);
-    UserOutView getUserByName(String username) throws UserErrorException;
 
     List<UserView> getAllUsers();
 

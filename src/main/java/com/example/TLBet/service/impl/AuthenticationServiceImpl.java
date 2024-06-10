@@ -93,18 +93,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
-    public UserOutView getUserByName(String username) throws UserErrorException {
-        User userByUsername = userRepository.findUserByUsername(username).orElse(null);
-
-        if (userByUsername != null) {
-            return modelMapper.map(userByUsername, UserOutView.class);
-        }
-
-        throw new UserErrorException(ExceptionEnum.EXCEPTION_USER_NOT_FOUND,
-                new Throwable("User with username " + username + " not found"));
-    }
-
-    @Override
     public List<UserView> getAllUsers() {
         return userRepository.findAllByOrderByIdDesc().stream().map(user -> UserView
                         .builder()

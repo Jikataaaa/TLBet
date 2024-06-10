@@ -28,11 +28,6 @@ public class BetController extends BaseController {
         return ResponseEntity.ok(betService.getAllBetsByUser(id));
     }
 
-    @GetMapping("/personal-bets")
-    public ResponseEntity<List<BetView>> AllPersonalBets(@RequestParam("username") String username) {
-        return ResponseEntity.ok(betService.getAllBetsByUsername(username));
-    }
-
     @GetMapping("/user-ended-matches")
     public ResponseEntity<List<MatchResultView>> getAllUserPlayedMatches() {
         String username = super.getCurrentUserUsername();
