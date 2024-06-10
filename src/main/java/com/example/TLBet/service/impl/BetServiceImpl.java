@@ -47,23 +47,6 @@ public class BetServiceImpl implements BetService {
     }
 
     @Override
-    public List<BetView> getAllBetsByUsername(String username) {
-        return repository.findBetsByUserUsernameAndMatchStartTimeAfterOrderByIdDesc(username, DateUtil.parseInstant(Instant.now()))
-                .stream()
-                .map(bet -> BetView
-                        .builder()
-                        .homeTeamGoals(bet.getHomeTeamGoals())
-                        .homeTeamUrl(bet.getMatch().getHomeTeam().getImageUrl())
-                        .awayTeamGoals(bet.getAwayTeamGoals())
-                        .awayTeamUrl(bet.getMatch().getAwayTeam().getImageUrl())
-                        .tournamentName(bet.getMatch().getRound().getTournament().getName())
-                        .build())
-                .toList();
-
-
-    }
-
-    @Override
     public List<BetRankingServiceModel> getAllBetsForRanking() {
         return repository.findAllByOrderByIdDesc().stream().map(bet ->
                 BetRankingServiceModel
@@ -175,5 +158,20 @@ public class BetServiceImpl implements BetService {
             result.add(matchResultView);
         });
         return result;
+    }
+
+    @Override
+    public List<BetView> getAllEndedBetsByUsername(String username) {
+        return repository.findBetsByUserUsernameAndHomeTeamGoalsNotNullAndAwayTeamGoalsNotNullOrderByIdDesc(username)
+                .stream()
+                .map(bet -> BetView
+                        .builder()
+                        .homeTeamGoals(bet.getHomeTeamGoals())
+                        .homeTeamUrl(bet.getMatch().getHomeTeam().getImageUrl())
+                        .awayTeamGoals(bet.getAwayTeamGoals())
+                        .awayTeamUrl(bet.getMatch().getAwayTeam().getImageUrl())
+                        .tournamentName(bet.getMatch().getRound().getTournament().getName())
+                        .build())
+                .toList();
     }
 }
