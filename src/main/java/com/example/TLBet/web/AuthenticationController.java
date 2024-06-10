@@ -12,6 +12,7 @@ import com.example.TLBet.models.view.UserOutView;
 import com.example.TLBet.models.view.UserView;
 import com.example.TLBet.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -93,5 +94,10 @@ public class AuthenticationController {
     @GetMapping("/user-by-name")
     public ResponseEntity<UserOutView> getUserByUsername(@RequestParam("username") String username) throws UserErrorException {
         return ResponseEntity.ok(authenticationService.getUserByName(username));
+    }
+    @GetMapping("/healthCheck")
+    @ResponseStatus(HttpStatus.OK)
+    public void healthCheckEndpoint(){
+
     }
 }
