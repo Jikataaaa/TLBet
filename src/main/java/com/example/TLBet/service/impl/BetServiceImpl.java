@@ -41,7 +41,7 @@ public class BetServiceImpl implements BetService {
                 .map(bet -> BetView.builder()
                         .homeTeamGoals(bet.getHomeTeamGoals())
                         .awayTeamGoals(bet.getAwayTeamGoals())
-                        .tournamentName(bet.getMatch().getTournament().getName())
+                        .tournamentName(bet.getMatch().getRound().getTournament().getName())
                         .build())
                 .toList();
     }
@@ -56,7 +56,7 @@ public class BetServiceImpl implements BetService {
                         .homeTeamUrl(bet.getMatch().getHomeTeam().getImageUrl())
                         .awayTeamGoals(bet.getAwayTeamGoals())
                         .awayTeamUrl(bet.getMatch().getAwayTeam().getImageUrl())
-                        .tournamentName(bet.getMatch().getTournament().getName())
+                        .tournamentName(bet.getMatch().getRound().getTournament().getName())
                         .build())
                 .toList();
 
@@ -169,8 +169,8 @@ public class BetServiceImpl implements BetService {
                             .imageUrl(match.getAwayTeam().getImageUrl())
                             .goals(bet.getAwayTeamGoals()).build())
                     .startTime(match.getStartTime())
-                    .tournamentId(match.getTournament().getId())
-                    .tournamentName(match.getTournament().getName())
+                    .tournamentId(match.getRound().getTournament().getId())
+                    .tournamentName(match.getRound().getTournament().getName())
                     .round(match.getRound())
                     .status(MatchStatus.PLAYABLE)
                     .build();

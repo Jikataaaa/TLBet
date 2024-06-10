@@ -38,13 +38,12 @@ public class MatchServiceImpl implements MatchService {
         Tournament tournament = tournamentService.getTournamentById(matchView.getTournament());
         Match match = Match.builder()
                 .homeTeam(homeTeam)
-                .awayTeam(awayTeam)
-                .tournament(tournament).build();
+                .awayTeam(awayTeam).build();
         Match save = matchRepository.save(match);
         return MatchView.builder()
                 .homeTeam(save.getHomeTeam().getId())
                 .awayTeam(save.getAwayTeam().getId())
-                .tournament(save.getTournament().getId()).build();
+                .tournament(save.getRound().getTournament().getId()).build();
     }
 
     @Override
@@ -81,8 +80,8 @@ public class MatchServiceImpl implements MatchService {
                                     .imageUrl(match.getAwayTeam().getImageUrl())
                                     .goals(awayTeamGoals).build())
                             .startTime(match.getStartTime())
-                            .tournamentId(match.getTournament().getId())
-                            .tournamentName(match.getTournament().getName())
+                            .tournamentId(match.getRound().getTournament().getId())
+                            .tournamentName(match.getRound().getTournament().getName())
                             .round(match.getRound())
                             .status(status)
                             .build();
@@ -116,8 +115,8 @@ public class MatchServiceImpl implements MatchService {
                             .imageUrl(match.getAwayTeam().getImageUrl())
                             .goals(match.getAwayTeamGoals()).build())
                     .startTime(match.getStartTime())
-                    .tournamentId(match.getTournament().getId())
-                    .tournamentName(match.getTournament().getName())
+                    .tournamentId(match.getRound().getTournament().getId())
+                    .tournamentName(match.getRound().getTournament().getName())
                     .round(match.getRound())
 //                    .status(MatchStatus.PLAYABLE) // TODO -> check this and fix it if needed
                     .build();
@@ -141,7 +140,6 @@ public class MatchServiceImpl implements MatchService {
         Round round = roundRepository.findById(inView.getRoundId()).orElseThrow();
         match.setRound(round);
 
-        match.setTournament(round.getTournament());
         match = matchRepository.save(match);
         return match.getId();
     }
@@ -169,8 +167,6 @@ public class MatchServiceImpl implements MatchService {
 
         Round round = roundRepository.findById(inView.getRoundId()).orElseThrow();
         match.setRound(round);
-
-        match.setTournament(round.getTournament());
 
         Match save = matchRepository.save(match);
         return modelMapper.map(save, MatchResultView.class);
@@ -209,7 +205,6 @@ public class MatchServiceImpl implements MatchService {
                 .homeTeam(homeEditedTeam)
                 .awayTeam(awayEditedTeam)
                 .startTime(instant)
-                .tournament(tournamentService.getTournamentById(editTournament))
                 .build();
 
         builtMatch.setId(match.getId());
@@ -230,13 +225,14 @@ public class MatchServiceImpl implements MatchService {
                         .imageUrl(save.getAwayTeam().getImageUrl())
                         .goals(save.getAwayTeamGoals())
                         .build())
-                .tournamentId(save.getTournament().getId())
-                .tournamentName(save.getTournament().getName())
+                .tournamentId(save.getRound().getTournament().getId())
+                .tournamentName(save.getRound().getTournament().getName())
                 .startTime(save.getStartTime())
                 .round(save.getRound())
                 .build();
     }
-    private MatchStatus calculateMatchStatus(Bet optionalBet, Match match){
+
+    private MatchStatus calculateMatchStatus(Bet optionalBet, Match match) {
         MatchStatus status = MatchStatus.PLAYABLE;
         if (optionalBet != null) {
             //Попълваме голововете от залога
