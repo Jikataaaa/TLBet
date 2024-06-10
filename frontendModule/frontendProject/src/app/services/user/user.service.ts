@@ -6,6 +6,7 @@ import { User } from 'src/app/shared/interfaces/User';
 import { BaseRequestService } from '../common/base-request.service';
 import { Login } from './models/Login';
 import { Register } from './models/Register';
+import { UserModel } from './models/user.model';
 
 @Injectable({
     providedIn: 'root',
@@ -67,5 +68,9 @@ export class UserService extends BaseRequestService {
 
     getUserByUsername(username: string): Observable<User> {
         return this.get<User>(`${this.resourceUrl}/user-by-name`, new HttpParams().set('username', username));
+    }
+
+    getUserProfile(): Observable<UserModel> {
+        return this.get<UserModel>(`users/profile`);
     }
 }

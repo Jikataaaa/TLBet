@@ -77,8 +77,7 @@ export class AllMatchesComponent implements OnInit {
                 new NewBet({
                     homeTeamGoals: bet.homeTeam.goals,
                     awayTeamGoals: bet.awayTeam.goals,
-                    matchId: bet.id,
-                    username: localStorage.getItem('username')!,
+                    matchId: bet.id
                 })
             );
         }
