@@ -89,7 +89,6 @@ public class BetServiceImpl implements BetService {
                         .betAwayTeamGoals(bet.getAwayTeamGoals())
                         .build()
         ).toList();
-
     }
 
     @Override

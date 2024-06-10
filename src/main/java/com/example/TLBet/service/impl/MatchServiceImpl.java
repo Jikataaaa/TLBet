@@ -67,6 +67,11 @@ public class MatchServiceImpl implements MatchService {
                         homeTeamGoals = 0;
                     }
 
+                    if (optionalBet != null) {
+                        awayTeamGoals = optionalBet.getAwayTeamGoals();
+                        homeTeamGoals = optionalBet.getHomeTeamGoals();
+                    }
+
                     MatchResultView matchResultView = MatchResultView.builder()
                             .id(match.getId())
                             .homeTeam(MatchTeamResultView.builder()

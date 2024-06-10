@@ -6,10 +6,12 @@ import com.example.TLBet.models.exeptions.NoContentException;
 import com.example.TLBet.models.view.MatchInView;
 import com.example.TLBet.models.view.MatchResultView;
 import com.example.TLBet.models.view.MatchView;
+import com.example.TLBet.models.view.RoundOutView;
 import com.example.TLBet.service.BetService;
 import com.example.TLBet.service.MatchService;
 import com.example.TLBet.service.RoundService;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,6 +26,7 @@ public class MatchController extends BaseController {
     private final MatchService service;
     private final RoundService roundService;
     private final BetService betService;
+    private final ModelMapper modelMapper;
 
     ///matches/getAll?round={roundId} //
 //
@@ -37,9 +40,10 @@ public class MatchController extends BaseController {
     @GetMapping("/all-matches")
     public ResponseEntity<List<MatchResultView>> getAllMatches() throws NoContentException {
         String username = super.getCurrentUserUsername();
-        Round round = roundService.getLastRound();
-        List<Bet> createdBets = betService.findBetsByUserUsernameAndMatchRound(username, round);
-        return ResponseEntity.ok(service.getLastRoundMatches(username, round, createdBets));
+        RoundOutView round = roundService.getActiveRound();
+        Round roundEntity = modelMapper.map(round, Round.class);
+        List<Bet> createdBets = betService.findBetsByUserUsernameAndMatchRound(username, roundEntity);
+        return ResponseEntity.ok(service.getLastRoundMatches(username, roundEntity, createdBets));
     }
 
     @PutMapping("/edit-match")

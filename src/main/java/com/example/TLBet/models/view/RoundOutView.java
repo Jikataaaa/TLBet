@@ -14,5 +14,7 @@ public class RoundOutView {
 
     private long id;
 
+    private boolean isActive;
+
     private TournamentView tournament;
 }
