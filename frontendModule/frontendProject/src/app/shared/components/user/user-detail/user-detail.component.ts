@@ -22,7 +22,7 @@ export class UserDetailComponent implements OnInit {
                 const username = params.get('username');
                 if (!username) {
                     this.router.navigate(['/']);
-                    return []; // Return an empty observable if no username
+                    return [];
                 }
                 this.username = username;
                 return this.userService.getUserDetails(username);

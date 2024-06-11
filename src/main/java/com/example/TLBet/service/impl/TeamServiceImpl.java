@@ -45,6 +45,7 @@ public class TeamServiceImpl implements TeamService {
         Optional<Team> foundTeam = repository.findById(teamView.getId());
         Team team = foundTeam.orElseThrow();
         team.setName(teamView.getName());
+        team.setImageUrl(teamView.getImageUrl());
         repository.save(team);
         return team;
     }
