@@ -78,6 +78,10 @@ export class UserService extends BaseRequestService {
         return this.get<UserModel>(`users/profile`);
     }
 
+    getUserDetails(username: string): Observable<UserModel> {
+        return this.get<UserModel>(`users/details`, new HttpParams().set('username', username));
+    }
+
     getUserJwtData(token: string): JwtUserData | null {
         if (!token) {
             return null;

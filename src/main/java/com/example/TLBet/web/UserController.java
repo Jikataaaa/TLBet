@@ -1,7 +1,6 @@
 package com.example.TLBet.web;
 
 import com.example.TLBet.models.exeptions.UserErrorException;
-import com.example.TLBet.models.view.BetView;
 import com.example.TLBet.models.view.UserInView;
 import com.example.TLBet.models.view.UserOutView;
 import com.example.TLBet.models.view.UserProfileOutView;
@@ -53,5 +52,10 @@ public class UserController extends BaseController{
     public ResponseEntity<UserProfileOutView> getUserProfile() throws UserErrorException {
         String username = super.getCurrentUserUsername();
         return ResponseEntity.ok(userService.getUserProfile(username));
+    }
+
+    @GetMapping("/details")
+    public ResponseEntity<UserProfileOutView> getUserDetails(@RequestParam("username") String username) throws UserErrorException {
+        return ResponseEntity.ok(userService.getUserDetails(username));
     }
 }

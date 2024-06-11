@@ -25,7 +25,7 @@ export class UserDetailComponent implements OnInit {
                     return []; // Return an empty observable if no username
                 }
                 this.username = username;
-                return this.userService.getUserProfile();
+                return this.userService.getUserDetails(username);
             })
         ).subscribe((user: UserModel) => {
             if (!user) {
@@ -36,13 +36,6 @@ export class UserDetailComponent implements OnInit {
                 user.bets = [];
             }
             this.user = user;
-
-            // this.userService.getUserByUsername(username).subscribe((user: UserModel) => {
-            //     if (user.bets == undefined) {
-            //         user.bets = [];
-            //     }
-            //     this.user = user;
-            // });
         }));
     }
 

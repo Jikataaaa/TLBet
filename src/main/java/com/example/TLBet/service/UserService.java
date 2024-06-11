@@ -17,4 +17,6 @@ public interface UserService {
     List<String> findAllFullNames();
 
     UserProfileOutView getUserProfile(String username) throws UserErrorException;
+
+    UserProfileOutView getUserDetails(String username) throws UserErrorException;
 }

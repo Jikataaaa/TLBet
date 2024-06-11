@@ -164,8 +164,12 @@ public class BetServiceImpl implements BetService {
     }
 
     @Override
-    public List<BetOutView> getAllEndedBetsByUsername(String username) {
-        List<Bet> bets = repository.findBetsByUserUsernameAndMatch_HomeTeamGoalsNotNullAndAwayTeamGoalsNotNullOrderByIdDesc(username);
+    public List<BetOutView> getAllBetsByUsername(String username) {
+        List<Bet> bets = repository.findBetsByUserUsernameAndHomeTeamGoalsNotNullAndAwayTeamGoalsNotNullOrderByIdDesc(username);
+        return getBets(bets);
+    }
+
+    private List<BetOutView> getBets(List<Bet> bets) {
         List<BetOutView> betOutViews = new ArrayList<>();
 
         for (Bet bet : bets) {
@@ -189,5 +193,11 @@ public class BetServiceImpl implements BetService {
             betOutViews.add(betOutView);
         }
         return betOutViews;
+    }
+
+    @Override
+    public List<BetOutView> getAllEndedBetsByUsername(String username) {
+        List<Bet> bets = repository.findBetsByUserUsernameAndMatch_HomeTeamGoalsNotNullAndAwayTeamGoalsNotNullOrderByIdDesc(username);
+        return getBets(bets);
     }
 }

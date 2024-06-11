@@ -34,11 +34,13 @@ public interface BetRepository extends JpaRepository<Bet, Long> {
 
     List<Bet> findAllByOrderByIdDesc();
 
-    List<Bet> findBetsByUserUsernameAndMatch_HomeTeamGoalsNotNullAndAwayTeamGoalsNotNullOrderByIdDesc(String username);
+    List<Bet> findBetsByUserUsernameAndHomeTeamGoalsNotNullAndAwayTeamGoalsNotNullOrderByIdDesc(String username);
 
     @Query(value = "select new Bet(b.id, b.match, b.user, b.homeTeamGoals, b.awayTeamGoals) from Bet b " +
             "join Round  r " +
             "on b.match.round.id = r.id " +
             "where r.id <= :roundId ")
     List<Bet> getBetsByRoundIdLower(Long roundId);
+
+    List<Bet> findBetsByUserUsernameAndMatch_HomeTeamGoalsNotNullAndAwayTeamGoalsNotNullOrderByIdDesc(String username);
 }

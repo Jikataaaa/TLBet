@@ -32,5 +32,7 @@ public interface BetService {
 
     List<Bet> getBetsByRoundIdLower(Long roundId);
 
+    List<BetOutView> getAllBetsByUsername(String username);
+
     List<BetOutView> getAllEndedBetsByUsername(String username);
 }

@@ -106,7 +106,24 @@ public class UserServiceImpl implements UserService {
             throw new UserErrorException(ExceptionEnum.EXCEPTION_USER_NOT_FOUND,
                     new Throwable("User with username " + username + " not found"));
         }
-        List<BetOutView> bets = betService.getAllEndedBetsByUsername(username);
+        List<BetOutView> bets = betService.getAllBetsByUsername(username);
+
+        userProfileOutView.setBets(bets);
+        return userProfileOutView;
+    }
+
+    @Override
+    public UserProfileOutView getUserDetails(String username) throws UserErrorException {
+        User user = repository.findUserByUsername(username).orElse(null);
+        UserProfileOutView userProfileOutView;
+
+        if (user != null) {
+            userProfileOutView = mapper.map(user, UserProfileOutView.class);
+        } else {
+            throw new UserErrorException(EXCEPTION_USER_NOT_FOUND,
+                    new Throwable("User not found"));
+        }
+        List<BetOutView> bets = betService.getAllEndedBetsByUsername(user.getUsername());
 
         userProfileOutView.setBets(bets);
         return userProfileOutView;
