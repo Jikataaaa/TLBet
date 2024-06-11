@@ -165,7 +165,7 @@ public class BetServiceImpl implements BetService {
 
     @Override
     public List<BetOutView> getAllEndedBetsByUsername(String username) {
-        List<Bet> bets = repository.findBetsByUserUsernameAndHomeTeamGoalsNotNullAndAwayTeamGoalsNotNullOrderByIdDesc(username);
+        List<Bet> bets = repository.findBetsByUserUsernameAndMatch_HomeTeamGoalsNotNullAndAwayTeamGoalsNotNullOrderByIdDesc(username);
         List<BetOutView> betOutViews = new ArrayList<>();
 
         for (Bet bet : bets) {
