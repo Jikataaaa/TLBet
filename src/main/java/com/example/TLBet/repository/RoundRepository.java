@@ -22,14 +22,18 @@ public interface RoundRepository extends JpaRepository<Round, Long> {
             "where r.isActive = true    ")
     void setAllIsActiveFalse();
 
-    @Query(value = "select count(*) from Round r")
+    @Query(value =
+            "select count(*)    " +
+            "from Round r       ")
     int getRoundCount();
 
-    @Query(value = "select distinct r.id from Round r " +
-            "join Match m " +
-            "on m.round.id = r.id " +
-            "where m.homeTeamGoals is not null or m.awayTeamGoals is not null " +
-            "order by r.id ")
+    @Query(value =
+            "select distinct r.id                                               " +
+            "from Round r                                                       " +
+            "join Match m                                                       " +
+            "on m.round.id = r.id                                               " +
+            "where m.homeTeamGoals is not null or m.awayTeamGoals is not null   " +
+            "order by r.id                                                      ")
     List<Long> getRoundIdsWithPopulatedResults();
 
     Optional<Round> findByIsActiveIsTrueAndTournament_IsActiveIsTrue();

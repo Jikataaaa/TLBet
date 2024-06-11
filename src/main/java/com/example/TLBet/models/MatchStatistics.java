@@ -1,4 +1,5 @@
 package com.example.TLBet.models;
+
 import jakarta.persistence.MappedSuperclass;
 import lombok.Data;
 

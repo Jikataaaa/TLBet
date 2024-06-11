@@ -33,7 +33,6 @@ public class MatchServiceImpl implements MatchService {
     public MatchView createMatch(@RequestBody MatchView matchView) {
         Team homeTeam = teamService.getTeamById(matchView.getHomeTeam());
         Team awayTeam = teamService.getTeamById(matchView.getAwayTeam());
-        Tournament tournament = tournamentService.getTournamentById(matchView.getTournament());
         Match match = Match.builder()
                 .homeTeam(homeTeam)
                 .awayTeam(awayTeam).build();
@@ -121,7 +120,6 @@ public class MatchServiceImpl implements MatchService {
                     .tournamentId(match.getRound().getTournament().getId())
                     .tournamentName(match.getRound().getTournament().getName())
                     .round(match.getRound())
-//                    .status(MatchStatus.PLAYABLE) // TODO -> check this and fix it if needed
                     .build();
             result.add(matchResultView);
         });
@@ -166,7 +164,6 @@ public class MatchServiceImpl implements MatchService {
         match.setHomeTeamGoals(inView.getHomeTeamGoals());
         match.setAwayTeamGoals(inView.getAwayTeamGoals());
         match.setStartTime(inView.getStartTime());
-//        match.setStatus(String.valueOf(MatchStatus.PLAYABLE)); // TODO -> check this and fix it if needed
 
         Round round = roundRepository.findById(inView.getRoundId()).orElseThrow();
         match.setRound(round);

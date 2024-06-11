@@ -9,7 +9,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
 @Builder
@@ -27,7 +26,7 @@ public class Bet extends MatchStatistics {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
-    public Bet(Long id, Match match, User user, Integer homeTeamGoals, Integer awayTeamGoals){
+    public Bet(Long id, Match match, User user, Integer homeTeamGoals, Integer awayTeamGoals) {
         this.setId(id);
         this.match = match;
         this.user = user;

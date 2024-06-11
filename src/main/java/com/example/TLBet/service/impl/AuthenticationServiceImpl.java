@@ -11,7 +11,6 @@ import com.example.TLBet.repository.UserRepository;
 import com.example.TLBet.service.AuthenticationService;
 import com.example.TLBet.service.JwtService;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -33,8 +32,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
-    private final ModelMapper modelMapper;
-
 
     @Override
     public AuthenticationResponse register(@Valid RegisterRequest request) throws UserErrorException {

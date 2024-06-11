@@ -23,5 +23,4 @@ public interface AuthenticationService {
     List<UserView> getAllUsers();
 
     Long getUserIdByUsername(String username);
-
 }

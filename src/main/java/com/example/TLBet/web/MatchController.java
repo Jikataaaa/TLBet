@@ -28,10 +28,6 @@ public class MatchController extends BaseController {
     private final BetService betService;
     private final ModelMapper modelMapper;
 
-    ///matches/getAll?round={roundId} //
-//
-///matches/add -> request: id(always null on add) , homeTeamGoals(always null on add) ,awayTeamGoals(always null on add), startTime, homeTeamId, awayTeamId, roundId; | response: id
-///matches/delete ->request:i
     @PostMapping("/new-match")
     public ResponseEntity<MatchView> createMatch(@RequestBody MatchView match) {
         return ResponseEntity.ok(service.createMatch(match));

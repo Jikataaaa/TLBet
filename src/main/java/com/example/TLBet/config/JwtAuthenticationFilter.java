@@ -3,7 +3,6 @@ package com.example.TLBet.config;
 import com.example.TLBet.models.entities.User;
 import com.example.TLBet.models.enums.UserRole;
 import com.example.TLBet.service.JwtService;
-import io.jsonwebtoken.MalformedJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -36,33 +35,32 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             "/tournaments/add", "/tournaments/edit", "/tournaments/delete", "/tournaments/getAll");
 
     @Override
-    protected void doFilterInternal( @NonNull HttpServletRequest request,
-                                     @NonNull HttpServletResponse response,
-                                     @NonNull FilterChain filterChain)
+    protected void doFilterInternal(@NonNull HttpServletRequest request,
+                                    @NonNull HttpServletResponse response,
+                                    @NonNull FilterChain filterChain)
             throws ServletException, IOException {
 
         String authHeader = request.getHeader("Authorization");
         String jwt;
         String username;
-        if(authHeader == null || !authHeader.startsWith("Bearer ")){
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
         }
         jwt = authHeader.substring(7);
 
-
         username = validateToken(jwt);
 
 
-        if(username != null && SecurityContextHolder.getContext().getAuthentication() == null){
+        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
-            if (this.adminPaths.contains(request.getRequestURI())){
-                if(!((User) userDetails).getRole().name().equals(UserRole.ADMIN.name())){
+            if (this.adminPaths.contains(request.getRequestURI())) {
+                if (!((User) userDetails).getRole().name().equals(UserRole.ADMIN.name())) {
                     filterChain.doFilter(request, response);
                     return;
                 }
             }
-            if (jwtService.isTokenValid(jwt, userDetails)){
+            if (jwtService.isTokenValid(jwt, userDetails)) {
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                         userDetails,
                         null,
@@ -75,6 +73,5 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             }
         }
         filterChain.doFilter(request, response);
-
     }
 }

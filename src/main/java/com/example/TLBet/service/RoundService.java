@@ -10,8 +10,6 @@ import java.util.List;
 
 public interface RoundService {
 
-    Round getLastRound();
-
     Round getById(long id);
 
     List<RoundView> getAllByTournamentId(long tournamentId);
@@ -25,8 +23,6 @@ public interface RoundService {
     long setRoundActiveById(long id);
 
     RoundOutView getActiveRound() throws NoContentException;
-
-    int getRoundCount();
 
     List<Long> getRoundIdsWithPopulatedResults();
 }

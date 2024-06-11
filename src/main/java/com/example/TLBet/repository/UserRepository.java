@@ -15,11 +15,11 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     List<User> findAllByOrderByIdDesc();
 
-    @Query(value = "select new User(u.firstName, u.lastName, u.username) from User u " +
-            "order by u.id desc")
+    @Query(value =
+            "select new User(u.firstName, u.lastName, u.username)   " +
+            "from User u                                            " +
+            "order by u.id desc                                     ")
     List<User> findAllFullNames();
-
-    User findByEmail(String email);
 
     Optional<User> findByUsernameOrEmail(String username, String email);
 }

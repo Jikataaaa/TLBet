@@ -13,7 +13,6 @@ import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -27,10 +26,6 @@ import static org.springframework.http.HttpStatus.BAD_REQUEST;
 @Slf4j
 @RestControllerAdvice
 public class ExceptionHandlerController extends BaseController {
-
-
-    @Autowired
-    private MessageSource messageSource;
 
     @Autowired
     private SystemLogService systemLogService;
@@ -66,7 +61,6 @@ public class ExceptionHandlerController extends BaseController {
         if (user != null) {
             systemLogInView.setUserId(user.getId());
         }
-
         systemLogService.createSystemLog(systemLogInView);
     }
 

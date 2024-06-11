@@ -19,7 +19,7 @@ public class RoundController {
     private final RoundService roundService;
 
     @GetMapping("/getAll")
-    public ResponseEntity<List<RoundView>> getAllByTournamentId(@RequestParam long tournamentId){
+    public ResponseEntity<List<RoundView>> getAllByTournamentId(@RequestParam long tournamentId) {
         return ResponseEntity.ok(roundService.getAllByTournamentId(tournamentId));
     }
 
@@ -29,18 +29,18 @@ public class RoundController {
     }
 
     @PutMapping("/edit")
-    public ResponseEntity<Long> editRound(@RequestBody AddRoundView roundView){
+    public ResponseEntity<Long> editRound(@RequestBody AddRoundView roundView) {
         return ResponseEntity.ok(roundService.editRound(roundView));
     }
 
     @DeleteMapping("/delete")
     @ResponseStatus(HttpStatus.OK)
-    public void deleteRoundById(@RequestParam long id){
+    public void deleteRoundById(@RequestParam long id) {
         roundService.deleteRoundById(id);
     }
 
     @PostMapping("/setActive")
-    public ResponseEntity<Long> setRoundActiveById(@RequestBody long id){
+    public ResponseEntity<Long> setRoundActiveById(@RequestBody long id) {
         return ResponseEntity.ok(roundService.setRoundActiveById(id));
     }
 

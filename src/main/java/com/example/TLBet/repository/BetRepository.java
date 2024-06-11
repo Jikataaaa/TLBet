@@ -15,17 +15,15 @@ public interface BetRepository extends JpaRepository<Bet, Long> {
 
     List<Bet> findAllByUserIdAndMatchStartTimeBeforeOrderByIdDesc(Long id, Instant now);
 
-    List<Bet> findBetsByUserUsernameAndMatchStartTimeAfterOrderByIdDesc(String username, Instant now);
-
     List<Bet> findBetsByUser_UsernameAndMatch_StartTimeAfterOrderByIdDesc(String username, Instant now);
 
     List<Bet> findAllByMatchRoundOrderByIdDesc(Round match_round);
 
     @Query(value =
             "select b.id, b.user_id, b.match_id, b.home_team_goals, b.away_team_goals   " +
-                    "from bets b left join matches m on m.id = b.match_id                       " +
-                    "where YEAR(m.start_time) = YEAR(CURDATE())                                 " +
-                    "order by b.id desc                                                         ", nativeQuery = true)
+            "from bets b left join matches m on m.id = b.match_id                       " +
+            "where YEAR(m.start_time) = YEAR(CURDATE())                                 " +
+            "order by b.id desc                                                         ", nativeQuery = true)
     List<Bet> findBetsByMatchStartTimeFromCurrentYear();
 
     boolean existsBetByMatchAndUserUsername(Match match, String username);
@@ -36,10 +34,12 @@ public interface BetRepository extends JpaRepository<Bet, Long> {
 
     List<Bet> findBetsByUserUsernameAndHomeTeamGoalsNotNullAndAwayTeamGoalsNotNullOrderByIdDesc(String username);
 
-    @Query(value = "select new Bet(b.id, b.match, b.user, b.homeTeamGoals, b.awayTeamGoals) from Bet b " +
-            "join Round  r " +
-            "on b.match.round.id = r.id " +
-            "where r.id <= :roundId ")
+    @Query(value =
+            "select new Bet(b.id, b.match, b.user, b.homeTeamGoals, b.awayTeamGoals)    " +
+            "from Bet b                                                                 " +
+            "join Round  r                                                              " +
+            "on b.match.round.id = r.id                                                 " +
+            "where r.id <= :roundId                                                     ")
     List<Bet> getBetsByRoundIdLower(Long roundId);
 
     List<Bet> findBetsByUserUsernameAndMatch_HomeTeamGoalsNotNullAndAwayTeamGoalsNotNullOrderByIdDesc(String username);

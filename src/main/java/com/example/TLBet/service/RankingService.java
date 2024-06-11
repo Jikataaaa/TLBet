@@ -1,6 +1,5 @@
 package com.example.TLBet.service;
 
-import com.example.TLBet.models.exeptions.NoContentException;
 import com.example.TLBet.models.view.RankingView;
 
 import java.util.List;
@@ -8,9 +7,4 @@ import java.util.List;
 public interface RankingService {
 
     List<RankingView> getInGeneralRanking();
-//
-//    List<RankingView> getLastRoundRanking();
-//
-//    List<RankingView> getCurrentYearRanking();
-
 }

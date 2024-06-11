@@ -18,21 +18,23 @@ public class LeagueController {
 
 
     @GetMapping("/getAll")
-    public ResponseEntity<List<LeagueView>> getAll(){
+    public ResponseEntity<List<LeagueView>> getAll() {
         return ResponseEntity.ok(leagueService.getAll());
     }
+
     @PostMapping("/add")
-    public ResponseEntity<Long> createLeague(@RequestBody LeagueView leagueView){
+    public ResponseEntity<Long> createLeague(@RequestBody LeagueView leagueView) {
         return ResponseEntity.ok(leagueService.createLeague(leagueView));
     }
+
     @PutMapping("/edit")
-    public ResponseEntity<Long> editLeague(@RequestBody LeagueView leagueView){
+    public ResponseEntity<Long> editLeague(@RequestBody LeagueView leagueView) {
         return ResponseEntity.ok(leagueService.editLeague(leagueView));
     }
 
     @DeleteMapping("/delete")
     @ResponseStatus(HttpStatus.OK)
-    public void editLeague(@RequestParam Long id){
+    public void editLeague(@RequestParam Long id) {
         leagueService.deleteLeagueById(id);
     }
 

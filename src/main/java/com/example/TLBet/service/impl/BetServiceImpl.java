@@ -4,8 +4,6 @@ import com.example.TLBet.models.entities.Bet;
 import com.example.TLBet.models.entities.Match;
 import com.example.TLBet.models.entities.Round;
 import com.example.TLBet.models.enums.MatchStatus;
-import com.example.TLBet.models.exeptions.NewBetException;
-import com.example.TLBet.models.service.BetRankingServiceModel;
 import com.example.TLBet.models.view.*;
 import com.example.TLBet.repository.BetRepository;
 import com.example.TLBet.service.AuthenticationService;
@@ -43,49 +41,6 @@ public class BetServiceImpl implements BetService {
                 .toList();
     }
 
-
-    @Override
-    public List<BetRankingServiceModel> getAllBetsForRanking() {
-        return repository.findAllByOrderByIdDesc().stream().map(bet ->
-                BetRankingServiceModel
-                        .builder()
-                        .username(bet.getUser().getUsername())
-                        .matchHomeTeamGoals(bet.getMatch().getHomeTeamGoals())
-                        .matchAwayTeamGoals(bet.getMatch().getAwayTeamGoals())
-                        .betHomeTeamGoals(bet.getHomeTeamGoals())
-                        .betAwayTeamGoals(bet.getAwayTeamGoals())
-                        .build()
-        ).toList();
-    }
-
-    @Override
-    public List<BetRankingServiceModel> getAllBetsForRankingByRound(Round round) {
-        return repository.findAllByMatchRoundOrderByIdDesc(round).stream().map(bet ->
-                BetRankingServiceModel
-                        .builder()
-                        .username(bet.getUser().getUsername())
-                        .matchHomeTeamGoals(bet.getMatch().getHomeTeamGoals())
-                        .matchAwayTeamGoals(bet.getMatch().getAwayTeamGoals())
-                        .betHomeTeamGoals(bet.getHomeTeamGoals())
-                        .betAwayTeamGoals(bet.getAwayTeamGoals())
-                        .build()
-        ).toList();
-    }
-
-    @Override
-    public List<BetRankingServiceModel> getAllBetsForCurrentYearRanking() {
-        return repository.findBetsByMatchStartTimeFromCurrentYear().stream().map(bet ->
-                BetRankingServiceModel
-                        .builder()
-                        .username(bet.getUser().getUsername())
-                        .matchHomeTeamGoals(bet.getMatch().getHomeTeamGoals())
-                        .matchAwayTeamGoals(bet.getMatch().getAwayTeamGoals())
-                        .betHomeTeamGoals(bet.getHomeTeamGoals())
-                        .betAwayTeamGoals(bet.getAwayTeamGoals())
-                        .build()
-        ).toList();
-    }
-
     @Override
     @Transactional
     public List<NewBetView> createBets(List<NewBetView> bets, String username) {
@@ -94,7 +49,7 @@ public class BetServiceImpl implements BetService {
         for (NewBetView newBetView : bets) {
             Match match = this.matchService.getMatchById(newBetView.getMatchId());
             if (Instant.now().isAfter(match.getStartTime())) {
-               continue;
+                continue;
             }
             if (checkExistingBetOnMatch(match, username)) {
                 continue;

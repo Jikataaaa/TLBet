@@ -10,7 +10,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,7 +27,7 @@ public class TournamentServiceImpl implements TournamentService {
     public List<TournamentView> getAll() {
         return (repository.findAllByOrderByIdDesc().stream()
                 .map(t -> mapper.map(t, TournamentView.class))
-                 .collect(Collectors.toList()));
+                .collect(Collectors.toList()));
 
     }
 

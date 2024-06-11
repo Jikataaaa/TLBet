@@ -8,7 +8,6 @@ import com.example.TLBet.models.enums.UserRole;
 import com.example.TLBet.models.exeptions.ExpiredTokenException;
 import com.example.TLBet.models.exeptions.InvalidTokenException;
 import com.example.TLBet.models.exeptions.UserErrorException;
-import com.example.TLBet.models.view.UserOutView;
 import com.example.TLBet.models.view.UserView;
 import com.example.TLBet.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
@@ -37,7 +36,7 @@ public class AuthenticationController {
     @PostMapping("/login")
     public ResponseEntity<AuthenticationResponse> login(
             @RequestBody LoginRequest request
-    ){
+    ) {
 
         return ResponseEntity.ok(authenticationService.login(request));
     }
@@ -45,55 +44,56 @@ public class AuthenticationController {
     @GetMapping("/roleAccess")
     public ResponseEntity<Boolean> getRoleAccess(@RequestParam("token") String token,
                                                  @RequestParam("username") String username,
-                                                 @RequestParam("role") String role){
+                                                 @RequestParam("role") String role) {
 
         String extractUsername = validateToken(token);
-        if(extractUsername == null){
+        if (extractUsername == null) {
             return ResponseEntity.ok(false);
         }
 
-        if(username.equals(extractUsername)){
+        if (username.equals(extractUsername)) {
             UserRole userRole = authenticationService.getUserRole(username);
             String roleName = userRole.name();
             if (roleName.equals(role)) {
                 return ResponseEntity.ok(true);
-            }else if(roleName.equals("ADMIN") && role.equals("USER")){
+            } else if (roleName.equals("ADMIN") && role.equals("USER")) {
                 return ResponseEntity.ok(true);
-            }else {
+            } else {
                 return ResponseEntity.ok(false);
             }
-        }else{
+        } else {
             return ResponseEntity.ok(false);
         }
     }
+
     @GetMapping("/verifyAuthentication")
     public ResponseEntity<Boolean> verifyAuthentication(@RequestParam("token") String token,
                                                         @RequestParam("username") String username) throws InvalidTokenException, ExpiredTokenException {
 
         String extractUsername = validateToken(token);
-        if(extractUsername == null){
+        if (extractUsername == null) {
             throw new ExpiredTokenException("Token is invalid or missing.");
         }
-        if(extractUsername.equals(username)){
+        if (extractUsername.equals(username)) {
             return ResponseEntity.ok(true);
-        }else {
+        } else {
             throw new InvalidTokenException(ExceptionEnum.EXCEPTION_INVALID_TOKEN,
                     new Throwable("Token is invalid or missing."));
         }
     }
 
     @GetMapping("/all-users")
-    public ResponseEntity<List<UserView>> getAllUsers(){
+    public ResponseEntity<List<UserView>> getAllUsers() {
         return ResponseEntity.ok(authenticationService.getAllUsers());
     }
+
     @GetMapping("/user")
-    public ResponseEntity<Long> getUserId(@RequestParam("username") String username){
+    public ResponseEntity<Long> getUserId(@RequestParam("username") String username) {
         return ResponseEntity.ok(authenticationService.getUserIdByUsername(username));
     }
 
     @GetMapping("/healthCheck")
     @ResponseStatus(HttpStatus.OK)
-    public void healthCheckEndpoint(){
-
+    public void healthCheckEndpoint() {
     }
 }

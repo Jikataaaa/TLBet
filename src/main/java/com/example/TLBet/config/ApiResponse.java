@@ -9,7 +9,6 @@ public class ApiResponse {
         this.message = message;
     }
 
-    // Гетъри и сетъри
     public int getStatusCode() {
         return statusCode;
     }

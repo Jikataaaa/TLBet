@@ -2,7 +2,6 @@ package com.example.TLBet.service.impl;
 
 import com.example.TLBet.models.entities.Round;
 import com.example.TLBet.models.entities.Tournament;
-import com.example.TLBet.models.enums.ExceptionEnum;
 import com.example.TLBet.models.exeptions.NoContentException;
 import com.example.TLBet.models.view.AddRoundView;
 import com.example.TLBet.models.view.RoundOutView;
@@ -27,11 +26,6 @@ public class RoundServiceImpl implements RoundService {
     private final RoundRepository repository;
     private final TournamentRepository tournamentRepository;
     private final ModelMapper mapper;
-
-    @Override
-    public Round getLastRound() {
-        return repository.findFirstByOrderByIdDesc();
-    }
 
     @Override
     public Round getById(long id) {
@@ -91,11 +85,6 @@ public class RoundServiceImpl implements RoundService {
         }
 
         return mapper.map(round, RoundOutView.class);
-    }
-
-    @Override
-    public int getRoundCount() {
-        return repository.getRoundCount();
     }
 
     @Override
