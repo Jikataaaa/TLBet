@@ -52,9 +52,15 @@ export class MatchesViewComponent implements OnInit, OnChanges, OnDestroy {
             if (a.status === MatchStatusEnum.PLAYABLE && b.status !== MatchStatusEnum.PLAYABLE) {
                 return -1;
             }
+
             if (a.status !== MatchStatusEnum.PLAYABLE && b.status === MatchStatusEnum.PLAYABLE) {
                 return 1;
             }
+
+            if (a.status === b.status) {
+                return a.id - b.id;
+            }
+            
             return 0;
         });
 

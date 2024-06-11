@@ -71,7 +71,7 @@ export class MatchComponent implements OnInit {
     }
 
     private _filterTeams(value: string | null | undefined): TeamModel[] {
-        const filterValue = value ?? "".toLowerCase();
+        const filterValue = (value ?? "").toLowerCase();
         return this.teams.filter(team => team.name.toLowerCase().includes(filterValue));
     }
 
