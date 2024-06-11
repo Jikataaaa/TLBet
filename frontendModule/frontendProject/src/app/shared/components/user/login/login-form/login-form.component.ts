@@ -21,7 +21,7 @@ export class LoginFormComponent implements OnDestroy {
 
     loginForm = new FormGroup({
         username: new FormControl("", [Validators.required, Validators.minLength(3), Validators.maxLength(100)]),
-        password: new FormControl("", [Validators.required, Validators.minLength(5), Validators.maxLength(20)]) // Validators.minLength(5) shold be changed to Validators.minLength(8)
+        password: new FormControl("", [Validators.required, Validators.minLength(8), Validators.maxLength(20)]) // Validators.minLength(5) shold be changed to Validators.minLength(8)
     });
 
     constructor(
