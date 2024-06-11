@@ -1,5 +1,4 @@
 <form class="flex flex-col p-8"
-      (ngSubmit)="register()"
       [formGroup]="registerForm">
     <mat-form-field appearance="outline"
                     class="w-full mb-4">
@@ -140,6 +139,7 @@
     </mat-form-field>
 
     <button mat-raised-button
+            (debouncedClick)="register()"
             color="primary"
             type="submit"
             class="w-full bg-orange-500 py-2 rounded shadow hover:bg-orange-400">

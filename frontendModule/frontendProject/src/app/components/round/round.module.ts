@@ -5,6 +5,7 @@ import { MaterialModule } from 'src/app/material/material.module';
 import { RoundComponent } from './round/round.component';
 import { RoundsComponent } from './rounds/rounds.component';
 import { RoundService } from './services/round.service';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
     declarations: [
@@ -15,6 +16,7 @@ import { RoundService } from './services/round.service';
         CommonModule,
         ReactiveFormsModule,
         MaterialModule,
+        SharedModule
     ], providers: [
         RoundService
     ]

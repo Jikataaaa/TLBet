@@ -5,6 +5,7 @@ import { MaterialModule } from 'src/app/material/material.module';
 import { LeagueComponent } from './league/league.component';
 import { LeaguesComponent } from './leagues/leagues.component';
 import { LeagueService } from './services/league.service';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
     declarations: [
@@ -15,6 +16,7 @@ import { LeagueService } from './services/league.service';
         CommonModule,
         ReactiveFormsModule,
         MaterialModule,
+        SharedModule
     ], providers: [
         LeagueService
     ]

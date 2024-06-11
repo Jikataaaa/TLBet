@@ -22,7 +22,7 @@
                 <mat-icon>arrow_back</mat-icon>
                 Назад
             </button>
-            <button (click)="onSubmit()" [disabled]="teamForm.invalid" mat-raised-button color="primary">Запази</button>
+            <button (debouncedClick)="onSubmit()" [disabled]="teamForm.invalid" mat-raised-button color="primary">Запази</button>
         </div>
     </form>
 </div>

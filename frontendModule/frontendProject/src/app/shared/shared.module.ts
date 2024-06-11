@@ -6,6 +6,7 @@ import { StandingComponent } from '../components/standing/standing.component';
 import { MaterialModule } from '../material/material.module';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 import { RouterModule } from '@angular/router';
+import { DebouncedClickDirective } from './directives/debounce-click.directive';
 
 
 @NgModule({
@@ -13,9 +14,14 @@ import { RouterModule } from '@angular/router';
         GoalsPickerComponent,
         StandingComponent,
         MatchProcessComponent,
-        ConfirmDialogComponent
+        ConfirmDialogComponent,
+        DebouncedClickDirective
     ],
     imports: [CommonModule, MaterialModule, RouterModule],
-    exports: [GoalsPickerComponent, MatchProcessComponent, StandingComponent],
+    exports: [GoalsPickerComponent, MatchProcessComponent, StandingComponent,
+        DebouncedClickDirective],
+    providers: [
+        DebouncedClickDirective
+    ],
 })
 export class SharedModule { }

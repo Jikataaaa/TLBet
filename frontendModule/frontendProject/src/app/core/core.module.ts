@@ -7,6 +7,7 @@ import { MaterialModule } from '../material/material.module';
 import { FooterComponent } from './footer/footer.component';
 import { HeaderComponent } from './header/header.component';
 import { AuthInterceptor } from './interceptors/auth-interceptor';
+import { DebouncedClickDirective } from '../shared/directives/debounce-click.directive';
 
 @NgModule({
     declarations: [HeaderComponent, FooterComponent],

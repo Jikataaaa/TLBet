@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { MatchModule } from 'src/app/components/match/match.module';
 import { MaterialModule } from 'src/app/material/material.module';
 import { UserService } from 'src/app/services/user/user.service';
@@ -12,7 +13,6 @@ import { ProfileComponent } from './profile/profile.component';
 import { RankingComponent } from './ranking/ranking.component';
 import { RegisterComponent } from './register/register.component';
 import { UserDetailComponent } from './user-detail/user-detail.component';
-import { RouterModule } from '@angular/router';
 
 
 @NgModule({
@@ -22,7 +22,7 @@ import { RouterModule } from '@angular/router';
         RankingComponent,
         ProfileComponent,
         LoginFormComponent,
-        UserDetailComponent,
+        UserDetailComponent
     ],
     imports: [
         CommonModule,
@@ -34,7 +34,7 @@ import { RouterModule } from '@angular/router';
         RouterModule
     ],
     providers: [
-        UserService,
+        UserService
     ]
 
 })

@@ -12,6 +12,7 @@ import { CoreModule } from './core/core.module';
 import { HomeComponent } from './core/home/home.component';
 import { UserModule } from './shared/components/user/user.module';
 import { SharedModule } from './shared/shared.module';
+import { DebouncedClickDirective } from './shared/directives/debounce-click.directive';
 
 
 @NgModule({
@@ -33,6 +34,6 @@ import { SharedModule } from './shared/shared.module';
         RoundModule
     ],
     providers: [],
-    bootstrap: [AppComponent]
+    bootstrap: [AppComponent],
 })
 export class AppModule { }

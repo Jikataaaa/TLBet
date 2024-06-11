@@ -5,6 +5,7 @@ import { TournamentService } from './services/tournament.service';
 import { TournamentComponent } from './tournament/tournament.component';
 import { TournamentsComponent } from './tournaments/tournaments.component';
 import { MaterialModule } from 'src/app/material/material.module';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
     declarations: [
@@ -15,6 +16,7 @@ import { MaterialModule } from 'src/app/material/material.module';
         CommonModule,
         ReactiveFormsModule,
         MaterialModule,
+        SharedModule
     ], providers: [
         TournamentService
     ]
