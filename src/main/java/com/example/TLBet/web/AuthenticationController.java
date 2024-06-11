@@ -91,10 +91,6 @@ public class AuthenticationController {
         return ResponseEntity.ok(authenticationService.getUserIdByUsername(username));
     }
 
-    @GetMapping("/user-by-name")
-    public ResponseEntity<UserOutView> getUserByUsername(@RequestParam("username") String username) throws UserErrorException {
-        return ResponseEntity.ok(authenticationService.getUserByName(username));
-    }
     @GetMapping("/healthCheck")
     @ResponseStatus(HttpStatus.OK)
     public void healthCheckEndpoint(){

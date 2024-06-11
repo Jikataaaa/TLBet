@@ -26,4 +26,12 @@ public class Bet extends MatchStatistics {
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
+
+    public Bet(Long id, Match match, User user, Integer homeTeamGoals, Integer awayTeamGoals){
+        this.setId(id);
+        this.match = match;
+        this.user = user;
+        this.setHomeTeamGoals(homeTeamGoals);
+        this.setAwayTeamGoals(awayTeamGoals);
+    }
 }

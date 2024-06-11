@@ -11,6 +11,7 @@ import { LoginComponent } from './login/login.component';
 import { ProfileComponent } from './profile/profile.component';
 import { RankingComponent } from './ranking/ranking.component';
 import { RegisterComponent } from './register/register.component';
+import { AllMatchesComponent } from 'src/app/components/match/all-matches/all-matches.component';
 
 
 @NgModule({

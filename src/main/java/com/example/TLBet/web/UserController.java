@@ -1,12 +1,15 @@
 package com.example.TLBet.web;
 
 import com.example.TLBet.models.exeptions.UserErrorException;
+import com.example.TLBet.models.view.BetView;
 import com.example.TLBet.models.view.UserInView;
 import com.example.TLBet.models.view.UserOutView;
+import com.example.TLBet.models.view.UserProfileOutView;
 import com.example.TLBet.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,7 +18,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/users")
 @RequiredArgsConstructor
-public class UserController {
+public class UserController extends BaseController{
 
     @Autowired
     private UserService userService;
@@ -44,5 +47,11 @@ public class UserController {
         UserOutView user = userService.deleteOne(id);
         log.info("finished deleteOne()");
         return user;
+    }
+
+    @GetMapping("/profile")
+    public ResponseEntity<UserProfileOutView> getUserProfile() throws UserErrorException {
+        String username = super.getCurrentUserUsername();
+        return ResponseEntity.ok(userService.getUserProfile(username));
     }
 }

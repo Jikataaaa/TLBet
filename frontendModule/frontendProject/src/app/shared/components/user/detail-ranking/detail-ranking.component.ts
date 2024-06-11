@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BetService } from 'src/app/services/bet/bet.service';
 import { lastValueFrom } from 'rxjs';
-import { PersonalBet } from 'src/app/shared/interfaces/PersonalBet';
+import { PersonalBetModel } from 'src/app/services/user/models/personalBet.model';
 
 @Component({
     selector: 'app-detail-ranking',
@@ -12,7 +12,7 @@ import { PersonalBet } from 'src/app/shared/interfaces/PersonalBet';
 export class DetailRankingComponent implements OnInit {
 
     id: string | null;
-    bets: PersonalBet[] = [];
+    bets: PersonalBetModel[] = [];
     displayedColumns: string[] = ["awayTeam",
         "awayTeamGoals",
         "homeTeam",

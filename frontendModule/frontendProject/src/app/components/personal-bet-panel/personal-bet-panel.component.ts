@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { PersonalBet } from 'src/app/shared/interfaces/PersonalBet';
+import { PersonalBetModel } from 'src/app/services/user/models/personalBet.model';
 
 @Component({
   selector: 'app-personal-bet-panel',
@@ -8,5 +8,5 @@ import { PersonalBet } from 'src/app/shared/interfaces/PersonalBet';
 })
 export class PersonalBetPanelComponent {
   @Input()
-  bets!: PersonalBet[];
+  bets!: PersonalBetModel[];
 }

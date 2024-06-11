@@ -15,8 +15,6 @@ public interface BetService {
 
     List<BetView> getAllBetsByUser(long id);
 
-    List<BetView> getAllBetsByUsername(String username);
-
     List<BetRankingServiceModel> getAllBetsForRanking();
 
     List<BetRankingServiceModel> getAllBetsForRankingByRound(Round round);
@@ -28,6 +26,9 @@ public interface BetService {
     boolean checkExistingBetOnMatch(Match match, String username);
 
     List<Bet> findBetsByUserUsernameAndMatchRound(String username, Round round);
+
     List<MatchResultView> getAllUserPlayedMatches(String username);
 
+    List<Bet> getBetsByRoundIdLower(Long roundId);
+    List<BetView> getAllEndedBetsByUsername(String username);
 }

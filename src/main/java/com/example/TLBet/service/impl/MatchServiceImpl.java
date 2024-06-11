@@ -25,7 +25,6 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class MatchServiceImpl implements MatchService {
     private final MatchRepository matchRepository;
-    private final UserService userService;
     private final TeamService teamService;
     private final RoundRepository roundRepository;
     private final TournamentService tournamentService;

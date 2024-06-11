@@ -92,4 +92,14 @@ public class RoundServiceImpl implements RoundService {
 
         return mapper.map(round, RoundOutView.class);
     }
+
+    @Override
+    public int getRoundCount() {
+        return repository.getRoundCount();
+    }
+
+    @Override
+    public List<Long> getRoundIdsWithPopulatedResults() {
+        return repository.getRoundIdsWithPopulatedResults();
+    }
 }
