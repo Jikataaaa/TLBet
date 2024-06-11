@@ -53,9 +53,16 @@ export class RegisterComponent {
             password: password!.value!
         });
 
-        this.service.register(register).subscribe((res) => {
-            this.openSnackBar("Успешна регистрация!", "Затвори");
-            this.router.navigate(["/"]);
+        this.service.register(register).subscribe({
+            next: (res) => {
+                debugger
+                this.openSnackBar("Успешна регистрация!", "Затвори");
+                this.router.navigate(["/"]);
+            },
+            error: (err) => {
+                debugger
+                this.openSnackBar("Cъществува потребител с този имейл или потребителско име!", "Затвори");
+            }
         });
     }
 

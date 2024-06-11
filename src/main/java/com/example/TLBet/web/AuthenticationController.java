@@ -30,7 +30,7 @@ public class AuthenticationController {
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register(
             @RequestBody RegisterRequest request
-    ){
+    ) throws UserErrorException {
         return ResponseEntity.ok(authenticationService.register(request));
     }
 

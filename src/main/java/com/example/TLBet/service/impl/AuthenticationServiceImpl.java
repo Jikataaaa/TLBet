@@ -4,10 +4,8 @@ import com.example.TLBet.models.auth.AuthenticationResponse;
 import com.example.TLBet.models.auth.LoginRequest;
 import com.example.TLBet.models.auth.RegisterRequest;
 import com.example.TLBet.models.entities.User;
-import com.example.TLBet.models.enums.ExceptionEnum;
 import com.example.TLBet.models.enums.UserRole;
 import com.example.TLBet.models.exeptions.UserErrorException;
-import com.example.TLBet.models.view.UserOutView;
 import com.example.TLBet.models.view.UserView;
 import com.example.TLBet.repository.UserRepository;
 import com.example.TLBet.service.AuthenticationService;
@@ -25,6 +23,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+import static com.example.TLBet.models.enums.ExceptionEnum.USER_ALREADY_EXISTS;
+
 @Service
 @RequiredArgsConstructor
 public class AuthenticationServiceImpl implements AuthenticationService {
@@ -37,7 +37,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 
     @Override
-    public AuthenticationResponse register(@Valid RegisterRequest request) {
+    public AuthenticationResponse register(@Valid RegisterRequest request) throws UserErrorException {
         User user = User.builder()
                 .username(request.getUsername())
                 .email(request.getEmail())
@@ -48,6 +48,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .build();
 
         user.setCreatedOn(Timestamp.valueOf(LocalDateTime.now()));
+
+        User existingUser = userRepository.findByUsernameOrEmail(user.getUsername(), user.getEmail()).orElse(null);
+
+        if (existingUser != null) {
+            throw new UserErrorException(USER_ALREADY_EXISTS,
+                    new Throwable("User already exists"));
+        }
 
         userRepository.save(user);
         String token = jwtService.generateToken(user);
