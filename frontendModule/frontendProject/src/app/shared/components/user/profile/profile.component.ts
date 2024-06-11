@@ -11,16 +11,9 @@ import { UserService } from 'src/app/services/user/user.service';
 })
 export class ProfileComponent implements OnInit, OnDestroy {
     user: UserModel | undefined;
-    matchesFormArray!: FormArray;
-    form!: FormGroup;
-    hasPlayableMatches: boolean = false;
     subs: Subscription[] = [];
 
     constructor(private userService: UserService) {
-        this.matchesFormArray = new FormArray<FormGroup>([]);
-        this.form = new FormGroup({
-            matches: this.matchesFormArray,
-        });
     }
 
     ngOnInit() {
