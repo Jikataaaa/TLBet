@@ -6,19 +6,25 @@ import { AllMatchesComponent } from './all-matches/all-matches.component';
 import { MatchService } from './services/match.service';
 import { MatchComponent } from './match/match.component';
 import { MatchesComponent } from './matches/matches.component';
+import { MatchesViewComponent } from './matches-view/matches-view.component';
 
 
 @NgModule({
     declarations: [
         AllMatchesComponent,
         MatchComponent,
-        MatchesComponent
+        MatchesComponent,
+        MatchesViewComponent,
     ],
     imports: [
         CommonModule,
         MaterialModule,
         SharedModule,
-    ], providers: [
+    ],
+    exports: [
+        MatchesViewComponent,
+    ],
+    providers: [
         MatchService
     ]
 })

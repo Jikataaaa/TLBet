@@ -4,7 +4,6 @@ import { AllMatchesComponent } from './components/match/all-matches/all-matches.
 import { AuthGuard } from './core/guards/AuthGuard';
 import { HomeComponent } from './core/home/home.component';
 import { NotFoundComponent } from './shared/components/not-found/not-found.component';
-import { DetailRankingComponent } from './shared/components/user/detail-ranking/detail-ranking.component';
 import { LoginComponent } from './shared/components/user/login/login.component';
 import { ProfileComponent } from './shared/components/user/profile/profile.component';
 import { RankingComponent } from './shared/components/user/ranking/ranking.component';
@@ -48,13 +47,6 @@ const routes: Routes = [
         },
     },
     {
-        path: 'user/detail-ranking/:id',
-        component: DetailRankingComponent,
-        canActivate: [AuthGuard],
-        data: {
-            role: "USER"
-        },
-    }, {
         path: 'user/profile',
         component: ProfileComponent,
         canActivate: [AuthGuard],

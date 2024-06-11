@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormControl, FormGroup } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { MatchStatusEnum } from 'src/app/components/match/models/MatchStatusEnum';
 import { BetService } from 'src/app/services/bet/bet.service';
+import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
 import { NewBet } from 'src/app/shared/interfaces/NewBet';
+import { MatchesEventsService } from '../matches-view/services/matches-events.service';
 import { BetMatchModel } from '../models/bet-match.model';
 import { MatchService } from '../services/match.service';
-import { MatDialog } from '@angular/material/dialog';
-import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
 
 @Component({
     selector: 'all-matches',
@@ -15,27 +15,15 @@ import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog
 })
 export class AllMatchesComponent implements OnInit {
     matchesCount!: Number;
-    form!: FormGroup;
-    matchesFormArray!: FormArray;
+    matches: BetMatchModel[] = [];
     hasPlayableMatches: boolean = false;
 
     constructor(
         private matchService: MatchService,
         private betService: BetService,
         private dialog: MatDialog,
+        private matchesEventsService: MatchesEventsService
     ) {
-        this.matchesFormArray = new FormArray<FormGroup>([]);
-        this.form = new FormGroup({
-            matches: this.matchesFormArray,
-        });
-    }
-
-    get isAdmin(): boolean {
-        let role = localStorage.getItem('role');
-        if (role == 'ADMIN') {
-            return true;
-        }
-        return false;
     }
 
     ngOnInit() {
@@ -44,36 +32,13 @@ export class AllMatchesComponent implements OnInit {
 
     private loadAllMatches() {
         this.matchService.getAllMatches().subscribe((data) => {
-            this.fillForm(data);
+            this.hasPlayableMatches = data.some((x) => x.status == MatchStatusEnum.PLAYABLE);
+            this.matches = data;
         });
     }
 
-    fillForm(matches: BetMatchModel[]) {
-        const sortedMatches = matches.sort((a, b) => {
-            if (a.status === MatchStatusEnum.PLAYABLE && b.status !== MatchStatusEnum.PLAYABLE) {
-                return -1;
-            }
-            if (a.status !== MatchStatusEnum.PLAYABLE && b.status === MatchStatusEnum.PLAYABLE) {
-                return 1;
-            }
-            return 0;
-        });
-
-        this.hasPlayableMatches = sortedMatches.some((x) => x.status == MatchStatusEnum.PLAYABLE);
-
-        this.matchesFormArray.clear();
-        const groups: FormGroup[] = sortedMatches.map(
-            (match) =>
-                new FormGroup({
-                    match: new FormControl(match),
-                })
-        );
-        groups.forEach((group) => this.matchesFormArray.push(group));
-    }
-
-    onSubmit() {
-        const data: BetMatchModel[] = this.matchesFormArray.value.map((x: { match: Partial<BetMatchModel> | undefined; }) => new BetMatchModel(x.match))
-            .filter((x: BetMatchModel) => x.status === MatchStatusEnum.PLAYABLE);
+    onSubmittedMatches(betMatches: BetMatchModel[]) {
+        const data: BetMatchModel[] = betMatches.filter((x: BetMatchModel) => x.status === MatchStatusEnum.PLAYABLE);
 
         if (data.length === 0) {
             return;
@@ -104,5 +69,9 @@ export class AllMatchesComponent implements OnInit {
                 });
             }
         });
+    }
+
+    submitMatches() {
+        this.matchesEventsService.submitPlayableMatches.next();
     }
 }

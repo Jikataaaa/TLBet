@@ -1,14 +1,7 @@
-<div [formGroup]="form"
-     class="flex flex-col gap-2 justify-around items-center pt-2">
-    <div formArrayName="matches"
-         class="flex flex-col gap-2">
-        <div *ngFor="let match of matchesFormArray.controls; let i = index"
-             [formGroupName]="i">
-            <match-process formControlName="match"></match-process>
-        </div>
-    </div>
+<matches-view [matches]="matches"
+              (submittedMatches)="onSubmittedMatches($event)">
     <button mat-flat-button
             color="primary"
             *ngIf="hasPlayableMatches"
-            (click)="onSubmit()">Заложи</button>
-</div>
+            (click)="submitMatches()">Заложи</button>
+</matches-view>
