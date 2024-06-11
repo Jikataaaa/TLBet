@@ -75,6 +75,10 @@ export class AllMatchesComponent implements OnInit {
         const data: BetMatchModel[] = this.matchesFormArray.value.map((x: { match: Partial<BetMatchModel> | undefined; }) => new BetMatchModel(x.match))
             .filter((x: BetMatchModel) => x.status === MatchStatusEnum.PLAYABLE);
 
+        if (data.length === 0) {
+            return;
+        }
+
         const dialog = this.dialog.open(ConfirmDialogComponent, {
             data: {
                 title: `Залог`,
