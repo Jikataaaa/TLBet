@@ -18,6 +18,7 @@ import { LeagueComponent } from './components/league/league/league.component';
 import { TeamsComponent } from './components/team/teams/teams.component';
 import { TeamComponent } from './components/team/team/team.component';
 import { ActiveRoundComponent } from './components/round/active-round/active-round.component';
+import { UserDetailComponent } from './shared/components/user/user-detail/user-detail.component';
 
 const routes: Routes = [
     {
@@ -41,6 +42,14 @@ const routes: Routes = [
     {
         path: 'user/ranking',
         component: RankingComponent,
+        canActivate: [AuthGuard],
+        data: {
+            role: "USER"
+        },
+    },
+    {
+        path: 'user/detail/:username',
+        component: UserDetailComponent,
         canActivate: [AuthGuard],
         data: {
             role: "USER"

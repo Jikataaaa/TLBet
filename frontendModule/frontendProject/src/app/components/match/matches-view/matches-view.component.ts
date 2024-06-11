@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, S
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { BetMatchModel } from '../models/bet-match.model';
 import { MatchStatusEnum } from '../models/MatchStatusEnum';
-import { MatchesEventsService } from './services/matches-events.service';
+import { CommonEventsService } from '../../../core/common/common-events.service';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -23,7 +23,7 @@ export class MatchesViewComponent implements OnInit, OnChanges, OnDestroy {
     @Output()
     submittedMatches: EventEmitter<BetMatchModel[]> = new EventEmitter<BetMatchModel[]>();
 
-    constructor(private events: MatchesEventsService) {
+    constructor(private events: CommonEventsService) {
         this.matchesFormArray = new FormArray<FormGroup>([]);
         this.form = new FormGroup({
             matches: this.matchesFormArray,

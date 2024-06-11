@@ -1,34 +1,34 @@
 import { inject } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivateFn, Router, RouterStateSnapshot } from '@angular/router';
-import { lastValueFrom } from 'rxjs';
 import { UserService } from 'src/app/services/user/user.service';
+import { JwtUserData } from 'src/app/shared/utils/model/jwt-user-data.model';
 
 export const AuthGuard: CanActivateFn = async (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
     const userService = inject(UserService);
     const router = inject(Router);
 
-    const { role } = route.data;
+    let requiredRole = (route.data as { role: string; } | null)?.role;
 
-    //checking the authentication
-    let success: boolean = await lastValueFrom(userService.verifyAuthentication());
+    const token: string | null = localStorage.getItem('token');
+    if (!token) {
+        userService.logout();
+        return router.navigate(['user/login']);
+    }
+    
+    const userData: JwtUserData | null = userService.getUserJwtData(token);
 
-    if (!success) {
-        localStorage.clear();
+    if (!userData) {
+        userService.logout();
         return router.navigate(['user/login']);
     }
 
-    //checking roleAccess
-    const token = localStorage.getItem('token');
-    const username = localStorage.getItem('username');
-    if (token && username && role) {
-        success = await lastValueFrom(userService.getRoleAccess(token, username, role));
-        if (!success) {
-            localStorage.clear();
-            return router.navigate(['user/login']);
-        }
+    if (userData.expirationDate.getTime() < new Date().getTime()) {
+        userService.logout();
+        return router.navigate(['user/login']);
     }
-    else {
-        localStorage.clear();
+
+    if (requiredRole && requiredRole == 'ADMIN' && userData.role != 'ADMIN') {
+        userService.logout();
         return router.navigate(['user/login']);
     }
 

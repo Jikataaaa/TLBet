@@ -8,25 +8,32 @@
             <ng-container matColumnDef="position">
                 <th mat-header-cell
                     cdkDrag
-                    *matHeaderCellDef> # </th>
+                    *matHeaderCellDef
+                    class="font-bold"> # </th>
                 <td mat-cell
-                    *matCellDef="let rank"> {{rank.place}} </td>
+                    *matCellDef="let rank"
+                    class="font-bold"> {{rank.place}} </td>
             </ng-container>
 
             <ng-container matColumnDef="username">
                 <th mat-header-cell
                     cdkDrag
-                    *matHeaderCellDef> Име </th>
+                    *matHeaderCellDef
+                    class="font-bold"> Име </th>
                 <td mat-cell
-                    *matCellDef="let rank"> {{rank.username}} </td>
+                    [routerLink]="['/', 'user', 'detail', rank.username]"
+                    *matCellDef="let rank"
+                    class="font-bold cursor-pointer hover:text-primary-500 hover:underline"> {{rank.username}} </td>
             </ng-container>
 
             <ng-container matColumnDef="points">
                 <th mat-header-cell
                     cdkDrag
-                    *matHeaderCellDef> Точки </th>
+                    *matHeaderCellDef
+                    class="font-bold"> Точки </th>
                 <td mat-cell
-                    *matCellDef="let rank">
+                    *matCellDef="let rank"
+                    class="font-bold">
                     <div class="flex items-center">
                         <span>{{ rank.points }}</span>
                         <mat-icon *ngIf="rank.rankingDifferences>0"

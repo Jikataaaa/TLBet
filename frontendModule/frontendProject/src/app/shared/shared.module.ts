@@ -5,6 +5,7 @@ import { MatchProcessComponent } from '../components/match-process/match-process
 import { StandingComponent } from '../components/standing/standing.component';
 import { MaterialModule } from '../material/material.module';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
+import { RouterModule } from '@angular/router';
 
 
 @NgModule({
@@ -14,7 +15,7 @@ import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dial
         MatchProcessComponent,
         ConfirmDialogComponent
     ],
-    imports: [CommonModule, MaterialModule],
+    imports: [CommonModule, MaterialModule, RouterModule],
     exports: [GoalsPickerComponent, MatchProcessComponent, StandingComponent],
 })
 export class SharedModule { }

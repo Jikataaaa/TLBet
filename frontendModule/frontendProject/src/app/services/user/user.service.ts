@@ -1,8 +1,11 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map, of } from 'rxjs';
+import { CommonEventsService } from 'src/app/core/common/common-events.service';
 import { AuthUser } from 'src/app/shared/interfaces/AuthUser';
 import { User } from 'src/app/shared/interfaces/User';
+import { JwtUtils } from 'src/app/shared/utils/jwt-utils';
+import { JwtUserData } from 'src/app/shared/utils/model/jwt-user-data.model';
 import { BaseRequestService } from '../common/base-request.service';
 import { Login } from './models/Login';
 import { Register } from './models/Register';
@@ -17,7 +20,7 @@ export class UserService extends BaseRequestService {
         return 'api/v1/auth';
     }
 
-    constructor(http: HttpClient) {
+    constructor(http: HttpClient, private commonEvents: CommonEventsService) {
         super(http);
     }
 
@@ -56,6 +59,7 @@ export class UserService extends BaseRequestService {
 
     logout() {
         localStorage.clear();
+        this.commonEvents.authChanged.next();
     }
 
     getAllUsers(): Observable<User[]> {
@@ -72,5 +76,41 @@ export class UserService extends BaseRequestService {
 
     getUserProfile(): Observable<UserModel> {
         return this.get<UserModel>(`users/profile`);
+    }
+
+    getUserJwtData(token: string): JwtUserData | null {
+        if (!token) {
+            return null;
+        }
+
+        let payloadData = null;
+        try {
+            payloadData = JwtUtils.decodeJwtPayload(token) as { sub: string, role: string, exp: number, iat: number; } | null;
+            if (!payloadData) {
+                return null;
+            }
+        }
+        catch (e) {
+            return null;
+        }
+
+        return new JwtUserData({
+            username: payloadData.sub,
+            role: payloadData.role,
+            expirationDate: new Date(payloadData.exp * 1000),
+            issuedAt: new Date(payloadData.iat * 1000),
+        });
+    }
+
+    isAdmin(): boolean {
+        let token = localStorage.getItem("token");
+        if (!token) {
+            return false;
+        }
+        let userData = this.getUserJwtData(token);
+        if (!userData) {
+            return false;
+        }
+        return userData.role === 'ADMIN';
     }
 }

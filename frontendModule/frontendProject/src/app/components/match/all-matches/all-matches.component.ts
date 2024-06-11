@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatchStatusEnum } from 'src/app/components/match/models/MatchStatusEnum';
+import { CommonEventsService } from 'src/app/core/common/common-events.service';
 import { BetService } from 'src/app/services/bet/bet.service';
 import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
 import { NewBet } from 'src/app/shared/interfaces/NewBet';
-import { MatchesEventsService } from '../matches-view/services/matches-events.service';
 import { BetMatchModel } from '../models/bet-match.model';
 import { MatchService } from '../services/match.service';
 
@@ -22,7 +22,7 @@ export class AllMatchesComponent implements OnInit {
         private matchService: MatchService,
         private betService: BetService,
         private dialog: MatDialog,
-        private matchesEventsService: MatchesEventsService
+        private eventService: CommonEventsService
     ) {
     }
 
@@ -72,6 +72,6 @@ export class AllMatchesComponent implements OnInit {
     }
 
     submitMatches() {
-        this.matchesEventsService.submitPlayableMatches.next();
+        this.eventService.submitPlayableMatches.next();
     }
 }
