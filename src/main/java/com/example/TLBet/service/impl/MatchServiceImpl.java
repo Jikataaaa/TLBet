@@ -8,7 +8,6 @@ import com.example.TLBet.repository.RoundRepository;
 import com.example.TLBet.service.MatchService;
 import com.example.TLBet.service.TeamService;
 import com.example.TLBet.service.TournamentService;
-import com.example.TLBet.service.UserService;
 import com.example.TLBet.utils.DateUtil;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -236,7 +235,8 @@ public class MatchServiceImpl implements MatchService {
                 .build();
     }
 
-    private MatchStatus calculateMatchStatus(Bet optionalBet, Match match) {
+    @Override
+    public MatchStatus calculateMatchStatus(Bet optionalBet, Match match) {
         MatchStatus status = MatchStatus.PLAYABLE;
         if (optionalBet != null) {
             //Попълваме голововете от залога

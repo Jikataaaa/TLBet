@@ -5,6 +5,7 @@ import com.example.TLBet.models.entities.Match;
 import com.example.TLBet.models.entities.Round;
 import com.example.TLBet.models.exeptions.UserErrorException;
 import com.example.TLBet.models.service.BetRankingServiceModel;
+import com.example.TLBet.models.view.BetOutView;
 import com.example.TLBet.models.view.BetView;
 import com.example.TLBet.models.view.MatchResultView;
 import com.example.TLBet.models.view.NewBetView;
@@ -30,5 +31,6 @@ public interface BetService {
     List<MatchResultView> getAllUserPlayedMatches(String username);
 
     List<Bet> getBetsByRoundIdLower(Long roundId);
-    List<BetView> getAllEndedBetsByUsername(String username);
+
+    List<BetOutView> getAllEndedBetsByUsername(String username);
 }

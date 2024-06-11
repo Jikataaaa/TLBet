@@ -6,10 +6,7 @@ import com.example.TLBet.models.entities.Round;
 import com.example.TLBet.models.enums.MatchStatus;
 import com.example.TLBet.models.exeptions.NewBetException;
 import com.example.TLBet.models.service.BetRankingServiceModel;
-import com.example.TLBet.models.view.BetView;
-import com.example.TLBet.models.view.MatchResultView;
-import com.example.TLBet.models.view.MatchTeamResultView;
-import com.example.TLBet.models.view.NewBetView;
+import com.example.TLBet.models.view.*;
 import com.example.TLBet.repository.BetRepository;
 import com.example.TLBet.service.AuthenticationService;
 import com.example.TLBet.service.BetService;
@@ -167,18 +164,30 @@ public class BetServiceImpl implements BetService {
     }
 
     @Override
-    public List<BetView> getAllEndedBetsByUsername(String username) {
-        return repository.findBetsByUserUsernameAndHomeTeamGoalsNotNullAndAwayTeamGoalsNotNullOrderByIdDesc(username)
-                .stream()
-                .map(bet -> BetView
-                        .builder()
-                        .homeTeamGoals(bet.getHomeTeamGoals())
-                        .homeTeamUrl(bet.getMatch().getHomeTeam().getImageUrl())
-                        .awayTeamGoals(bet.getAwayTeamGoals())
-                        .awayTeamUrl(bet.getMatch().getAwayTeam().getImageUrl())
-                        .tournamentName(bet.getMatch().getRound().getTournament().getName())
-                        .build())
-                .toList();
-    }
+    public List<BetOutView> getAllEndedBetsByUsername(String username) {
+        List<Bet> bets = repository.findBetsByUserUsernameAndHomeTeamGoalsNotNullAndAwayTeamGoalsNotNullOrderByIdDesc(username);
+        List<BetOutView> betOutViews = new ArrayList<>();
 
+        for (Bet bet : bets) {
+            BetOutView betOutView = new BetOutView();
+            betOutView.setId(bet.getId());
+            betOutView.setHomeTeam(MatchTeamResultView.builder()
+                    .id(bet.getMatch().getHomeTeam().getId())
+                    .name(bet.getMatch().getHomeTeam().getName())
+                    .imageUrl(bet.getMatch().getHomeTeam().getImageUrl())
+                    .goals(bet.getHomeTeamGoals()).build());
+            betOutView.setAwayTeam(MatchTeamResultView.builder()
+                    .id(bet.getMatch().getAwayTeam().getId())
+                    .name(bet.getMatch().getAwayTeam().getName())
+                    .imageUrl(bet.getMatch().getAwayTeam().getImageUrl())
+                    .goals(bet.getAwayTeamGoals()).build());
+            betOutView.setStartTime(bet.getMatch().getStartTime());
+            betOutView.setStatus(matchService.calculateMatchStatus(bet, bet.getMatch()));
+            betOutView.setTournamentId(bet.getMatch().getRound().getTournament().getId());
+            betOutView.setTournamentName(bet.getMatch().getRound().getTournament().getName());
+            betOutView.setRound(bet.getMatch().getRound().getId());
+            betOutViews.add(betOutView);
+        }
+        return betOutViews;
+    }
 }
