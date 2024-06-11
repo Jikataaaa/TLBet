@@ -2,6 +2,7 @@ package com.example.TLBet.service.impl;
 
 import com.example.TLBet.models.entities.Bet;
 import com.example.TLBet.models.entities.Round;
+import com.example.TLBet.models.entities.User;
 import com.example.TLBet.models.exeptions.NoContentException;
 import com.example.TLBet.models.service.BetRankingServiceModel;
 import com.example.TLBet.models.service.RankingServiceModel;
@@ -31,12 +32,12 @@ public class RankingServiceImpl implements RankingService {
         if(playedRoundIds.size() > 1){
             List<Bet> currentBets = betService.getBetsByRoundIdLower(playedRoundIds.get(playedRoundIds.size()-1));
             List<Bet> lastRoundBets = betService.getBetsByRoundIdLower(playedRoundIds.get(playedRoundIds.size()-2));
-            Map<String, RankingServiceModel> currentView = calculateRanking(currentBets);
-            Map<String, RankingServiceModel> lastRoundView = calculateRanking(lastRoundBets);
+            Map<User, RankingServiceModel> currentView = calculateRanking(currentBets);
+            Map<User, RankingServiceModel> lastRoundView = calculateRanking(lastRoundBets);
             list = calculateDifferenceRanking(currentView, lastRoundView);
         }else if (playedRoundIds.size() == 1){
             List<Bet> currentBets = betService.getBetsByRoundIdLower(playedRoundIds.get(0));
-            Map<String, RankingServiceModel> currentView = calculateRanking(currentBets);
+            Map<User, RankingServiceModel> currentView = calculateRanking(currentBets);
             list = calculateDifferenceRanking(currentView, currentView);
         }else {
 
@@ -85,21 +86,23 @@ public class RankingServiceImpl implements RankingService {
 //        return calculateDifferenceRanking(currentView, lastRoundView);
 //    }
 
-    private List<RankingView> calculateDifferenceRanking(Map<String, RankingServiceModel> currentView, Map<String, RankingServiceModel> lastRoundView) {
+    private List<RankingView> calculateDifferenceRanking(Map<User, RankingServiceModel> currentView, Map<User, RankingServiceModel> lastRoundView) {
 
         List<RankingView> list = new ArrayList<>();
 
-        for (Map.Entry<String, RankingServiceModel> entry : currentView.entrySet()) {
+        for (Map.Entry<User, RankingServiceModel> entry : currentView.entrySet()) {
 
-            String username = entry.getKey();
+            User user = entry.getKey();
             RankingServiceModel value = entry.getValue();
 
             int currentPlace = entry.getValue().getPlace();
-            RankingServiceModel lastRoundModel = lastRoundView.get(username);
+            RankingServiceModel lastRoundModel = lastRoundView.get(user);
 
             RankingView view = RankingView
                     .builder()
-                    .username(username)
+                    .firstName(user.getFirstName())
+                    .lastName(user.getLastName())
+                    .username(user.getUsername())
                     .points(value.getPoints())
                     .build();
 
@@ -123,12 +126,12 @@ public class RankingServiceImpl implements RankingService {
     }
 
 
-    private Map<String, RankingServiceModel> calculateRanking(List<Bet> bets) {
+    private Map<User, RankingServiceModel> calculateRanking(List<Bet> bets) {
 
-        Map<String, Integer> map = new TreeMap<>();
+        Map<User, Integer> map = new HashMap<>();
         for (Bet bet : bets) {
-            String username = bet.getUser().getUsername();
-            map.putIfAbsent(username, 0);
+            User user = bet.getUser();
+            map.putIfAbsent(user, 0);
             Integer matchHomeTeamGoals = bet.getMatch().getHomeTeamGoals();
             Integer matchAwayTeamGoals = bet.getMatch().getAwayTeamGoals();
 
@@ -141,7 +144,7 @@ public class RankingServiceImpl implements RankingService {
 
             //check for exact result
             if (matchHomeTeamGoals == betHomeTeamGoals && matchAwayTeamGoals == betAwayTeamGoals) {
-                map.put(username, map.get(username) + POINTS_FOR_MATCH_RESULT);
+                map.put(user, map.get(user) + POINTS_FOR_MATCH_RESULT);
                 continue;
             }
 
@@ -149,14 +152,15 @@ public class RankingServiceImpl implements RankingService {
             if ((matchHomeTeamGoals > matchAwayTeamGoals && betHomeTeamGoals > betAwayTeamGoals)
                     || (matchHomeTeamGoals < matchAwayTeamGoals && betHomeTeamGoals < betAwayTeamGoals)
                     || (matchHomeTeamGoals.equals(matchAwayTeamGoals) && betHomeTeamGoals == betAwayTeamGoals)) {
-                map.put(username, map.get(username) + POINTS_FOR_MATCH_SIGN);
+                map.put(user, map.get(user) + POINTS_FOR_MATCH_SIGN);
             }
         }
         List<RankingServiceModel> list = new ArrayList<>();
 
-        for (Map.Entry<String, Integer> entry : map.entrySet()) {
+        for (Map.Entry<User, Integer> entry : map.entrySet()) {
+            User key = entry.getKey();
             RankingServiceModel model = RankingServiceModel.builder()
-                    .username(entry.getKey())
+                    .user(key)
                     .points(entry.getValue())
                     .build();
 
@@ -167,12 +171,12 @@ public class RankingServiceImpl implements RankingService {
                 .sorted((e1, e2) -> Long.compare(e2.getPoints(), e1.getPoints()))
                 .collect(Collectors.toList());
 
-        Map<String, RankingServiceModel> rankingMap = new HashMap<>();
+        Map<User, RankingServiceModel> rankingMap = new HashMap<>();
 
         for (int i = 0; i < list.size(); i++) {
             RankingServiceModel model = list.get(i);
             model.setPlace(i + 1);
-            rankingMap.put(model.getUsername(), model);
+            rankingMap.put(model.getUser(), model);
         }
 
         return rankingMap;
