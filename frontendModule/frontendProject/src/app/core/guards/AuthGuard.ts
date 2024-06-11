@@ -21,7 +21,7 @@ export const AuthGuard: CanActivateFn = async (route: ActivatedRouteSnapshot, st
         userService.logout();
         return router.navigate(['user/login']);
     }
-
+    
     if (userData.expirationDate.getTime() < new Date().getTime()) {
         userService.logout();
         return router.navigate(['user/login']);
