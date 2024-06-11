@@ -3,6 +3,6 @@
     <mat-dialog-content class="text-lg mb-6">{{ data.message ? data.message : "Сигурни ли сте, че желаете да продължите?" }}</mat-dialog-content>
     <mat-dialog-actions align="end" class="space-x-2">
       <button mat-button mat-dialog-close class="rounded">Отказ</button>
-      <button mat-button [mat-dialog-close]="true" class="rounded !bg-red-200 !text-red-500">Да</button>
+      <button mat-button [mat-dialog-close]="true" class="rounded !bg-red-200 !text-red-500">{{data.confirmText ?? 'Да'}}</button>
     </mat-dialog-actions>
 </div>

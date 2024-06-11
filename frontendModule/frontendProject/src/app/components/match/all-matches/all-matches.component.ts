@@ -5,6 +5,8 @@ import { BetService } from 'src/app/services/bet/bet.service';
 import { NewBet } from 'src/app/shared/interfaces/NewBet';
 import { BetMatchModel } from '../models/bet-match.model';
 import { MatchService } from '../services/match.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
 
 @Component({
     selector: 'all-matches',
@@ -19,7 +21,8 @@ export class AllMatchesComponent implements OnInit {
 
     constructor(
         private matchService: MatchService,
-        private betService: BetService
+        private betService: BetService,
+        private dialog: MatDialog,
     ) {
         this.matchesFormArray = new FormArray<FormGroup>([]);
         this.form = new FormGroup({
@@ -69,21 +72,38 @@ export class AllMatchesComponent implements OnInit {
     }
 
     onSubmit() {
-        const result: BetMatchModel[] = this.matchesFormArray.value.map((x: { match: Partial<BetMatchModel> | undefined; }) => new BetMatchModel(x.match));
-        let bets: NewBet[] = [];
+        const data: BetMatchModel[] = this.matchesFormArray.value.map((x: { match: Partial<BetMatchModel> | undefined; }) => new BetMatchModel(x.match))
+            .filter((x: BetMatchModel) => x.status === MatchStatusEnum.PLAYABLE);
 
-        for (const bet of result) {
-            bets.push(
-                new NewBet({
-                    homeTeamGoals: bet.homeTeam.goals,
-                    awayTeamGoals: bet.awayTeam.goals,
-                    matchId: bet.id,
-                    username: localStorage.getItem('username')!,
-                })
-            );
+        if (data.length === 0) {
+            return;
         }
-        this.betService.createBets(bets).subscribe(data => {
-            this.loadAllMatches();
+
+        const dialog = this.dialog.open(ConfirmDialogComponent, {
+            data: {
+                title: `Залог`,
+                message: 'Потвърдете ако желаете да направите залог, веднъж направен залог не може да бъде променен!',
+                confirmText: 'Потвърди',
+            }
+        });
+
+        dialog.afterClosed().subscribe(result => {
+            if (result) {
+                let bets: NewBet[] = [];
+                for (const bet of data) {
+                    bets.push(
+                        new NewBet({
+                            homeTeamGoals: bet.homeTeam.goals,
+                            awayTeamGoals: bet.awayTeam.goals,
+                            matchId: bet.id,
+                            username: localStorage.getItem('username')!,
+                        })
+                    );
+                }
+                this.betService.createBets(bets).subscribe(data => {
+                    this.loadAllMatches();
+                });
+            }
         });
     }
 }
