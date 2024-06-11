@@ -91,23 +91,22 @@ public class BetServiceImpl implements BetService {
     public List<NewBetView> createBets(List<NewBetView> bets, String username) {
         List<Bet> betsToSave = new ArrayList<>();
 
-        bets
-                .forEach((b) -> {
-                    Match match = this.matchService.getMatchById(b.getMatchId());
-                    if (Instant.now().isAfter(match.getStartTime())) {
-                        throw new NewBetException("Не можете да направите залог на мач, който е започнал!");
-                    }
-                    if (checkExistingBetOnMatch(match, username)) {
-                        throw new NewBetException("Имате вече направен залог на мач, на който искате да заложите отново!");
-                    }
-                    Bet bet = Bet.builder()
-                            .match(match)
-                            .user(this.userService.getUserByUsername(username))
-                            .build();
-                    bet.setHomeTeamGoals(b.getHomeTeamGoals());
-                    bet.setAwayTeamGoals(b.getAwayTeamGoals());
-                    betsToSave.add(bet);
-                });
+        for (NewBetView newBetView : bets) {
+            Match match = this.matchService.getMatchById(newBetView.getMatchId());
+            if (Instant.now().isAfter(match.getStartTime())) {
+               continue;
+            }
+            if (checkExistingBetOnMatch(match, username)) {
+                continue;
+            }
+            Bet bet = Bet.builder()
+                    .match(match)
+                    .user(this.userService.getUserByUsername(username))
+                    .build();
+            bet.setHomeTeamGoals(newBetView.getHomeTeamGoals());
+            bet.setAwayTeamGoals(newBetView.getAwayTeamGoals());
+            betsToSave.add(bet);
+        }
         List<Bet> savedBets = this.repository.saveAll(betsToSave);
 
         return savedBets.stream().map(b -> NewBetView.builder()

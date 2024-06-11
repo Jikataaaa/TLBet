@@ -38,6 +38,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.subs.push(this.commonEvents.authChanged.subscribe(() => {
             this.isAdmin = this.service.isAdmin();
         }));
+
     }
 
     ngOnDestroy(): void {

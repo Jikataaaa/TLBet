@@ -23,7 +23,7 @@
                 <td mat-cell
                     [routerLink]="['/', 'user', 'detail', rank.username]"
                     *matCellDef="let rank"
-                    class="font-bold cursor-pointer hover:text-primary-500 hover:underline"> {{rank.username}} </td>
+                    class="font-bold cursor-pointer hover:text-primary-500 hover:underline"> {{rank.firstName}} {{rank.lastName}} ({{rank.username}})   </td>
             </ng-container>
 
             <ng-container matColumnDef="points">

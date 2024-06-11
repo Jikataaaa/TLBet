@@ -32,6 +32,8 @@ export class AuthInterceptor implements HttpInterceptor {
             error: (error) => {
                 if (error.status === this._unauthorizedStatus) {
                     localStorage.removeItem('token');
+                    localStorage.removeItem('username');
+                    localStorage.removeItem('role');
                     this.router.navigate(['/user/login']);
                     this.commonEvents.authChanged.next();
                 }

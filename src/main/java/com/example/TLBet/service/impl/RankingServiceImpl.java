@@ -28,7 +28,6 @@ public class RankingServiceImpl implements RankingService {
     public List<RankingView> getInGeneralRanking(){
         List<Long> playedRoundIds = roundService.getRoundIdsWithPopulatedResults();
         List<RankingView> list;
-        List<User> allFullNames = userService.findAllFullNames();
         if(playedRoundIds.size() > 1){
             List<Bet> currentBets = betService.getBetsByRoundIdLower(playedRoundIds.get(playedRoundIds.size()-1));
             List<Bet> lastRoundBets = betService.getBetsByRoundIdLower(playedRoundIds.get(playedRoundIds.size()-2));
@@ -40,7 +39,7 @@ public class RankingServiceImpl implements RankingService {
             Map<User, RankingServiceModel> currentView = calculateRanking(currentBets);
             list = calculateDifferenceRanking(currentView, currentView);
         }else {
-
+           List<User> allFullNames = userService.findAllFullNames();
            list = allFullNames
                    .stream()
                    .map(u -> RankingView.builder()

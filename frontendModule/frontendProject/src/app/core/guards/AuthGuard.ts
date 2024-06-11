@@ -8,7 +8,6 @@ export const AuthGuard: CanActivateFn = async (route: ActivatedRouteSnapshot, st
     const router = inject(Router);
 
     let requiredRole = (route.data as { role: string; } | null)?.role;
-
     const token: string | null = localStorage.getItem('token');
     if (!token) {
         userService.logout();
