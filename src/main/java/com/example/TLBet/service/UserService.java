@@ -1,5 +1,6 @@
 package com.example.TLBet.service;
 
+import com.example.TLBet.models.entities.User;
 import com.example.TLBet.models.exeptions.UserErrorException;
 import com.example.TLBet.models.view.UserInView;
 import com.example.TLBet.models.view.UserOutView;
@@ -14,7 +15,7 @@ public interface UserService {
 
     UserOutView deleteOne(Long id) throws UserErrorException;
 
-    List<String> findAllFullNames();
+    List<User> findAllFullNames();
 
     UserProfileOutView getUserProfile(String username) throws UserErrorException;
 

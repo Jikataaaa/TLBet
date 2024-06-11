@@ -91,7 +91,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<String> findAllFullNames() {
+    public List<User> findAllFullNames() {
         return repository.findAllFullNames();
     }
 
