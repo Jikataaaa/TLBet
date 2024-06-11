@@ -22,12 +22,6 @@ public class ApplicationSecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
-    private final String [] adminPaths = {"/leagues/getAll", "/leagues/add", "/leagues/edit", "/leagues/delete",
-            "/match/new-match", "/match/edit-match", "/match/add", "/match/delete", "/match/edit",
-            "/rounds/getAll", "/rounds/add", "/rounds/edit", "/rounds/delete", "/rounds/setActive", "/rounds/activeRound",
-            "/team/new-team", "/team/all-teams", "/team/all-teams-by-league", "/team/edit", "/team/delete",
-            "/tournaments/add", "/tournaments/edit", "/tournaments/delete", "/tournaments/getAll"
-            };
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
@@ -37,7 +31,6 @@ public class ApplicationSecurityConfig {
                .cors(Customizer.withDefaults())
                .authorizeHttpRequests(auth -> auth
                        .requestMatchers("/api/v1/auth/**").permitAll()
-                       .requestMatchers(adminPaths).hasRole(UserRole.ADMIN.name())
                        .anyRequest().authenticated()
                )
                 .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

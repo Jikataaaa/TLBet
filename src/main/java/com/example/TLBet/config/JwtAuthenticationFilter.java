@@ -1,5 +1,7 @@
 package com.example.TLBet.config;
 
+import com.example.TLBet.models.entities.User;
+import com.example.TLBet.models.enums.UserRole;
 import com.example.TLBet.service.JwtService;
 import io.jsonwebtoken.MalformedJwtException;
 import jakarta.servlet.FilterChain;
@@ -17,6 +19,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.List;
 
 import static com.example.TLBet.utils.AuthUtil.validateToken;
 
@@ -25,8 +28,12 @@ import static com.example.TLBet.utils.AuthUtil.validateToken;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
-
     private final UserDetailsService userDetailsService;
+    private final List<String> adminPaths = List.of("/leagues/getAll", "/leagues/add", "/leagues/edit", "/leagues/delete",
+            "/match/new-match", "/match/edit-match", "/match/add", "/match/delete", "/match/edit",
+            "/rounds/getAll", "/rounds/add", "/rounds/edit", "/rounds/delete", "/rounds/setActive", "/rounds/activeRound",
+            "/team/new-team", "/team/all-teams", "/team/all-teams-by-league", "/team/edit", "/team/delete",
+            "/tournaments/add", "/tournaments/edit", "/tournaments/delete", "/tournaments/getAll");
 
     @Override
     protected void doFilterInternal( @NonNull HttpServletRequest request,
@@ -48,12 +55,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 
         if(username != null && SecurityContextHolder.getContext().getAuthentication() == null){
-//            if(!request.isUserInRole("ADMIN")){
-//                filterChain.doFilter(request, response);
-//                return;
-//            }
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
-
+            if (this.adminPaths.contains(request.getRequestURI())){
+                if(!((User) userDetails).getRole().name().equals(UserRole.ADMIN.name())){
+                    filterChain.doFilter(request, response);
+                    return;
+                }
+            }
             if (jwtService.isTokenValid(jwt, userDetails)){
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                         userDetails,
