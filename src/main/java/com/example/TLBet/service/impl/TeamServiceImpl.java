@@ -20,8 +20,8 @@ public class TeamServiceImpl implements TeamService {
     private final ModelMapper mapper;
 
     @Override
-    public Team getTeamById(long id) {
-        return repository.findById(id).get();
+    public Optional<Team> getTeamById(long id) {
+        return repository.findById(id);
     }
 
     @Override
