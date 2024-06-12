@@ -3,6 +3,7 @@ package com.example.TLBet.web;
 import com.example.TLBet.models.entities.Bet;
 import com.example.TLBet.models.entities.Round;
 import com.example.TLBet.models.exeptions.NoContentException;
+import com.example.TLBet.models.exeptions.UserErrorException;
 import com.example.TLBet.models.view.MatchInView;
 import com.example.TLBet.models.view.MatchResultView;
 import com.example.TLBet.models.view.MatchView;
@@ -29,7 +30,7 @@ public class MatchController extends BaseController {
     private final ModelMapper modelMapper;
 
     @PostMapping("/new-match")
-    public ResponseEntity<MatchView> createMatch(@RequestBody MatchView match) {
+    public ResponseEntity<MatchView> createMatch(@RequestBody MatchView match) throws UserErrorException {
         return ResponseEntity.ok(service.createMatch(match));
     }
 
@@ -54,17 +55,17 @@ public class MatchController extends BaseController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Long> add(@RequestBody MatchInView inView) {
+    public ResponseEntity<Long> add(@RequestBody MatchInView inView) throws UserErrorException {
         return ResponseEntity.ok(service.add(inView));
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity<MatchResultView> deleteOne(@RequestParam("id") Long id) {
+    public ResponseEntity<MatchResultView> deleteOne(@RequestParam("id") Long id) throws UserErrorException {
         return ResponseEntity.ok(service.deleteOne(id));
     }
 
     @PostMapping("/edit")
-    public ResponseEntity<MatchResultView> updateOne(@RequestBody MatchInView inView) {
+    public ResponseEntity<MatchResultView> updateOne(@RequestBody MatchInView inView) throws UserErrorException {
         return ResponseEntity.ok(service.updateOne(inView));
     }
 }

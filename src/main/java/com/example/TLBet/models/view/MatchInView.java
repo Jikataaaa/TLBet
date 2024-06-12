@@ -13,11 +13,11 @@ import java.time.Instant;
 @Builder
 public class MatchInView {
 
-    private long id;
+    private Long id;
     private Integer homeTeamGoals;
     private Integer awayTeamGoals;
     private Instant startTime;
-    private long homeTeamId;
-    private long awayTeamId;
-    private long roundId;
+    private Long homeTeamId;
+    private Long awayTeamId;
+    private Long roundId;
 }

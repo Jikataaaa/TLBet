@@ -5,6 +5,7 @@ import com.example.TLBet.models.entities.Match;
 import com.example.TLBet.models.entities.Round;
 import com.example.TLBet.models.entities.Team;
 import com.example.TLBet.models.enums.MatchStatus;
+import com.example.TLBet.models.exeptions.UserErrorException;
 import com.example.TLBet.models.view.*;
 import com.example.TLBet.repository.MatchRepository;
 import com.example.TLBet.repository.RoundRepository;
@@ -23,6 +24,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import static com.example.TLBet.models.enums.ExceptionEnum.*;
+
 @Service
 @RequiredArgsConstructor
 public class MatchServiceImpl implements MatchService {
@@ -33,9 +36,20 @@ public class MatchServiceImpl implements MatchService {
     private final ModelMapper modelMapper;
 
     @Override
-    public MatchView createMatch(@RequestBody MatchView matchView) {
-        Team homeTeam = teamService.getTeamById(matchView.getHomeTeam());
-        Team awayTeam = teamService.getTeamById(matchView.getAwayTeam());
+    public MatchView createMatch(@RequestBody MatchView matchView) throws UserErrorException {
+        Team homeTeam = teamService.getTeamById(matchView.getHomeTeam()).orElse(null);
+        Team awayTeam = teamService.getTeamById(matchView.getAwayTeam()).orElse(null);
+
+        if (homeTeam == null) {
+            throw new UserErrorException(EXCEPTION_TEAM_NOT_FOUND,
+                    new Throwable("Home team not found"));
+        }
+
+        if (awayTeam == null) {
+            throw new UserErrorException(EXCEPTION_TEAM_NOT_FOUND,
+                    new Throwable("Away team not found"));
+        }
+
         Match match = Match.builder()
                 .homeTeam(homeTeam)
                 .awayTeam(awayTeam).build();
@@ -142,37 +156,28 @@ public class MatchServiceImpl implements MatchService {
     }
 
     @Override
-    public Long add(MatchInView inView) {
+    public Long add(MatchInView inView) throws UserErrorException {
         Match match = new Match();
-        Team homeTeam = teamService.getTeamById(inView.getHomeTeamId());
-        Team awayTeam = teamService.getTeamById(inView.getAwayTeamId());
-        match.setHomeTeam(homeTeam);
-        match.setAwayTeam(awayTeam);
-
-        match.setHomeTeamGoals(inView.getHomeTeamGoals());
-        match.setAwayTeamGoals(inView.getAwayTeamGoals());
-        match.setStartTime(inView.getStartTime());
-
-        Round round = roundRepository.findById(inView.getRoundId()).orElseThrow();
-        match.setRound(round);
+        validateAndSetTeams(inView, match);
 
         match = matchRepository.save(match);
         return match.getId();
     }
 
-    @Override
-    public MatchResultView deleteOne(Long id) {
-        Match match = matchRepository.findById(id).orElseThrow();
-        matchRepository.delete(match);
-        return modelMapper.map(match, MatchResultView.class);
-    }
+    private void validateAndSetTeams(MatchInView inView, Match match) throws UserErrorException {
+        Team homeTeam = teamService.getTeamById(inView.getHomeTeamId()).orElse(null);
+        Team awayTeam = teamService.getTeamById(inView.getAwayTeamId()).orElse(null);
 
-    @Override
-    public MatchResultView updateOne(MatchInView inView) {
-        Match match = matchRepository.findById(inView.getId()).orElseThrow();
+        if (homeTeam == null) {
+            throw new UserErrorException(EXCEPTION_TEAM_NOT_FOUND,
+                    new Throwable("Home team not found"));
+        }
 
-        Team homeTeam = teamService.getTeamById(inView.getHomeTeamId());
-        Team awayTeam = teamService.getTeamById(inView.getAwayTeamId());
+        if (awayTeam == null) {
+            throw new UserErrorException(EXCEPTION_TEAM_NOT_FOUND,
+                    new Throwable("Away team not found"));
+        }
+
         match.setHomeTeam(homeTeam);
         match.setAwayTeam(awayTeam);
 
@@ -180,8 +185,37 @@ public class MatchServiceImpl implements MatchService {
         match.setAwayTeamGoals(inView.getAwayTeamGoals());
         match.setStartTime(inView.getStartTime());
 
+        if (inView.getRoundId() == null) {
+            throw new UserErrorException(EXCEPTION_ROUND_NOT_FOUND,
+                    new Throwable("Round not found"));
+        }
         Round round = roundRepository.findById(inView.getRoundId()).orElseThrow();
         match.setRound(round);
+    }
+
+    @Override
+    public MatchResultView deleteOne(Long id) throws UserErrorException {
+        Match match = matchRepository.findById(id).orElse(null);
+
+        if (match == null) {
+            throw new UserErrorException(EXCEPTION_MATCH_NOT_FOUND,
+                    new Throwable("Match not found"));
+        }
+
+        matchRepository.delete(match);
+        return modelMapper.map(match, MatchResultView.class);
+    }
+
+    @Override
+    public MatchResultView updateOne(MatchInView inView) throws UserErrorException {
+        Match match = matchRepository.findById(inView.getId()).orElse(null);
+
+        if (match == null) {
+            throw new UserErrorException(EXCEPTION_MATCH_NOT_FOUND,
+                    new Throwable("Match not found"));
+        }
+
+        validateAndSetTeams(inView, match);
 
         Match save = matchRepository.save(match);
         return modelMapper.map(save, MatchResultView.class);

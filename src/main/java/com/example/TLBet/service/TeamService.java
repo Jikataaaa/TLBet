@@ -6,10 +6,11 @@ import com.example.TLBet.models.view.TeamInsertUpdateOutView;
 import com.example.TLBet.models.view.TeamView;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface TeamService {
 
-   Team getTeamById(long id);
+   Optional<Team> getTeamById(long id);
 
    TeamServiceModel createTeam(TeamInsertUpdateOutView team);
 
