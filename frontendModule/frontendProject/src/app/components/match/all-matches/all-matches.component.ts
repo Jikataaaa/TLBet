@@ -7,6 +7,7 @@ import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog
 import { NewBet } from 'src/app/shared/interfaces/NewBet';
 import { BetMatchModel } from '../models/bet-match.model';
 import { MatchService } from '../services/match.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
     selector: 'all-matches',
@@ -22,7 +23,8 @@ export class AllMatchesComponent implements OnInit {
         private matchService: MatchService,
         private betService: BetService,
         private dialog: MatDialog,
-        private eventService: CommonEventsService
+        private eventService: CommonEventsService,
+        private snackBar: MatSnackBar
     ) {
     }
 
@@ -47,7 +49,7 @@ export class AllMatchesComponent implements OnInit {
         const dialog = this.dialog.open(ConfirmDialogComponent, {
             data: {
                 title: `Залог`,
-                message: 'Потвърдете ако желаете да запазите вашата прогноза, веднъж направен залог не може да бъде променен!',
+                message: 'Потвърдете, ако желаете да запазите вашата прогноза. Веднъж направен залог не може да бъде променен!',
                 confirmText: 'Потвърди',
             }
         });
@@ -66,6 +68,7 @@ export class AllMatchesComponent implements OnInit {
                 }
                 this.betService.createBets(bets).subscribe(data => {
                     this.loadAllMatches();
+                    this.snackBar.open('Прогнозата е успешно запазена!');
                 });
             }
         });
