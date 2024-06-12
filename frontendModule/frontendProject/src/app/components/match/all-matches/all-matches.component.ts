@@ -3,11 +3,11 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatchStatusEnum } from 'src/app/components/match/models/MatchStatusEnum';
 import { CommonEventsService } from 'src/app/core/common/common-events.service';
 import { BetService } from 'src/app/services/bet/bet.service';
+import { SnackbarService } from 'src/app/services/snackbar.service';
 import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
 import { NewBet } from 'src/app/shared/interfaces/NewBet';
 import { BetMatchModel } from '../models/bet-match.model';
 import { MatchService } from '../services/match.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
     selector: 'all-matches',
@@ -24,7 +24,7 @@ export class AllMatchesComponent implements OnInit {
         private betService: BetService,
         private dialog: MatDialog,
         private eventService: CommonEventsService,
-        private snackBar: MatSnackBar
+        private snackBar: SnackbarService
     ) {
     }
 
@@ -68,7 +68,7 @@ export class AllMatchesComponent implements OnInit {
                 }
                 this.betService.createBets(bets).subscribe(data => {
                     this.loadAllMatches();
-                    this.snackBar.open('Прогнозата е успешно запазена!');
+                    this.snackBar.openSuccess('Прогнозата е успешно запазена!');
                 });
             }
         });
