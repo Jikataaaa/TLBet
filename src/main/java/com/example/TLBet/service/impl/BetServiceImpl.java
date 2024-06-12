@@ -55,6 +55,7 @@ public class BetServiceImpl implements BetService {
                 continue;
             }
             Bet bet = Bet.builder()
+                    .createdOn(Instant.now())
                     .match(match)
                     .user(this.userService.getUserByUsername(username))
                     .build();
