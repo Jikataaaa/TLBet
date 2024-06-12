@@ -39,28 +39,25 @@ export class RegisterComponent {
             return;
         }
 
-        // todo - add more validation and error handling
         if (password?.value !== repassword?.value) {
             this.openSnackBar("Паролите не съвпадат!", "Затвори");
             return;
         }
 
         const register: Register = new Register({
-            username: username!.value!,
-            email: email!.value!,
-            firstName: firstName!.value!,
-            lastName: lastName!.value!,
-            password: password!.value!
+            username: username!.value!.trim(),
+            email: email!.value!.trim(),
+            firstName: firstName!.value!.trim(),
+            lastName: lastName!.value!.trim(),
+            password: password!.value!.trim()
         });
 
         this.service.register(register).subscribe({
             next: (res) => {
-                debugger
                 this.openSnackBar("Успешна регистрация!", "Затвори");
                 this.router.navigate(["/"]);
             },
             error: (err) => {
-                debugger
                 this.openSnackBar("Cъществува потребител с този имейл или потребителско име!", "Затвори");
             }
         });
