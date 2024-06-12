@@ -17,8 +17,13 @@
                     <li mat-button *ngIf="isAdmin" [matMenuTriggerFor]="adminMenu">Админ</li>
                     <li mat-button *ngIf="!isLogged" routerLink="user/login">Вход</li>
                     <li mat-button *ngIf="!isLogged" routerLink="user/register">Регистрация</li>
-                    <li mat-button *ngIf="isLogged" routerLink="user/profile">Профил</li>
-                    <li mat-button *ngIf="isLogged" class="flex items-center">
+                    <li mat-button *ngIf="isLogged" routerLink="user/profile">
+                        <span class="sm:hidden  max-sm:flex max-sm:items-center">
+                            <mat-icon>account_circle</mat-icon>
+                        </span>
+                        <span class="max-sm:hidden">Профил</span>
+                    </li>
+                    <li mat-button *ngIf="isLogged" class="mr-li flex items-center">
                         <span class="sm:hidden  max-sm:flex max-sm:items-center">
                             <mat-icon (click)="logout()">logout</mat-icon>
                         </span>
