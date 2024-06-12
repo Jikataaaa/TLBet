@@ -6,19 +6,24 @@
                 <img src="/../logo.png" class="logo cursor-pointer" alt="TL BET" *ngIf="isLogged" routerLink="match/all-matches">
             </span>
             <nav>
-                <ul class="nav-list flex space-x-4">
+                <ul class="nav-list flex space-x-2">
                     <li mat-button *ngIf="isLogged" routerLink="match/all-matches">Мачове</li>
                     <li mat-button *ngIf="isLogged" routerLink="user/ranking">Класиране</li>
                 </ul>
             </nav>
             <span class="nav-spacer flex-1"></span>
             <nav>
-                <ul class="user-list flex space-x-4 items-center">
+                <ul class="user-list flex space-x-2 items-center">
                     <li mat-button *ngIf="isAdmin" [matMenuTriggerFor]="adminMenu">Админ</li>
                     <li mat-button *ngIf="!isLogged" routerLink="user/login">Вход</li>
                     <li mat-button *ngIf="!isLogged" routerLink="user/register">Регистрация</li>
                     <li mat-button *ngIf="isLogged" routerLink="user/profile">Профил</li>
-                    <li mat-button *ngIf="isLogged" (click)="logout()">Изход</li>
+                    <li mat-button *ngIf="isLogged" class="flex items-center">
+                        <span class="sm:hidden  max-sm:flex max-sm:items-center">
+                            <mat-icon (click)="logout()">logout</mat-icon>
+                        </span>
+                        <span class="max-sm:hidden" (click)="logout()">Изход</span>
+                    </li>
                 </ul>
             </nav>
             <mat-menu #adminMenu="matMenu" class="admin-menu">
