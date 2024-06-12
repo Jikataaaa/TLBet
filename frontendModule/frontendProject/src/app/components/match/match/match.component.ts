@@ -22,7 +22,7 @@ export class MatchComponent implements OnInit {
     filteredTeamsHome!: Observable<TeamModel[]>;
     filteredTeamsAway!: Observable<TeamModel[]>;
 
-    constructor (
+    constructor(
         private fb: FormBuilder,
         private router: Router,
         private matchService: MatchService,
@@ -71,8 +71,12 @@ export class MatchComponent implements OnInit {
     }
 
     private _filterTeams(value: string | null | undefined): TeamModel[] {
-        const filterValue = (value ?? "").toLowerCase();
-        return this.teams.filter(team => team.name.toLowerCase().includes(filterValue));
+        if (typeof value === 'string') {
+            const filterValue = (value ?? "").toLowerCase();
+            return this.teams.filter(team => team.name.toLowerCase().includes(filterValue));
+        }
+
+        return this.teams;
     }
 
     onHomeTeamSelected(selectedTeam: TeamModel): void {

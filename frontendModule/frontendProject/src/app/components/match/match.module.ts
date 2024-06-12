@@ -7,6 +7,7 @@ import { MatchService } from './services/match.service';
 import { MatchComponent } from './match/match.component';
 import { MatchesComponent } from './matches/matches.component';
 import { MatchesViewComponent } from './matches-view/matches-view.component';
+import { MatchTooltipComponent } from './matches-view/match-tooltip/match-tooltip.component';
 
 
 @NgModule({
@@ -15,6 +16,7 @@ import { MatchesViewComponent } from './matches-view/matches-view.component';
         MatchComponent,
         MatchesComponent,
         MatchesViewComponent,
+        MatchTooltipComponent,
     ],
     imports: [
         CommonModule,
@@ -23,6 +25,7 @@ import { MatchesViewComponent } from './matches-view/matches-view.component';
     ],
     exports: [
         MatchesViewComponent,
+        MatchTooltipComponent,
     ],
     providers: [
         MatchService

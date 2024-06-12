@@ -1,8 +1,10 @@
 import { MatchStatusEnum } from './MatchStatusEnum';
+import { BaseRoundModel } from './base-round-model';
+import { MatchGoalsModel } from './match-goals,model';
 import { MatchTeamModel } from './match-team.model.ts';
 
 export class BetMatchModel {
-    
+
     constructor(init?: Partial<BetMatchModel>) {
         Object.assign(this, init);
     }
@@ -14,5 +16,6 @@ export class BetMatchModel {
     status!: MatchStatusEnum;
     tournamentId!: number;
     tournamentName!: string;
-    round!: number;
+    round!: BaseRoundModel;
+    matchGoals?: MatchGoalsModel;
 }

@@ -7,6 +7,8 @@ import { MaterialModule } from '../material/material.module';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 import { RouterModule } from '@angular/router';
 import { DebouncedClickDirective } from './directives/debounce-click.directive';
+import { TLTooltipDirective } from './directives/tl-tooltip-directive';
+import { StatusPipe } from './pipes/match-status.pipe';
 
 
 @NgModule({
@@ -15,13 +17,19 @@ import { DebouncedClickDirective } from './directives/debounce-click.directive';
         StandingComponent,
         MatchProcessComponent,
         ConfirmDialogComponent,
-        DebouncedClickDirective
+        DebouncedClickDirective,
+        TLTooltipDirective,
+        StatusPipe
     ],
     imports: [CommonModule, MaterialModule, RouterModule],
     exports: [GoalsPickerComponent, MatchProcessComponent, StandingComponent,
-        DebouncedClickDirective],
+        DebouncedClickDirective,
+        TLTooltipDirective,
+        StatusPipe],
     providers: [
-        DebouncedClickDirective
+        DebouncedClickDirective,
+        TLTooltipDirective,
+        StatusPipe
     ],
 })
 export class SharedModule { }

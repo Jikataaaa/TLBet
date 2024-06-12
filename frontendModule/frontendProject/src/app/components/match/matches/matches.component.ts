@@ -17,7 +17,7 @@ export class MatchesComponent implements OnInit {
 
     displayedColumns: string[] = ['id', 'match', 'score', 'startTime', 'actions'];
 
-    constructor (
+    constructor(
         private router: Router,
         private dialog: MatDialog,
         private matchService: MatchService

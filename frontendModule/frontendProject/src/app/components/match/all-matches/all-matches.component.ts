@@ -18,6 +18,7 @@ export class AllMatchesComponent implements OnInit {
     matchesCount!: Number;
     matches: BetMatchModel[] = [];
     hasPlayableMatches: boolean = false;
+    roundName?: string;
 
     constructor(
         private matchService: MatchService,
@@ -36,6 +37,9 @@ export class AllMatchesComponent implements OnInit {
         this.matchService.getAllMatches().subscribe((data) => {
             this.hasPlayableMatches = data.some((x) => x.status == MatchStatusEnum.PLAYABLE);
             this.matches = data;
+            if (data.length > 0) {
+                this.roundName = data[0].round.name;
+            }
         });
     }
 

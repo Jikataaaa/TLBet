@@ -40,7 +40,7 @@
         </form>
     </div>
     <div *ngIf="user && user.bets.length > 0"
-         class="w-full md:w-auto m-4 h-full bg-primary-500 text-white rounded-lg">
+         class="m-4 h-full bg-primary-500 text-white rounded-lg">
         <div class="flex flex-col justify-center items-center m-4">
             <h2 class="text-3xl font-bold mb-2 text-center">История на прогнозите</h2>
             <matches-view [matches]="user!.bets">
