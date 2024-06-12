@@ -1,6 +1,9 @@
 package com.example.TLBet.service.impl;
 
-import com.example.TLBet.models.entities.*;
+import com.example.TLBet.models.entities.Bet;
+import com.example.TLBet.models.entities.Match;
+import com.example.TLBet.models.entities.Round;
+import com.example.TLBet.models.entities.Team;
 import com.example.TLBet.models.enums.MatchStatus;
 import com.example.TLBet.models.view.*;
 import com.example.TLBet.repository.MatchRepository;
@@ -84,7 +87,11 @@ public class MatchServiceImpl implements MatchService {
                             .startTime(match.getStartTime())
                             .tournamentId(match.getRound().getTournament().getId())
                             .tournamentName(match.getRound().getTournament().getName())
-                            .round(match.getRound())
+                            .round(RoundView.builder()
+                                    .id(match.getRound().getId())
+                                    .name(match.getRound().getName())
+                                    .isActive(match.getRound().isActive())
+                                    .build())
                             .status(status)
                             .matchGoals(MatchGoalsOutView.builder()
                                     .homeTeamGoals(match.getHomeTeamGoals())
@@ -123,7 +130,11 @@ public class MatchServiceImpl implements MatchService {
                     .startTime(match.getStartTime())
                     .tournamentId(match.getRound().getTournament().getId())
                     .tournamentName(match.getRound().getTournament().getName())
-                    .round(match.getRound())
+                    .round(RoundView.builder()
+                            .id(match.getRound().getId())
+                            .name(match.getRound().getName())
+                            .isActive(match.getRound().isActive())
+                            .build())
                     .build();
             result.add(matchResultView);
         });
@@ -232,7 +243,11 @@ public class MatchServiceImpl implements MatchService {
                 .tournamentId(save.getRound().getTournament().getId())
                 .tournamentName(save.getRound().getTournament().getName())
                 .startTime(save.getStartTime())
-                .round(save.getRound())
+                .round(RoundView.builder()
+                        .id(match.getRound().getId())
+                        .name(match.getRound().getName())
+                        .isActive(match.getRound().isActive())
+                        .build())
                 .build();
     }
 

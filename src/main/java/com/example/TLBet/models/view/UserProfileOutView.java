@@ -18,5 +18,5 @@ public class UserProfileOutView {
     private String firstName;
     private String lastName;
     private String email;
-    private List<BetOutView> bets;
+    private List<MatchResultView> bets;
 }

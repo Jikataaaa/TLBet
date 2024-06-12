@@ -105,7 +105,11 @@ public class BetServiceImpl implements BetService {
                     .startTime(match.getStartTime())
                     .tournamentId(match.getRound().getTournament().getId())
                     .tournamentName(match.getRound().getTournament().getName())
-                    .round(match.getRound())
+                    .round(RoundView.builder()
+                            .id(match.getRound().getId())
+                            .name(match.getRound().getName())
+                            .isActive(match.getRound().isActive())
+                            .build())
                     .status(MatchStatus.PLAYABLE)
                     .build();
             result.add(matchResultView);
@@ -119,16 +123,16 @@ public class BetServiceImpl implements BetService {
     }
 
     @Override
-    public List<BetOutView> getAllBetsByUsername(String username) {
+    public List<MatchResultView> getAllBetsByUsername(String username) {
         List<Bet> bets = repository.findBetsByUserUsernameAndHomeTeamGoalsNotNullAndAwayTeamGoalsNotNullOrderByIdDesc(username);
         return getBets(bets);
     }
 
-    private List<BetOutView> getBets(List<Bet> bets) {
-        List<BetOutView> betOutViews = new ArrayList<>();
+    private List<MatchResultView> getBets(List<Bet> bets) {
+        List<MatchResultView> betOutViews = new ArrayList<>();
 
         for (Bet bet : bets) {
-            BetOutView betOutView = new BetOutView();
+            MatchResultView betOutView = new MatchResultView();
             betOutView.setId(bet.getId());
             betOutView.setHomeTeam(MatchTeamResultView.builder()
                     .id(bet.getMatch().getHomeTeam().getId())
@@ -144,14 +148,22 @@ public class BetServiceImpl implements BetService {
             betOutView.setStatus(matchService.calculateMatchStatus(bet, bet.getMatch()));
             betOutView.setTournamentId(bet.getMatch().getRound().getTournament().getId());
             betOutView.setTournamentName(bet.getMatch().getRound().getTournament().getName());
-            betOutView.setRound(bet.getMatch().getRound().getId());
+            betOutView.setRound(RoundView.builder()
+                    .id(bet.getMatch().getRound().getId())
+                    .name(bet.getMatch().getRound().getName())
+                    .isActive(bet.getMatch().getRound().isActive())
+                    .build());
+            betOutView.setMatchGoals(MatchGoalsOutView.builder()
+                    .homeTeamGoals(bet.getMatch().getHomeTeamGoals())
+                    .awayTeamGoals(bet.getMatch().getAwayTeamGoals())
+                    .build());
             betOutViews.add(betOutView);
         }
         return betOutViews;
     }
 
     @Override
-    public List<BetOutView> getAllEndedBetsByUsername(String username) {
+    public List<MatchResultView> getAllEndedBetsByUsername(String username) {
         List<Bet> bets = repository.findBetsByUserUsernameAndMatch_HomeTeamGoalsNotNullAndAwayTeamGoalsNotNullOrderByIdDesc(username);
         return getBets(bets);
     }

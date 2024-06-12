@@ -3,7 +3,7 @@ package com.example.TLBet.service.impl;
 import com.example.TLBet.models.entities.User;
 import com.example.TLBet.models.enums.ExceptionEnum;
 import com.example.TLBet.models.exeptions.UserErrorException;
-import com.example.TLBet.models.view.BetOutView;
+import com.example.TLBet.models.view.MatchResultView;
 import com.example.TLBet.models.view.UserInView;
 import com.example.TLBet.models.view.UserOutView;
 import com.example.TLBet.models.view.UserProfileOutView;
@@ -106,7 +106,7 @@ public class UserServiceImpl implements UserService {
             throw new UserErrorException(ExceptionEnum.EXCEPTION_USER_NOT_FOUND,
                     new Throwable("User with username " + username + " not found"));
         }
-        List<BetOutView> bets = betService.getAllBetsByUsername(username);
+        List<MatchResultView> bets = betService.getAllBetsByUsername(username);
 
         userProfileOutView.setBets(bets);
         return userProfileOutView;
@@ -123,7 +123,7 @@ public class UserServiceImpl implements UserService {
             throw new UserErrorException(EXCEPTION_USER_NOT_FOUND,
                     new Throwable("User not found"));
         }
-        List<BetOutView> bets = betService.getAllEndedBetsByUsername(user.getUsername());
+        List<MatchResultView> bets = betService.getAllEndedBetsByUsername(user.getUsername());
 
         userProfileOutView.setBets(bets);
         return userProfileOutView;

@@ -21,5 +21,5 @@ public class BetOutView {
     private MatchStatus status;
     private Long tournamentId;
     private String tournamentName;
-    private Long round;
+    private RoundView round;
 }
