@@ -11,7 +11,7 @@ export class StatusPipe implements PipeTransform {
             case MatchStatusEnum.EXPIRED:
                 return 'Изтекъл период за залагане';
             case MatchStatusEnum.PLAYABLE:
-                return 'Може да заложите';
+                return 'Очакване на залог';
             case MatchStatusEnum.WON:
                 return '+2 точки';
             case MatchStatusEnum.LOST:
