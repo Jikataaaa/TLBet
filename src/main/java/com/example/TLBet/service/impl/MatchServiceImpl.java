@@ -165,6 +165,17 @@ public class MatchServiceImpl implements MatchService {
     }
 
     private void validateAndSetTeams(MatchInView inView, Match match) throws UserErrorException {
+
+        if (inView.getHomeTeamId() == null) {
+            throw new UserErrorException(EXCEPTION_MISSING_PARAMETER,
+                    new Throwable("Missing home team id"));
+        }
+
+        if (inView.getAwayTeamId() == null) {
+            throw new UserErrorException(EXCEPTION_MISSING_PARAMETER,
+                    new Throwable("Missing away team id"));
+        }
+
         Team homeTeam = teamService.getTeamById(inView.getHomeTeamId()).orElse(null);
         Team awayTeam = teamService.getTeamById(inView.getAwayTeamId()).orElse(null);
 
@@ -186,8 +197,8 @@ public class MatchServiceImpl implements MatchService {
         match.setStartTime(inView.getStartTime());
 
         if (inView.getRoundId() == null) {
-            throw new UserErrorException(EXCEPTION_ROUND_NOT_FOUND,
-                    new Throwable("Round not found"));
+            throw new UserErrorException(EXCEPTION_MISSING_PARAMETER,
+                    new Throwable("Missing round id"));
         }
         Round round = roundRepository.findById(inView.getRoundId()).orElseThrow();
         match.setRound(round);
@@ -195,6 +206,12 @@ public class MatchServiceImpl implements MatchService {
 
     @Override
     public MatchResultView deleteOne(Long id) throws UserErrorException {
+
+        if (id == null) {
+            throw new UserErrorException(EXCEPTION_MISSING_PARAMETER,
+                    new Throwable("Missing match id"));
+        }
+
         Match match = matchRepository.findById(id).orElse(null);
 
         if (match == null) {
@@ -208,6 +225,12 @@ public class MatchServiceImpl implements MatchService {
 
     @Override
     public MatchResultView updateOne(MatchInView inView) throws UserErrorException {
+
+        if (inView.getId() == null) {
+            throw new UserErrorException(EXCEPTION_MISSING_PARAMETER,
+                    new Throwable("Missing match id"));
+        }
+
         Match match = matchRepository.findById(inView.getId()).orElse(null);
 
         if (match == null) {
