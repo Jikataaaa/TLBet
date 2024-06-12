@@ -22,6 +22,7 @@
 <ng-template #matchTooltip
              let-match="match">
     <div class="flex flex-col bg-primary-500 text-white p-2 rounded-md text-sm">
+        <span class="font-bold" *ngIf="match.round"> {{match.round.name }}</span>
         <span> {{match.status | status }}</span>
         <span *ngIf="match.matchGoals?.homeTeamGoals != undefined && match.matchGoals?.homeTeamGoals != null"> Резултат:
             {{match.matchGoals.homeTeamGoals }} -

@@ -19,7 +19,7 @@ export class StatusPipe implements PipeTransform {
             case MatchStatusEnum.EXACT_WIN:
                 return '+5 точки';
             case MatchStatusEnum.AWAITING_RESULT:
-                return 'Изчакване на резултат';
+                return 'Успешно регистриран залог';
             default:
                 return '';
         }
