@@ -47,7 +47,7 @@ export class AllMatchesComponent implements OnInit {
         const dialog = this.dialog.open(ConfirmDialogComponent, {
             data: {
                 title: `Залог`,
-                message: 'Потвърдете ако желаете да направите залог, веднъж направен залог не може да бъде променен!',
+                message: 'Потвърдете ако желаете да запазите вашата прогноза, веднъж направен залог не може да бъде променен!',
                 confirmText: 'Потвърди',
             }
         });
