@@ -10,6 +10,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.Instant;
+
 @Entity
 @Builder
 @AllArgsConstructor
@@ -17,6 +19,7 @@ import lombok.NoArgsConstructor;
 @Data
 @Table(name = "bets")
 public class Bet extends MatchStatistics {
+    private Instant createdOn;
 
     @ManyToOne
     @JoinColumn(name = "match_id", referencedColumnName = "id")
