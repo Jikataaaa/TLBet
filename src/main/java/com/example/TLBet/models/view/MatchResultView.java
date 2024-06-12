@@ -22,4 +22,5 @@ public class MatchResultView {
     private String tournamentName;
     private Round round;
     private MatchStatus status;
+    private MatchGoalsOutView matchGoals;
 }

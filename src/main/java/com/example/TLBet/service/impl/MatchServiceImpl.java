@@ -86,6 +86,10 @@ public class MatchServiceImpl implements MatchService {
                             .tournamentName(match.getRound().getTournament().getName())
                             .round(match.getRound())
                             .status(status)
+                            .matchGoals(MatchGoalsOutView.builder()
+                                    .homeTeamGoals(match.getHomeTeamGoals())
+                                    .awayTeamGoals(match.getAwayTeamGoals())
+                                    .build())
                             .build();
 
                     result.add(matchResultView);
