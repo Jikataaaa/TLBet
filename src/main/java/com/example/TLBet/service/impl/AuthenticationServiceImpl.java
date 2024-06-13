@@ -36,11 +36,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public AuthenticationResponse register(@Valid RegisterRequest request) throws UserErrorException {
         User user = User.builder()
-                .username(request.getUsername())
-                .email(request.getEmail())
-                .firstName(request.getFirstName())
-                .lastName(request.getLastName())
-                .password(passwordEncoder.encode(request.getPassword()))
+                .username(request.getUsername().trim())
+                .email(request.getEmail().trim())
+                .firstName(request.getFirstName().trim())
+                .lastName(request.getLastName().trim())
+                .password(passwordEncoder.encode(request.getPassword().trim()))
                 .role(UserRole.USER)
                 .build();
 
@@ -66,12 +66,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public AuthenticationResponse login(@Valid LoginRequest request) {
-        User user = userRepository.findUserByUsername(request.getUsername()).orElseThrow();
+        User user = userRepository.findUserByUsername(request.getUsername().trim()).orElseThrow();
 
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        request.getUsername(),
-                        request.getPassword()
+                        request.getUsername().trim(),
+                        request.getPassword().trim()
                 )
         );
 
