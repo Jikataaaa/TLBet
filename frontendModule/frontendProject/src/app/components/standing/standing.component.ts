@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Ranking } from 'src/app/shared/interfaces/Ranking';
+import { RankingModel } from 'src/app/shared/components/user/ranking/model/ranking-model';
 
 @Component({
   selector: 'app-standing',
@@ -13,5 +13,5 @@ export class StandingComponent implements OnInit{
   ngOnInit(): void {
   }
 
-  @Input() ranking! : Ranking[];
+  @Input() ranking! : RankingModel[];
 }

@@ -12,7 +12,8 @@
                     class="font-bold"> # </th>
                 <td mat-cell
                     *matCellDef="let rank"
-                    class="font-bold"> {{rank.place}} </td>
+                    class="font-bold"
+                    [ngClass]="{'current-user': rank.isCurrentUser,'first-place': rank.isFirst}"> {{rank.place}} </td>
             </ng-container>
 
             <ng-container matColumnDef="username">
@@ -23,7 +24,9 @@
                 <td mat-cell
                     [routerLink]="['/', 'user', 'detail', rank.username]"
                     *matCellDef="let rank"
-                    class="font-bold cursor-pointer hover:text-primary-500 hover:underline"> {{rank.firstName}} {{rank.lastName}} ({{rank.username}})   </td>
+                    class="font-bold cursor-pointer hover:text-primary-500 hover:underline"
+                    [ngClass]="{'current-user': rank.isCurrentUser,'first-place': rank.isFirst}"> {{rank.firstName}}
+                    {{rank.lastName}} ({{rank.username}}) </td>
             </ng-container>
 
             <ng-container matColumnDef="points">
@@ -33,7 +36,8 @@
                     class="font-bold"> Точки </th>
                 <td mat-cell
                     *matCellDef="let rank"
-                    class="font-bold">
+                    class="font-bold"
+                    [ngClass]="{'current-user': rank.isCurrentUser,'first-place': rank.isFirst}">
                     <div class="flex items-center">
                         <span>{{ rank.points }}</span>
                         <mat-icon *ngIf="rank.rankingDifferences>0"

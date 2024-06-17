@@ -106,6 +106,14 @@ export class UserService extends BaseRequestService {
         });
     }
 
+    getCurrentUser(): JwtUserData | null {
+        let token = localStorage.getItem("token");
+        if (!token) {
+            return null;
+        }
+        return this.getUserJwtData(token);
+    }
+
     isAdmin(): boolean {
         let token = localStorage.getItem("token");
         if (!token) {
