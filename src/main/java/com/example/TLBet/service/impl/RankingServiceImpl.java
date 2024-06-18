@@ -1,13 +1,12 @@
 package com.example.TLBet.service.impl;
 
 import com.example.TLBet.models.entities.Bet;
+import com.example.TLBet.models.entities.Tournament;
+import com.example.TLBet.models.entities.TournamentBetWinner;
 import com.example.TLBet.models.entities.User;
 import com.example.TLBet.models.service.RankingServiceModel;
 import com.example.TLBet.models.view.RankingView;
-import com.example.TLBet.service.BetService;
-import com.example.TLBet.service.RankingService;
-import com.example.TLBet.service.RoundService;
-import com.example.TLBet.service.UserService;
+import com.example.TLBet.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,8 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static com.example.TLBet.utils.Constants.POINTS_FOR_MATCH_RESULT;
-import static com.example.TLBet.utils.Constants.POINTS_FOR_MATCH_SIGN;
+import static com.example.TLBet.utils.Constants.*;
 
 @Service
 @RequiredArgsConstructor
@@ -26,6 +24,8 @@ public class RankingServiceImpl implements RankingService {
     private final BetService betService;
     private final RoundService roundService;
     private final UserService userService;
+    private final TournamentService tournamentService;
+    private final TournamentBetWinnerService tournamentBetWinnerService;
 
     @Override
     public List<RankingView> getInGeneralRanking() {
@@ -57,9 +57,22 @@ public class RankingServiceImpl implements RankingService {
                 rankingView.setPlace(++place);
             }
         }
-
-
         return list;
+    }
+
+    private void addPoints(List<RankingView> list) {
+        Tournament tournament = tournamentService.getActiveTournament();
+        if (tournament.getWinnerTeamId() != null) {
+            List<TournamentBetWinner> tournamentBetWinners = tournamentBetWinnerService.findAllByTeamIdAndTournament_IsActiveIsTrue(tournament.getWinnerTeamId());
+            List<User> users = tournamentBetWinners.stream().map(TournamentBetWinner::getUser).toList();
+            for (RankingView rankingView : list) {
+                for (User user : users) {
+                    if (rankingView.getUsername().equals(user.getUsername())) {
+                        rankingView.setPoints(rankingView.getPoints() + POINTS_FOR_TEAM_WINNER);
+                    }
+                }
+            }
+        }
     }
 
     private List<RankingView> calculateDifferenceRanking(Map<User, RankingServiceModel> currentView, Map<User, RankingServiceModel> lastRoundView) {
@@ -88,8 +101,10 @@ public class RankingServiceImpl implements RankingService {
                 view.setRankingDifferences((currentPlace - lastRoundModel.getPlace()) * -1);
             }
             list.add(view);
-
         }
+
+        addPoints(list);
+
         list = list
                 .stream()
                 .sorted((e1, e2) -> Long.compare(e2.getPoints(), e1.getPoints()))

@@ -131,4 +131,9 @@ public class TournamentBetWinnerServiceImpl implements TournamentBetWinnerServic
                 .map(t -> modelMapper.map(t, TeamView.class))
                 .toList();
     }
+
+    @Override
+    public List<TournamentBetWinner> findAllByTeamIdAndTournament_IsActiveIsTrue(Long winnerTeamId) {
+        return repository.findAllByTeamIdAndTournament_IsActiveIsTrue(winnerTeamId);
+    }
 }
