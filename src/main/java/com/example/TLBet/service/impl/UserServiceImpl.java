@@ -116,7 +116,24 @@ public class UserServiceImpl implements UserService {
         List<MatchResultView> bets = betService.getAllBetsByUsername(username);
 
         userProfileOutView.setBets(bets);
+
+        setMyChoiceForTournamentWinner(userByUsername, userProfileOutView);
+
         return userProfileOutView;
+    }
+
+    private void setMyChoiceForTournamentWinner(User userByUsername, UserProfileOutView userProfileOutView) {
+        Tournament activeTournament = tournamentService.getActiveTournament();
+
+        if (Instant.now().isAfter(activeTournament.getWinnerPickExpirationDate()) && activeTournament.getWinnerTeamId() != null) {
+
+            Long myWinnerChoice = repository.findUserChoiceForWinner(userByUsername.getId()).orElse(null);
+
+            if (myWinnerChoice != null) {
+                TeamView myChoice = teamService.getTeamById(myWinnerChoice).map(t -> this.mapper.map(t, TeamView.class)).orElse(null);
+                userProfileOutView.setTournamentWinner(myChoice);
+            }
+        }
     }
 
     @Override
@@ -134,17 +151,7 @@ public class UserServiceImpl implements UserService {
 
         userProfileOutView.setBets(bets);
 
-        Tournament activeTournament = tournamentService.getActiveTournament();
-
-        if (Instant.now().isAfter(activeTournament.getWinnerPickExpirationDate()) && activeTournament.getWinnerTeamId() != null) {
-
-            Long myWinnerChoice = repository.findUserChoiceForWinner(user.getId()).orElse(null);
-
-            if (myWinnerChoice != null) {
-                TeamView myChoice = teamService.getTeamById(myWinnerChoice).map(t -> this.mapper.map(t, TeamView.class)).orElse(null);
-                userProfileOutView.setTournamentWinner(myChoice);
-            }
-        }
+        setMyChoiceForTournamentWinner(user, userProfileOutView);
         return userProfileOutView;
     }
 }
