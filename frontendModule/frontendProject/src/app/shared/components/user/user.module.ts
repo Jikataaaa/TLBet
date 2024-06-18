@@ -13,6 +13,8 @@ import { ProfileComponent } from './profile/profile.component';
 import { RankingComponent } from './ranking/ranking.component';
 import { RegisterComponent } from './register/register.component';
 import { UserDetailComponent } from './user-detail/user-detail.component';
+import { TournamentWinnerModel } from 'src/app/components/tournament-winner/models/tournament-winner.model';
+import { TournamentWinnerModule } from 'src/app/components/tournament-winner/tournament-winner.module';
 
 
 @NgModule({
@@ -31,7 +33,8 @@ import { UserDetailComponent } from './user-detail/user-detail.component';
         MaterialModule,
         SharedModule,
         MatchModule,
-        RouterModule
+        RouterModule,
+        TournamentWinnerModule
     ],
     providers: [
         UserService

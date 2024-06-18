@@ -1,0 +1,56 @@
+<div class="container mx-auto max-w-2xl mt-4">
+    <h1 *ngIf="menuLoaded"
+        class="text-center text-2xl font-bold mb-4">Победител</h1>
+    <div class="flex flex-col">
+        <span class="m-2 font-bold"
+              *ngIf="!isPlayed && !isExpired">Познай кой ще спечели Евро 2024 и получи +10 точки!</span>
+        <span class="m-2 font-bold"
+              *ngIf="isPlayed && menuLoaded">При познат шампион на Евро 2024 ще получите +10 точки!</span>
+        <span class="m-2 font-bold"
+              *ngIf="isExpired && menuLoaded">Времето за залагане на победител в Евро 2024 изтече!</span>
+        <span class="m-2 font-bold"
+              *ngIf="isExpired && !menuLoaded">Изтекло време за залог за победител!</span>
+    </div>
+    <form *ngIf="!isPlayed && !this.isExpired"
+          [formGroup]="form">
+        <div class="mb-4">
+            <mat-form-field class="mt-1 p-2 block w-full">
+                <mat-label class="lbl">Избери победител</mat-label>
+                <input type="text"
+                       matInput
+                       formControlName="winnerTeamControl"
+                       [matAutocomplete]="autoHome">
+                <mat-autocomplete #autoHome="matAutocomplete"
+                                  [displayWith]="displayTeamName"
+                                  (optionSelected)="onTeamSelected($event.option.value)">
+                    <mat-option *ngFor="let option of teams"
+                                [value]="option">
+                        <div class="flex flex-row gap-1">
+                            <img [src]="option.imageUrl"
+                                 alt="{{ option.name }}"
+                                 width="20"
+                                 height="20">
+                            <span>{{ option.name }} </span>
+                        </div>
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+        </div>
+        <button *ngIf="!this.isPlayed && !this.isExpired"
+                class="ml-2 mt-0"
+                (debouncedClick)="onSubmit()"
+                [disabled]="form.invalid"
+                mat-raised-button
+                color="accent">Запази</button>
+    </form>
+
+    <div *ngIf="isPlayed && data && data.team">
+        <div class="flex flex-row">
+            <span class="m-2 font-bold">Победител:</span>
+            <img [src]="data.team.imageUrl"
+                 alt="{{ data.team.name }}"
+                 class="img-size">
+            <span class="m-2 font-bold">{{ data.team.name }}</span>
+        </div>
+    </div>
+</div>

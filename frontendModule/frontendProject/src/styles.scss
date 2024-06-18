@@ -169,6 +169,7 @@ $my-app-theme: mat-light-theme(
     border:2px solid #003F2B; /* Add a border */
     border-radius: 5px; /* Optional: Add a border radius */
 }
+
 ::ng-deep .mat-calendar-body-active .mat-calendar-body-cell-content {
     background: var(--primary-color);
     color: white;
