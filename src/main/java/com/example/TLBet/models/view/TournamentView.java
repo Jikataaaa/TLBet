@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TournamentView {
-    private long id;
+    private Long id;
     private String name;
     private boolean isActive;
 }

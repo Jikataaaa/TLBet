@@ -45,4 +45,9 @@ public class TournamentServiceImpl implements TournamentService {
     public void deleteTournamentById(long id) {
         repository.delete(this.getTournamentById(id));
     }
+
+    @Override
+    public Tournament getActiveTournament() {
+        return repository.findFirstByIsActiveIsTrue();
+    }
 }

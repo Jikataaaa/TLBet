@@ -14,4 +14,5 @@ public interface TournamentService {
    long editTournament(TournamentView tournamentView);
    void deleteTournamentById(long id);
 
+    Tournament getActiveTournament();
 }
