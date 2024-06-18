@@ -93,11 +93,11 @@ public class TournamentBetWinnerServiceImpl implements TournamentBetWinnerServic
             Tournament tournament = tournamentService.getActiveTournament();
             tournamentBetWinnerOutView.setTournament(modelMapper.map(tournament, TournamentView.class));
 
-            tournamentBetWinnerOutView.setIsExpired(Instant.now().isAfter(tournament.getWinnerPickExpirationDate()));
-
+            if (tournament.getWinnerPickExpirationDate() != null) {
+                tournamentBetWinnerOutView.setIsExpired(Instant.now().isAfter(tournament.getWinnerPickExpirationDate()));
+            }
             return tournamentBetWinnerOutView;
         }
-
         tournamentBetWinnerOutView.setId(tournamentBetWinner.getId());
 
         Team team = teamService.getTeamById(tournamentBetWinner.getTeamId()).orElse(null);
@@ -106,7 +106,6 @@ public class TournamentBetWinnerServiceImpl implements TournamentBetWinnerServic
             throw new UserErrorException(EXCEPTION_TEAM_NOT_FOUND,
                     new Throwable("Отборът не беше намерен"));
         }
-
         TeamView teamView = modelMapper.map(team, TeamView.class);
         tournamentBetWinnerOutView.setTeam(teamView);
 
@@ -116,7 +115,6 @@ public class TournamentBetWinnerServiceImpl implements TournamentBetWinnerServic
             throw new UserErrorException(EXCEPTION_TOURNAMENT_NOT_FOUND,
                     new Throwable("Турнира не беше намерен"));
         }
-
         TournamentView tournamentView = modelMapper.map(tournament, TournamentView.class);
         tournamentBetWinnerOutView.setTournament(tournamentView);
 
