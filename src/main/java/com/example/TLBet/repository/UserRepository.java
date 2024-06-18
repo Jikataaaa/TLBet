@@ -1,5 +1,6 @@
 package com.example.TLBet.repository;
 
+import com.example.TLBet.models.entities.TournamentBetWinner;
 import com.example.TLBet.models.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -25,9 +26,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByUsernameOrEmail(String username, String email);
 
     @Query(value =
-            "select tbw.teamId                                                  " +
+            "select tbw                                                  " +
             "from TournamentBetWinner tbw  join User u on tbw.userId = u.id     " +
             "where tbw.userId = :id and tbw.tournament.isActive = true          "
     )
-    Optional<Long> findUserChoiceForWinner(@Param("id") Long id);
+    Optional<TournamentBetWinner> findUserChoiceForWinner(@Param("id") Long id);
 }

@@ -20,4 +20,5 @@ public class UserProfileOutView {
     private String email;
     private List<MatchResultView> bets;
     private TeamView tournamentWinner;
+    private Boolean isWinnerChoicePossibilityExpired;
 }

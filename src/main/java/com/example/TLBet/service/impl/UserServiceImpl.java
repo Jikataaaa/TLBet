@@ -1,6 +1,7 @@
 package com.example.TLBet.service.impl;
 
 import com.example.TLBet.models.entities.Tournament;
+import com.example.TLBet.models.entities.TournamentBetWinner;
 import com.example.TLBet.models.entities.User;
 import com.example.TLBet.models.enums.ExceptionEnum;
 import com.example.TLBet.models.exeptions.UserErrorException;
@@ -117,8 +118,15 @@ public class UserServiceImpl implements UserService {
 
         userProfileOutView.setBets(bets);
 
-        setMyChoiceForTournamentWinner(userByUsername, userProfileOutView);
+        TournamentBetWinner myWinnerChoice = repository.findUserChoiceForWinner(userByUsername.getId()).orElse(null);
 
+        if (myWinnerChoice != null) {
+            TeamView myChoice = teamService.getTeamById(myWinnerChoice.getTeamId()).map(t -> this.mapper.map(t, TeamView.class)).orElse(null);
+            userProfileOutView.setTournamentWinner(myChoice);
+        }
+
+        Tournament activeTournament = tournamentService.getActiveTournament();
+        userProfileOutView.setIsWinnerChoicePossibilityExpired(Instant.now().isAfter(activeTournament.getWinnerPickExpirationDate()));
         return userProfileOutView;
     }
 
@@ -127,10 +135,10 @@ public class UserServiceImpl implements UserService {
 
         if (Instant.now().isAfter(activeTournament.getWinnerPickExpirationDate()) && activeTournament.getWinnerTeamId() != null) {
 
-            Long myWinnerChoice = repository.findUserChoiceForWinner(userByUsername.getId()).orElse(null);
+            TournamentBetWinner myWinnerChoice = repository.findUserChoiceForWinner(userByUsername.getId()).orElse(null);
 
             if (myWinnerChoice != null) {
-                TeamView myChoice = teamService.getTeamById(myWinnerChoice).map(t -> this.mapper.map(t, TeamView.class)).orElse(null);
+                TeamView myChoice = teamService.getTeamById(myWinnerChoice.getTeamId()).map(t -> this.mapper.map(t, TeamView.class)).orElse(null);
                 userProfileOutView.setTournamentWinner(myChoice);
             }
         }
