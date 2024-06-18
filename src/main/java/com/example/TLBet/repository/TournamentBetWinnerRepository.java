@@ -13,4 +13,6 @@ public interface TournamentBetWinnerRepository extends JpaRepository<TournamentB
     Optional<TournamentBetWinner> findByUserIdAndTournament_IsActiveIsTrue(Long id);
 
     List<TournamentBetWinner> findAllByTeamIdAndTournament_IsActiveIsTrue(Long winnerTeamId);
+
+    Optional<TournamentBetWinner> findByUserId(Long id);
 }

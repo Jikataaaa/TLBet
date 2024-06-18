@@ -3,6 +3,7 @@ package com.example.TLBet.repository;
 import com.example.TLBet.models.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -22,4 +23,11 @@ public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findAllFullNames();
 
     Optional<User> findByUsernameOrEmail(String username, String email);
+
+    @Query(value =
+            "select tbw.teamId                                                  " +
+            "from TournamentBetWinner tbw  join User u on tbw.userId = u.id     " +
+            "where tbw.userId = :id and tbw.tournament.isActive = true          "
+    )
+    Optional<Long> findUserChoiceForWinner(@Param("id") Long id);
 }

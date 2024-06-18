@@ -1,14 +1,14 @@
 package com.example.TLBet.service.impl;
 
+import com.example.TLBet.models.entities.Tournament;
 import com.example.TLBet.models.entities.User;
 import com.example.TLBet.models.enums.ExceptionEnum;
 import com.example.TLBet.models.exeptions.UserErrorException;
-import com.example.TLBet.models.view.MatchResultView;
-import com.example.TLBet.models.view.UserInView;
-import com.example.TLBet.models.view.UserOutView;
-import com.example.TLBet.models.view.UserProfileOutView;
+import com.example.TLBet.models.view.*;
 import com.example.TLBet.repository.UserRepository;
 import com.example.TLBet.service.BetService;
+import com.example.TLBet.service.TeamService;
+import com.example.TLBet.service.TournamentService;
 import com.example.TLBet.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,6 +34,12 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private BetService betService;
+
+    @Autowired
+    private TournamentService tournamentService;
+
+    @Autowired
+    private TeamService teamService;
 
     @Autowired
     private ModelMapper mapper;
@@ -126,6 +133,18 @@ public class UserServiceImpl implements UserService {
         List<MatchResultView> bets = betService.getAllEndedBetsByUsername(user.getUsername());
 
         userProfileOutView.setBets(bets);
+
+        Tournament activeTournament = tournamentService.getActiveTournament();
+
+        if (Instant.now().isAfter(activeTournament.getWinnerPickExpirationDate()) && activeTournament.getWinnerTeamId() != null) {
+
+            Long myWinnerChoice = repository.findUserChoiceForWinner(user.getId()).orElse(null);
+
+            if (myWinnerChoice != null) {
+                TeamView myChoice = teamService.getTeamById(myWinnerChoice).map(t -> this.mapper.map(t, TeamView.class)).orElse(null);
+                userProfileOutView.setTournamentWinner(myChoice);
+            }
+        }
         return userProfileOutView;
     }
 }
