@@ -28,7 +28,7 @@ public class TeamController {
 
     @GetMapping("/all-teams")
     public ResponseEntity<List<TeamView>> getAllTeams() {
-        List<TeamView> result = teamService.getAllTeams().stream().map(team -> mapper.map(team, TeamView.class)).toList();
+        List<TeamView> result = teamService.getAllTeamsOrderByNameAsc().stream().map(team -> mapper.map(team, TeamView.class)).toList();
         return ResponseEntity.ok(result);
     }
 

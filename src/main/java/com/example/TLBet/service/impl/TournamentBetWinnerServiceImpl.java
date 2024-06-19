@@ -124,7 +124,7 @@ public class TournamentBetWinnerServiceImpl implements TournamentBetWinnerServic
     @Override
     public List<TeamView> getAllTeams() {
 
-        return teamService.getAllTeams()
+        return teamService.getAllTeamsOrderByNameAsc()
                 .stream()
                 .map(t -> modelMapper.map(t, TeamView.class))
                 .toList();

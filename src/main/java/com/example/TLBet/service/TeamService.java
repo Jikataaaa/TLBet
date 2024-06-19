@@ -14,7 +14,7 @@ public interface TeamService {
 
    TeamServiceModel createTeam(TeamInsertUpdateOutView team);
 
-   List<TeamServiceModel> getAllTeams();
+   List<TeamServiceModel> getAllTeamsOrderByNameAsc();
 
    Team editTeam(TeamInsertUpdateOutView team);
 

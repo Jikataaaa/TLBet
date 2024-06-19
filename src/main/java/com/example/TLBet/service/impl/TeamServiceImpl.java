@@ -31,8 +31,8 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
-    public List<TeamServiceModel> getAllTeams() {
-        return repository.findAllByOrderByIdDesc().stream().map(team -> mapper.map(team, TeamServiceModel.class)).toList();
+    public List<TeamServiceModel> getAllTeamsOrderByNameAsc() {
+        return repository.findAllByOrderByNameAsc().stream().map(team -> mapper.map(team, TeamServiceModel.class)).toList();
     }
 
     @Override
