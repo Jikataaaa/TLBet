@@ -133,7 +133,7 @@ public class UserServiceImpl implements UserService {
     private void setMyChoiceForTournamentWinner(User userByUsername, UserProfileOutView userProfileOutView) {
         Tournament activeTournament = tournamentService.getActiveTournament();
 
-        if (Instant.now().isAfter(activeTournament.getWinnerPickExpirationDate()) && activeTournament.getWinnerTeamId() != null) {
+        if (Instant.now().isAfter(activeTournament.getWinnerPickExpirationDate())) {
 
             TournamentBetWinner myWinnerChoice = repository.findUserChoiceForWinner(userByUsername.getId()).orElse(null);
 

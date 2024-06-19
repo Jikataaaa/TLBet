@@ -174,3 +174,8 @@ $my-app-theme: mat-light-theme(
     background: var(--primary-color);
     color: white;
 }
+
+.img-size {
+    max-height: 35px;
+    max-width: 35px;
+}

@@ -48,9 +48,24 @@
                        type="text"
                        class="!text-white" />
             </mat-form-field>
+
+            <div *ngIf="user && user.tournamentWinner">
+                <div class="flex flex-row items-center ml-4">
+                    <span class="font-bold">Победител: </span>
+                    <img [src]="user.tournamentWinner.imageUrl"
+                         alt="{{ user.tournamentWinner.name }}"
+                         class="img-size ml-2">
+                    <span class="m-2 font-bold">{{ user.tournamentWinner.name }}</span>
+                </div>
+            </div>
+
+            <div *ngIf="user && user.isWinnerChoicePossibilityExpired && !user.tournamentWinner">
+                <div class="flex flex-row items-center ml-4">
+                    <span class="font-bold">Победител: </span>
+                    <span class="m-2 font-bold">Изтекло време за залог за победител!</span>
+                </div>
+            </div>
         </form>
-        <tournament-winner class="flex"
-                           [menuLoaded]="false"></tournament-winner>
     </div>
 
 
