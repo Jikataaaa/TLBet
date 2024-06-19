@@ -142,6 +142,7 @@ public class UserServiceImpl implements UserService {
                 userProfileOutView.setTournamentWinner(myChoice);
             }
         }
+        userProfileOutView.setIsWinnerChoicePossibilityExpired(Instant.now().isAfter(activeTournament.getWinnerPickExpirationDate()));
     }
 
     @Override
