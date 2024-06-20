@@ -9,13 +9,23 @@
                 <ul class="nav-list flex space-x-2">
                     <li mat-button *ngIf="isLogged" routerLink="match/all-matches">Мачове</li>
                     <li mat-button *ngIf="isLogged" routerLink="user/ranking">Класиране</li>
-                    <li mat-button *ngIf="isLogged" routerLink="tournament/winner">Победител</li>
+                    <li mat-button *ngIf="isLogged" routerLink="tournament/winner">
+                        <span class="sm:hidden  max-sm:flex max-sm:items-center">
+                            <mat-icon>emoji_events</mat-icon>
+                        </span>
+                        <span class="max-sm:hidden">Победител</span>
+                    </li>
                 </ul>
             </nav>
             <span class="nav-spacer flex-1"></span>
             <nav>
                 <ul class="user-list flex space-x-2 items-center">
-                    <li mat-button *ngIf="isAdmin" [matMenuTriggerFor]="adminMenu">Админ</li>
+                    <li *ngIf="isAdmin" [matMenuTriggerFor]="adminMenu">
+                        <span class="sm:hidden  max-sm:flex max-sm:items-center">
+                            <mat-icon>admin_panel_settings</mat-icon>
+                        </span>
+                        <span class="max-sm:hidden">Админ</span>
+                    </li>
                     <li mat-button *ngIf="!isLogged" routerLink="user/login">Вход</li>
                     <li mat-button *ngIf="!isLogged" routerLink="user/register">Регистрация</li>
                     <li mat-button *ngIf="isLogged" routerLink="user/profile">
