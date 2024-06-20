@@ -3,7 +3,7 @@
     <form [formGroup]="matchForm">
         <div class="mb-4">
             <mat-form-field class="mt-1 p-2 block w-full">
-                <mat-label>Домакин</mat-label>
+                <mat-label class="lbl" class="lbl">Домакин</mat-label>
                 <input type="text" matInput formControlName="homeTeam" [matAutocomplete]="autoHome">
                 <mat-autocomplete #autoHome="matAutocomplete" [displayWith]="displayTeamName" (optionSelected)="onHomeTeamSelected($event.option.value)">
                     <mat-option *ngFor="let option of filteredTeamsHome | async" [value]="option">
@@ -17,7 +17,7 @@
         </div>
         <div class="mb-4">
             <mat-form-field class="mt-1 p-2 block w-full">
-                <mat-label>Гост</mat-label>
+                <mat-label class="lbl">Гост</mat-label>
                 <input type="text" matInput formControlName="awayTeam" [matAutocomplete]="autoAway">
                 <mat-autocomplete #autoAway="matAutocomplete" [displayWith]="displayTeamName" (optionSelected)="onAwayTeamSelected($event.option.value)">
                     <mat-option *ngFor="let option of filteredTeamsAway | async" [value]="option">
@@ -31,19 +31,19 @@
         </div>
         <div class="mb-4">
             <mat-form-field class="mt-1 p-2 block w-full">
-                <mat-label>Голове на домакините</mat-label>
+                <mat-label class="lbl">Голове на домакините</mat-label>
                 <input matInput id="homeGoals" type="number" formControlName="homeGoals">
             </mat-form-field>
         </div>
         <div class="mb-4">
             <mat-form-field class="mt-1 p-2 block w-full">
-                <mat-label>Голове на гостите</mat-label>
+                <mat-label class="lbl">Голове на гостите</mat-label>
                 <input matInput id="awayGoals" type="number" formControlName="awayGoals">
             </mat-form-field>
         </div>
         <div class="mb-4">
             <mat-form-field class="w-full">
-                <mat-label>Начално време</mat-label>
+                <mat-label class="lbl">Начално време</mat-label>
                 <input matInput [ngxMatDatetimePicker]="startTimePicker" formControlName="startTime" class="custom-datetime-picker">
                 <mat-datepicker-toggle matSuffix [for]="$any(startTimePicker)"></mat-datepicker-toggle>
                 <ngx-mat-datetime-picker #startTimePicker [showSpinners]="true" [showSeconds]="false" [stepHour]="1" [stepMinute]="1" [stepSecond]="1" [touchUi]="false" [color]="'primary'" [enableMeridian]="false" [disableMinute]="false" [hideTime]="false">
