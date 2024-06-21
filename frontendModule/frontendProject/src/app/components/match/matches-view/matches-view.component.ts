@@ -18,6 +18,9 @@ export class MatchesViewComponent implements OnInit, OnChanges, OnDestroy {
     subs: Subscription[] = [];
 
     @Input()
+    isHistory: boolean = false;
+
+    @Input()
     matches: BetMatchModel[] = [];
 
     @Output()
@@ -48,21 +51,25 @@ export class MatchesViewComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     fillForm(matches: BetMatchModel[]) {
-        const sortedMatches = matches.sort((a, b) => {
-            if (a.status === MatchStatusEnum.PLAYABLE && b.status !== MatchStatusEnum.PLAYABLE) {
-                return -1;
-            }
+        let sortedMatches: BetMatchModel[] = [];
+        if (this.isHistory) {
+            sortedMatches = matches.sort((a, b) => {
+                if (new Date(a.startTime).getTime() >= new Date(b.startTime).getTime()) {
+                    return -1;
+                }
 
-            if (a.status !== MatchStatusEnum.PLAYABLE && b.status === MatchStatusEnum.PLAYABLE) {
-                return 1;
-            }
+                return 0;
+            });
+        }
+        else {
+            sortedMatches = matches.sort((a, b) => {
+                if (new Date(a.startTime).getTime() <= new Date(b.startTime).getTime()) {
+                    return -1;
+                }
 
-            if (a.status === b.status) {
-                return a.id - b.id;
-            }
-            
-            return 0;
-        });
+                return 0;
+            });
+        }
 
         this.hasPlayableMatches = sortedMatches.some((x) => x.status == MatchStatusEnum.PLAYABLE);
 
