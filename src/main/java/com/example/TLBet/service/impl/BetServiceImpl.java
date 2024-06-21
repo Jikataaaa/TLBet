@@ -167,4 +167,9 @@ public class BetServiceImpl implements BetService {
         List<Bet> bets = repository.findBetsByUserUsernameAndMatch_HomeTeamGoalsNotNullAndAwayTeamGoalsNotNullOrderByIdDesc(username);
         return getBets(bets);
     }
+
+    @Override
+    public List<Bet> getBetsByRoundId(Long roundId) {
+        return repository.findBetsByMatchRoundId(roundId);
+    }
 }

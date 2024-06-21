@@ -25,4 +25,6 @@ public interface RoundService {
     RoundOutView getActiveRound() throws NoContentException;
 
     List<Long> getRoundIdsWithPopulatedResults();
+
+    List<RoundView> getRoundsWithPopulatedResults();
 }

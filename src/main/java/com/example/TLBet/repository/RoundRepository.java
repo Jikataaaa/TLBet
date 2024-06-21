@@ -1,6 +1,7 @@
 package com.example.TLBet.repository;
 
 import com.example.TLBet.models.entities.Round;
+import com.example.TLBet.models.view.RoundView;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -35,6 +36,15 @@ public interface RoundRepository extends JpaRepository<Round, Long> {
             "where m.homeTeamGoals is not null or m.awayTeamGoals is not null   " +
             "order by r.id                                                      ")
     List<Long> getRoundIdsWithPopulatedResults();
+
+    @Query(value =
+            "select distinct r                                   " +
+                    "from Round r                                                       " +
+                    "join Match m                                                       " +
+                    "on m.round.id = r.id                                               " +
+                    "where m.homeTeamGoals is not null or m.awayTeamGoals is not null   " +
+                    "order by r.id                                                      ")
+    List<Round> getRoundsWithPopulatedResults();
 
     Optional<Round> findByIsActiveIsTrueAndTournament_IsActiveIsTrue();
 }

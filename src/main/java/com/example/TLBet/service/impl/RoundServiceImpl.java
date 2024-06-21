@@ -91,4 +91,12 @@ public class RoundServiceImpl implements RoundService {
     public List<Long> getRoundIdsWithPopulatedResults() {
         return repository.getRoundIdsWithPopulatedResults();
     }
+
+    @Override
+    public List<RoundView> getRoundsWithPopulatedResults() {
+        List<Round> rounds = repository.getRoundsWithPopulatedResults();
+        return rounds.stream()
+                .map(round -> this.mapper.map(round, RoundView.class))
+                .collect(Collectors.toList());
+    }
 }

@@ -16,5 +16,4 @@ public class RankingView {
     private String username;
     private long points;
     private int rankingDifferences;
-
 }

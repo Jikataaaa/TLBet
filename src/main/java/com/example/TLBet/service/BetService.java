@@ -27,4 +27,6 @@ public interface BetService {
     List<MatchResultView> getAllBetsByUsername(String username);
 
     List<MatchResultView> getAllEndedBetsByUsername(String username);
+
+    List<Bet> getBetsByRoundId(Long roundId);
 }

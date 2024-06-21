@@ -43,4 +43,6 @@ public interface BetRepository extends JpaRepository<Bet, Long> {
     List<Bet> getBetsByRoundIdLower(Long roundId);
 
     List<Bet> findBetsByUserUsernameAndMatch_HomeTeamGoalsNotNullAndAwayTeamGoalsNotNullOrderByIdDesc(String username);
+
+    List<Bet> findBetsByMatchRoundId(Long roundId);
 }

@@ -20,6 +20,7 @@ import { LoginComponent } from './shared/components/user/login/login.component';
 import { ProfileComponent } from './shared/components/user/profile/profile.component';
 import { RankingComponent } from './shared/components/user/ranking/ranking.component';
 import { UserDetailComponent } from './shared/components/user/user-detail/user-detail.component';
+import { RoundRankingComponent } from './shared/components/user/ranking/round-ranking/round-ranking.component';
 
 const routes: Routes = [
     {
@@ -163,6 +164,14 @@ const routes: Routes = [
     {
         path: 'tournament/winner',
         component: TournamentWinnerComponent,
+        canActivate: [AuthGuard],
+        data: {
+            role: "USER",
+        },
+    },
+    {
+        path: 'user/ranking/round',
+        component: RoundRankingComponent,
         canActivate: [AuthGuard],
         data: {
             role: "USER",
