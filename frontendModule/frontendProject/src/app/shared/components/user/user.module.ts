@@ -13,7 +13,6 @@ import { LoginComponent } from './login/login.component';
 import { ProfileComponent } from './profile/profile.component';
 import { RankingRoundsMenuComponent } from './ranking/ranking-rounds-menu/ranking-rounds-menu.component';
 import { RankingComponent } from './ranking/ranking.component';
-import { RoundRankingComponent } from './ranking/round-ranking/round-ranking.component';
 import { RegisterComponent } from './register/register.component';
 import { UserDetailComponent } from './user-detail/user-detail.component';
 
@@ -26,7 +25,6 @@ import { UserDetailComponent } from './user-detail/user-detail.component';
         ProfileComponent,
         LoginFormComponent,
         UserDetailComponent,
-        RoundRankingComponent,
         RankingRoundsMenuComponent
     ],
     imports: [

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { RoundModel } from 'src/app/components/round/models/round.model';
 
@@ -11,20 +11,15 @@ export class RankingRoundsMenuComponent implements OnInit {
     @Input()
     rounds: RoundModel[] = [];
 
+    @Output()
+    roundSelected:EventEmitter<RoundModel> = new EventEmitter<RoundModel>();
+
     constructor(private router: Router) { }
 
     ngOnInit() {
     }
 
     roundRankingNavigate(round: RoundModel): void {
-        if (round.id === -1) {
-            this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-                this.router.navigate(['/user/ranking']);
-            });
-            return;
-        }
-        this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-            this.router.navigate(['/user/ranking/round'], { state: { roundId: round.id } });
-        });
+        this.roundSelected.emit(round);
     }
 }
