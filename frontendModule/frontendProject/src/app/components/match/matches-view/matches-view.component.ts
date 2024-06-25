@@ -26,7 +26,11 @@ export class MatchesViewComponent implements OnInit, OnChanges, OnDestroy {
     @Output()
     submittedMatches: EventEmitter<BetMatchModel[]> = new EventEmitter<BetMatchModel[]>();
 
-    constructor(private events: CommonEventsService) {
+    @Output()
+    submitPlayableMatch: EventEmitter<BetMatchModel> = new EventEmitter<BetMatchModel>();
+
+    constructor(private events: CommonEventsService
+    ) {
         this.matchesFormArray = new FormArray<FormGroup>([]);
         this.form = new FormGroup({
             matches: this.matchesFormArray,
@@ -81,5 +85,14 @@ export class MatchesViewComponent implements OnInit, OnChanges, OnDestroy {
                 })
         );
         groups.forEach((group) => this.matchesFormArray.push(group));
+    }
+
+    submitMatch(match: BetMatchModel) {
+
+        if (!match) {
+            return;
+        }
+
+        this.submitPlayableMatch.next(match);
     }
 }

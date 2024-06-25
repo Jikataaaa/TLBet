@@ -81,4 +81,35 @@ export class AllMatchesComponent implements OnInit {
     submitMatches() {
         this.eventService.submitPlayableMatches.next();
     }
+
+    submitMatch(match: any) {
+        let givenMatch = match;
+        const dialog = this.dialog.open(ConfirmDialogComponent, {
+            data: {
+                title: `Залог`,
+                message: 'Потвърдете, ако желаете да запазите вашата прогноза. Веднъж направен залог не може да бъде променен!',
+                confirmText: 'Потвърди',
+            }
+        });
+
+        dialog.afterClosed().subscribe(result => {
+            if (result) {
+                let bets: NewBet[] = [];
+                bets.push(
+                    new NewBet({
+                        homeTeamGoals: givenMatch.match.homeTeam.goals,
+                        awayTeamGoals: givenMatch.match.awayTeam.goals,
+                        matchId: givenMatch.match.id,
+                    })
+                );
+
+                this.betService.createBets(bets).subscribe(data => {
+
+                    this.loadAllMatches();
+
+                    this.snackBar.openSuccess('Прогнозата е успешно запазена!');
+                });
+            }
+        });
+    }
 }

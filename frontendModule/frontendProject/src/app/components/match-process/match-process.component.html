@@ -1,13 +1,11 @@
-<div class="flex flex-row justify-center items-center gap-1"
-     *ngIf="match"
-     [formGroup]="form">
-    <div class="flex flex-row justify-center items-center gap-2 border border-gray-300 rounded"
-         [ngStyle]="{'background-color': getColor(match.status)}">
-        <goals-picker formControlName="homeTeam"
-                      [isMatchPlayable]="isMatchPlayable"></goals-picker>
-        <span class="dash-line">-</span>
-        <goals-picker formControlName="awayTeam"
-                      [isHomeTeam]="false"
-                      [isMatchPlayable]="isMatchPlayable"></goals-picker>
-    </div>
+<div class="flex flex-row justify-center items-center gap-1" *ngIf="match" [formGroup]="form">
+     <div>
+          <div class="flex flex-row justify-center items-center gap-2 border border-gray-300 rounded"
+               [ngStyle]="{'background-color': getColor(match.status)}">
+               <goals-picker formControlName="homeTeam" [isMatchPlayable]="isMatchPlayable"></goals-picker>
+               <span class="dash-line">-</span>
+               <goals-picker formControlName="awayTeam" [isHomeTeam]="false"
+                    [isMatchPlayable]="isMatchPlayable"></goals-picker>
+          </div>
+     </div>
 </div>
