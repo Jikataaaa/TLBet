@@ -39,7 +39,10 @@ export class MatchesViewComponent implements OnInit, OnChanges, OnDestroy {
 
     ngOnInit(): void {
         this.subs.push(this.events.submitPlayableMatches.subscribe(() => {
-            const data: BetMatchModel[] = this.matchesFormArray.value.map((x: { match: Partial<BetMatchModel> | undefined; }) => new BetMatchModel(x.match));
+            const data: BetMatchModel[] =  this.matchesFormArray.value
+            .map((x: { match: Partial<BetMatchModel> | undefined; }) => new BetMatchModel(x.match))
+            .filter((x: BetMatchModel) => x.status == MatchStatusEnum.PLAYABLE);
+
             this.submittedMatches.next(data);
         }));
     }
