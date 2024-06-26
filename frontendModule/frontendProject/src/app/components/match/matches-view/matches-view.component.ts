@@ -58,11 +58,11 @@ export class MatchesViewComponent implements OnInit, OnChanges, OnDestroy {
         this.subs.forEach((sub) => sub.unsubscribe());
     }
 
-    fillForm(matches: BetMatchModel[]) {
+    fillForm(matches: BetMatchModel[]) {   
         let sortedMatches: BetMatchModel[] = [];
         if (this.isHistory) {
             sortedMatches = matches.sort((a, b) => {
-                if (new Date(a.startTime).getTime() >= new Date(b.startTime).getTime()) {
+                if (new Date(a.startTime).getTime() > new Date(b.startTime).getTime()) {
                     return -1;
                 }
 
@@ -71,13 +71,13 @@ export class MatchesViewComponent implements OnInit, OnChanges, OnDestroy {
         }
         else {
             sortedMatches = matches.sort((a, b) => {
-                if (new Date(a.startTime).getTime() <= new Date(b.startTime).getTime()) {
+                if (new Date(a.startTime).getTime() < new Date(b.startTime).getTime()) {
                     return -1;
                 }
 
                 return 0;
             });
-        }
+        }    
 
         this.hasPlayableMatches = sortedMatches.some((x) => x.status == MatchStatusEnum.PLAYABLE);
 

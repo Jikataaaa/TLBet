@@ -71,7 +71,15 @@ export class AllMatchesComponent implements OnInit {
                     );
                 }
                 this.betService.createBets(bets).subscribe(data => {
-                    this.loadAllMatches();
+                    data.forEach((bet) => {
+                        this.matches = this.matches.map((m) => {
+                            if (m.id === bet.id) {
+                                m.status = bet.status;
+                            }
+                            return m;
+                        });
+                    });
+                    this.hasPlayableMatches = false;
                     this.snackBar.openSuccess('Прогнозата е успешно запазена!');
                 });
             }

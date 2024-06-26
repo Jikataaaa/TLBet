@@ -5,8 +5,11 @@
 }
 
 .bottom-right {
-    bottom: 0.5px;
-    right: 0.5px;
+    bottom: 4px;
+    right: 4px;
     position: absolute;
-    color: #f0f0f0
+    color: #f0f0f0;
+    width: 30px;
+    height: 30px;
+    font-size: 16px;
 }
