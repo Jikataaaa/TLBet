@@ -19,7 +19,7 @@ public class BetController extends BaseController {
     private final BetService betService;
 
     @PostMapping("/new-bets")
-    public ResponseEntity<List<NewBetView>> createBet(@RequestBody List<NewBetView> bets) throws UserErrorException {
+    public ResponseEntity<List<MatchResultView>> createBet(@RequestBody List<NewBetView> bets) throws UserErrorException {
         return ResponseEntity.ok(betService.createBets(bets, super.getCurrentUserUsername()));
     }
 

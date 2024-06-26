@@ -14,7 +14,7 @@ public interface BetService {
 
     List<BetView> getAllBetsByUser(long id);
 
-    List<NewBetView> createBets(List<NewBetView> bets, String username) throws UserErrorException;
+    List<MatchResultView> createBets(List<NewBetView> bets, String username) throws UserErrorException;
 
     boolean checkExistingBetOnMatch(Match match, String username);
 

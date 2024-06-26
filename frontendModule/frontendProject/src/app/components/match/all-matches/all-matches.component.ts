@@ -104,9 +104,12 @@ export class AllMatchesComponent implements OnInit {
                 );
 
                 this.betService.createBets(bets).subscribe(data => {
-
-                    this.loadAllMatches();
-
+                    this.matches = this.matches.map((m) => {
+                        if (m.id === data[0].id) {
+                            m.status = data[0].status;
+                        }
+                        return m;
+                    });
                     this.snackBar.openSuccess('Прогнозата е успешно запазена!');
                 });
             }

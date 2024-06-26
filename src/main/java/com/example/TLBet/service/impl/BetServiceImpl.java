@@ -43,7 +43,7 @@ public class BetServiceImpl implements BetService {
 
     @Override
     @Transactional
-    public List<NewBetView> createBets(List<NewBetView> bets, String username) {
+    public List<MatchResultView> createBets(List<NewBetView> bets, String username) {
         List<Bet> betsToSave = new ArrayList<>();
 
         for (NewBetView newBetView : bets) {
@@ -65,10 +65,28 @@ public class BetServiceImpl implements BetService {
         }
         List<Bet> savedBets = this.repository.saveAll(betsToSave);
 
-        return savedBets.stream().map(b -> NewBetView.builder()
-                        .homeTeamGoals(b.getHomeTeamGoals())
-                        .awayTeamGoals(b.getAwayTeamGoals())
-                        .matchId(b.getMatch().getId())
+        return savedBets.stream()
+                .map(bet -> MatchResultView.builder()
+                        .id(bet.getMatch().getId())
+                        .homeTeam(MatchTeamResultView.builder()
+                                .id(bet.getMatch().getHomeTeam().getId())
+                                .name(bet.getMatch().getHomeTeam().getName())
+                                .imageUrl(bet.getMatch().getHomeTeam().getImageUrl())
+                                .goals(bet.getHomeTeamGoals()).build())
+                        .awayTeam(MatchTeamResultView.builder()
+                                .id(bet.getMatch().getAwayTeam().getId())
+                                .name(bet.getMatch().getAwayTeam().getName())
+                                .imageUrl(bet.getMatch().getAwayTeam().getImageUrl())
+                                .goals(bet.getAwayTeamGoals()).build())
+                        .startTime(bet.getMatch().getStartTime())
+                        .tournamentId(bet.getMatch().getRound().getTournament().getId())
+                        .tournamentName(bet.getMatch().getRound().getTournament().getName())
+                        .round(RoundView.builder()
+                                .id(bet.getMatch().getRound().getId())
+                                .name(bet.getMatch().getRound().getName())
+                                .isActive(bet.getMatch().getRound().isActive())
+                                .build())
+                        .status(MatchStatus.AWAITING_RESULT)
                         .build())
                 .collect(Collectors.toList());
     }

@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { NewBet } from 'src/app/shared/interfaces/NewBet';
 import { BaseRequestService } from '../common/base-request.service';
+import { BetMatchModel } from 'src/app/components/match/models/bet-match.model';
 
 @Injectable({
     providedIn: 'root',
@@ -13,7 +14,7 @@ export class BetService extends BaseRequestService {
         super(http);
     }
 
-    createBets(bets: NewBet[]): Observable<NewBet[]> {
-        return this.post<NewBet[], NewBet[]>('bet/new-bets', bets);
+    createBets(bets: NewBet[]): Observable<BetMatchModel[]> {
+        return this.post<BetMatchModel[], NewBet[]>('bet/new-bets', bets);
     }
 }
