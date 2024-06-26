@@ -16,6 +16,7 @@ export class MatchesViewComponent implements OnInit, OnChanges, OnDestroy {
     matchesFormArray!: FormArray;
     hasPlayableMatches: boolean = false;
     subs: Subscription[] = [];
+    readonly PLAYABLE_STATUS = MatchStatusEnum.PLAYABLE;
 
     @Input()
     isHistory: boolean = false;

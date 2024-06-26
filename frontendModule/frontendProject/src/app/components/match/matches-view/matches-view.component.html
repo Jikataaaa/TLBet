@@ -8,7 +8,7 @@
                     <mat-icon>info</mat-icon>
                 </button>
 
-                <button mat-icon-button *ngIf="match.value.match.status === 'PLAYABLE'" tlTooltip tlTooltipPosition="below"
+                <button mat-icon-button *ngIf="match.value.match.status === PLAYABLE_STATUS" tlTooltip tlTooltipPosition="below"
                     [tlTooltipTemplate]="singleMatchTooltip" [tlTooltipShowDelay]="0" class="bottom-right text-gray-200"
                     (debouncedClick)="submitMatch(match.value)">
                     <mat-icon>save</mat-icon>
