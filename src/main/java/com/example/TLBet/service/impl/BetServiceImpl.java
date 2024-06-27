@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -45,15 +44,42 @@ public class BetServiceImpl implements BetService {
     @Transactional
     public List<MatchResultView> createBets(List<NewBetView> bets, String username) {
         List<Bet> betsToSave = new ArrayList<>();
+        List<MatchResultView> expiredBets = new ArrayList<>();
 
         for (NewBetView newBetView : bets) {
             Match match = this.matchService.getMatchById(newBetView.getMatchId());
-            if (Instant.now().isAfter(match.getStartTime())) {
-                continue;
-            }
             if (checkExistingBetOnMatch(match, username)) {
                 continue;
             }
+
+            if (Instant.now().isAfter(match.getStartTime())) {
+                MatchResultView matchResultView = MatchResultView.builder()
+                        .id(match.getId())
+                        .homeTeam(MatchTeamResultView.builder()
+                                .id(match.getHomeTeam().getId())
+                                .name(match.getHomeTeam().getName())
+                                .imageUrl(match.getHomeTeam().getImageUrl())
+                                .goals(null).build())
+                        .awayTeam(MatchTeamResultView.builder()
+                                .id(match.getAwayTeam().getId())
+                                .name(match.getAwayTeam().getName())
+                                .imageUrl(match.getAwayTeam().getImageUrl())
+                                .goals(null).build())
+                        .startTime(match.getStartTime())
+                        .tournamentId(match.getRound().getTournament().getId())
+                        .tournamentName(match.getRound().getTournament().getName())
+                        .round(RoundView.builder()
+                                .id(match.getRound().getId())
+                                .name(match.getRound().getName())
+                                .isActive(match.getRound().isActive())
+                                .build())
+                        .status(MatchStatus.EXPIRED)
+                        .build();
+
+                expiredBets.add(matchResultView);
+                continue;
+            }
+
             Bet bet = Bet.builder()
                     .createdOn(Instant.now())
                     .match(match)
@@ -63,9 +89,15 @@ public class BetServiceImpl implements BetService {
             bet.setAwayTeamGoals(newBetView.getAwayTeamGoals());
             betsToSave.add(bet);
         }
+
+        if (betsToSave.isEmpty()) {
+            return expiredBets;
+        }
+
         List<Bet> savedBets = this.repository.saveAll(betsToSave);
 
-        return savedBets.stream()
+        List<MatchResultView> result = new ArrayList<>(savedBets
+                .stream()
                 .map(bet -> MatchResultView.builder()
                         .id(bet.getMatch().getId())
                         .homeTeam(MatchTeamResultView.builder()
@@ -86,9 +118,15 @@ public class BetServiceImpl implements BetService {
                                 .name(bet.getMatch().getRound().getName())
                                 .isActive(bet.getMatch().getRound().isActive())
                                 .build())
-                        .status(MatchStatus.AWAITING_RESULT)
+                        .status(this.matchService.calculateMatchStatus(bet, bet.getMatch()))
                         .build())
-                .collect(Collectors.toList());
+                .toList());
+
+        if (!expiredBets.isEmpty() && !result.isEmpty()) {
+            result.addAll(expiredBets);
+        }
+
+        return result;
     }
 
     @Override

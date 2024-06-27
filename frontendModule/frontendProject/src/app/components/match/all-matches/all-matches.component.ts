@@ -72,17 +72,13 @@ export class AllMatchesComponent implements OnInit {
                         })
                     );
                 }
-                this.betService.createBets(bets).subscribe(data => {
-                    data.forEach((bet) => {
-                        this.matches = this.matches.map((m) => {
-                            if (m.id === bet.id) {
-                                m.status = bet.status;
-                            }
-                            return m;
-                        });
-                    });
-                    this.hasPlayableMatches = false;
-                    this.snackBar.openSuccess('Прогнозата е успешно запазена!');
+                this.betService.createBets(bets).subscribe({
+                    next: (data) => {
+                        this.updateBets(data);
+                    },
+                    error: (err) => {
+                        this.loadAllMatches();
+                    },
                 });
             }
         });
@@ -112,16 +108,30 @@ export class AllMatchesComponent implements OnInit {
                     })
                 );
 
-                this.betService.createBets(bets).subscribe(data => {
-                    this.matches = this.matches.map((m) => {
-                        if (m.id === data[0].id) {
-                            m.status = data[0].status;
-                        }
-                        return m;
-                    });
-                    this.snackBar.openSuccess('Прогнозата е успешно запазена!');
+                this.betService.createBets(bets).subscribe({
+                    next: (data) => {
+                        this.updateBets(data);
+                    },
+                    error: (err) => {
+                        this.loadAllMatches();
+                    },
                 });
             }
         });
+    }
+
+    private updateBets(data: BetMatchModel[]) {
+        this.matches = this.matches.map((m) => {
+            for (const match of data) {
+                if (m.id === match.id) {
+                    m.status = match.status;
+                    m.awayTeam.goals = match.awayTeam.goals;
+                    m.homeTeam.goals = match.homeTeam.goals;
+                }
+            }
+            return m;
+        });
+        this.hasPlayableMatches = this.matches.some((x) => x.status == MatchStatusEnum.PLAYABLE);
+        this.snackBar.openSuccess('Прогнозата е успешно запазена!');
     }
 }
