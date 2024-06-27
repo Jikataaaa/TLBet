@@ -1,5 +1,10 @@
 <div class="flex flex-col items-center">
-    <h2 *ngIf="roundName" class="text-2xl font-bold text-center mt-4">{{ roundName }}</h2>
+    <h2 *ngIf="roundName"
+        class="text-2xl font-bold text-center mt-4">{{ roundName }}</h2>
+    <span *ngIf="finals"
+          class="text-red-600 font-bold my-4 mx-2">
+        Внимание: Залогът е валиден само за редовното време (90 минути) и не включва продължения (extra time) или дузпи.
+    </span>
     <matches-view [matches]="matches"
                   (submittedMatches)="onSubmittedMatches($event)"
                   (submitPlayableMatch)="submitMatch($event)">

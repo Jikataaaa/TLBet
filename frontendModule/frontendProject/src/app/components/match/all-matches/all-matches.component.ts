@@ -19,6 +19,7 @@ export class AllMatchesComponent implements OnInit {
     matches: BetMatchModel[] = [];
     hasPlayableMatches: boolean = false;
     roundName?: string;
+    finals: boolean = false;
 
     constructor(
         private matchService: MatchService,
@@ -39,6 +40,7 @@ export class AllMatchesComponent implements OnInit {
             this.matches = data;
             if (data.length > 0) {
                 this.roundName = data[0].round.name;
+                this.finals = this.roundName?.toLowerCase().includes('финал');
             }
         });
     }
