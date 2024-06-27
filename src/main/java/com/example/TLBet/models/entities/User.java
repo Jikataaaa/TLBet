@@ -54,10 +54,17 @@ public class User extends BaseEntity implements UserDetails {
     @Size(min = 3)
     @Column(unique = true)
     private String email;
+
     @NotBlank
     @NotNull
     @Size(min = 3)
     private String password;
+
+    @Column(name = "profile_viewed")
+    private Integer profileViewed;
+
+    @Column(name = "other_profile_views")
+    private Integer otherProfileViews;
 
     @Enumerated(EnumType.STRING)
     private UserRole role;
