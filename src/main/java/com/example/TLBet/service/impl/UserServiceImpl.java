@@ -14,6 +14,7 @@ import com.example.TLBet.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -146,11 +147,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserProfileOutView getUserDetails(String username) throws UserErrorException {
+    public UserProfileOutView getUserDetails(String username, UserDetails currentUser) throws UserErrorException {
+        User loggedInUser = (User) currentUser;
         User user = repository.findUserByUsername(username).orElse(null);
         UserProfileOutView userProfileOutView;
 
         if (user != null) {
+            if (!loggedInUser.getUsername().equals(user.getUsername())){
+                loggedInUser.setOtherProfileViews(loggedInUser.getOtherProfileViews() + 1);
+                user.setProfileViewed(user.getProfileViewed() + 1);
+                repository.saveAll(List.of(loggedInUser, user));
+            }
             userProfileOutView = mapper.map(user, UserProfileOutView.class);
         } else {
             throw new UserErrorException(EXCEPTION_USER_NOT_FOUND,

@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -56,6 +57,7 @@ public class UserController extends BaseController {
 
     @GetMapping("/details")
     public ResponseEntity<UserProfileOutView> getUserDetails(@RequestParam("username") String username) throws UserErrorException {
-        return ResponseEntity.ok(userService.getUserDetails(username));
+        UserDetails user = this.getCurrentUser();
+        return ResponseEntity.ok(userService.getUserDetails(username, user));
     }
 }

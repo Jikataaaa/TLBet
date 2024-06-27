@@ -60,10 +60,10 @@ public class User extends BaseEntity implements UserDetails {
     @Size(min = 3)
     private String password;
 
-    @Column(name = "profile_viewed")
+    @Column(name = "profile_viewed", columnDefinition = "INT DEFAULT 0")
     private Integer profileViewed;
 
-    @Column(name = "other_profile_views")
+    @Column(name = "other_profile_views", columnDefinition = "INT DEFAULT 0")
     private Integer otherProfileViews;
 
     @Enumerated(EnumType.STRING)

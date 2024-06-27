@@ -21,4 +21,6 @@ public class UserProfileOutView {
     private List<MatchResultView> bets;
     private TeamView tournamentWinner;
     private Boolean isWinnerChoicePossibilityExpired;
+//    private Integer profileViewed;
+//    private Integer otherProfileViews;
 }
