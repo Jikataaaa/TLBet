@@ -10,7 +10,7 @@
 
                 <button mat-mini-fab *ngIf="match.value.match.status === PLAYABLE_STATUS" color="primary" tlTooltip tlTooltipPosition="below"
                     [tlTooltipTemplate]="singleMatchTooltip" [tlTooltipShowDelay]="0" class="bottom-right text-gray-200"
-                    (debouncedClick)="submitMatch(match.value)">
+                    (debouncedClick)="submitMatch(match.value.match)">
                     <mat-icon>save</mat-icon>
                 </button>
             </div>

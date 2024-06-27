@@ -90,11 +90,10 @@ export class AllMatchesComponent implements OnInit {
         this.eventService.submitPlayableMatches.next();
     }
 
-    submitMatch(match: any) {
-        let givenMatch = match;
+    submitMatch(match: BetMatchModel) {
         const dialog = this.dialog.open(ConfirmDialogComponent, {
             data: {
-                title: `Залог`,
+                title: `Залог ${match.homeTeam.name} ${match.homeTeam.goals} - ${match.awayTeam.goals} ${match.awayTeam.name}`,
                 message: 'Потвърдете, ако желаете да запазите вашата прогноза. Веднъж направен залог не може да бъде променен!',
                 confirmText: 'Потвърди',
             }
@@ -105,9 +104,9 @@ export class AllMatchesComponent implements OnInit {
                 let bets: NewBet[] = [];
                 bets.push(
                     new NewBet({
-                        homeTeamGoals: givenMatch.match.homeTeam.goals,
-                        awayTeamGoals: givenMatch.match.awayTeam.goals,
-                        matchId: givenMatch.match.id,
+                        homeTeamGoals: match.homeTeam.goals,
+                        awayTeamGoals: match.awayTeam.goals,
+                        matchId: match.id,
                     })
                 );
 
