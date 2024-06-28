@@ -1,9 +1,7 @@
 package com.example.TLBet.web;
 
 import com.example.TLBet.models.exeptions.UserErrorException;
-import com.example.TLBet.models.view.UserInView;
-import com.example.TLBet.models.view.UserOutView;
-import com.example.TLBet.models.view.UserProfileOutView;
+import com.example.TLBet.models.view.*;
 import com.example.TLBet.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -59,5 +57,29 @@ public class UserController extends BaseController {
     public ResponseEntity<UserProfileOutView> getUserDetails(@RequestParam("username") String username) throws UserErrorException {
         UserDetails user = this.getCurrentUser();
         return ResponseEntity.ok(userService.getUserDetails(username, user));
+    }
+
+    @GetMapping("/exact-result")
+    public ResponseEntity<List<UserExactResultOutView>> getUsersWithMostExactResults() {
+        log.info("started getUsersWithMostExactResults()");
+        List<UserExactResultOutView> outView = userService.getUsersWithMostExactResults();
+        log.info("finished getUsersWithMostExactResults()");
+        return ResponseEntity.ok(outView);
+    }
+
+    @GetMapping("/correct-match-winner")
+    public ResponseEntity<List<UserCorrectMatchWinnerOutView>> getUsersWithMostCorrectMatchWinner() {
+        log.info("started getUsersWithMostCorrectMatchWinner()");
+        List<UserCorrectMatchWinnerOutView> outView = userService.getUsersWithMostCorrectMatchWinner();
+        log.info("finished getUsersWithMostCorrectMatchWinner()");
+        return ResponseEntity.ok(outView);
+    }
+
+    @GetMapping("/team-pick-winner")
+    public ResponseEntity<List<UserTeamPickPercentageOutView>> getTeamPickPercentage() {
+        log.info("started getTeamPickPercentage()");
+        List<UserTeamPickPercentageOutView> outView = userService.getTeamPickPercentage();
+        log.info("finished getTeamPickPercentage()");
+        return ResponseEntity.ok(outView);
     }
 }
