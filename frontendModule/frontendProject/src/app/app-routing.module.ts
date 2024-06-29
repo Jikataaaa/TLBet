@@ -8,6 +8,7 @@ import { MatchesComponent } from './components/match/matches/matches.component';
 import { ActiveRoundComponent } from './components/round/active-round/active-round.component';
 import { RoundComponent } from './components/round/round/round.component';
 import { RoundsComponent } from './components/round/rounds/rounds.component';
+import { StatsComponent } from './components/stats/stats/stats.component';
 import { TeamComponent } from './components/team/team/team.component';
 import { TeamsComponent } from './components/team/teams/teams.component';
 import { TournamentWinnerComponent } from './components/tournament-winner/tournament-winner/tournament-winner.component';
@@ -59,6 +60,14 @@ const routes: Routes = [
     {
         path: 'user/profile',
         component: ProfileComponent,
+        canActivate: [AuthGuard],
+        data: {
+            role: "USER"
+        },
+    },
+    {
+        path: 'stats',
+        component: StatsComponent,
         canActivate: [AuthGuard],
         data: {
             role: "USER"

@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { LeagueModule } from './components/league/league.module';
 import { MatchModule } from './components/match/match.module';
 import { RoundModule } from './components/round/round.module';
+import { StatsModule } from './components/stats/stats.module';
 import { TeamModule } from './components/team/team.module';
 import { TournamentWinnerModule } from './components/tournament-winner/tournament-winner.module';
 import { TournamentModule } from './components/tournament/tournament.module';
@@ -33,6 +34,7 @@ import { SharedModule } from './shared/shared.module';
         BrowserAnimationsModule,
         RoundModule,
         TournamentWinnerModule,
+        StatsModule
     ],
     providers: [],
     bootstrap: [AppComponent],

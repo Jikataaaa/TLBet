@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { GoalsPickerComponent } from '../components/goals-picker/goals-picker.component';
 import { MatchProcessComponent } from '../components/match-process/match-process.component';
 import { StandingComponent } from '../components/standing/standing.component';
 import { MaterialModule } from '../material/material.module';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
-import { RouterModule } from '@angular/router';
 import { DebouncedClickDirective } from './directives/debounce-click.directive';
 import { TLTooltipDirective } from './directives/tl-tooltip-directive';
 import { StatusPipe } from './pipes/match-status.pipe';
@@ -19,13 +20,22 @@ import { StatusPipe } from './pipes/match-status.pipe';
         ConfirmDialogComponent,
         DebouncedClickDirective,
         TLTooltipDirective,
-        StatusPipe
+        StatusPipe,
     ],
-    imports: [CommonModule, MaterialModule, RouterModule],
-    exports: [GoalsPickerComponent, MatchProcessComponent, StandingComponent,
+    imports: [
+        CommonModule,
+        MaterialModule,
+        RouterModule,
+        NgxChartsModule],
+    exports: [
+        GoalsPickerComponent,
+        MatchProcessComponent,
+        StandingComponent,
         DebouncedClickDirective,
         TLTooltipDirective,
-        StatusPipe],
+        StatusPipe,
+        NgxChartsModule
+    ],
     providers: [
         DebouncedClickDirective,
         TLTooltipDirective,

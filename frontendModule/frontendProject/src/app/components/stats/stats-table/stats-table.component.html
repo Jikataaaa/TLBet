@@ -1,0 +1,53 @@
+<div class="w-full">
+    <div class="w-full mx-auto max-w-full px-4 sm:px-6 lg:px-8">
+        <table mat-table
+               [dataSource]="ranking"
+               cdkDropList
+               cdkDropListOrientation="horizontal"
+               class="w-full">
+            <ng-container matColumnDef="position">
+                <th mat-header-cell
+                    cdkDrag
+                    *matHeaderCellDef
+                    class="font-bold"> # </th>
+                <td mat-cell
+                    *matCellDef="let rank"
+                    class="font-bold"
+                    [ngClass]="{'current-user': rank.isCurrentUser,'first-place': rank.isFirst}"> {{rank.place}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="username">
+                <th mat-header-cell
+                    cdkDrag
+                    *matHeaderCellDef
+                    class="font-bold"> Име </th>
+                <td mat-cell
+                    [routerLink]="['/', 'user', 'detail', rank.username]"
+                    *matCellDef="let rank"
+                    class="font-bold cursor-pointer hover:text-primary-500 hover:underline"
+                    [ngClass]="{'current-user': rank.isCurrentUser,'first-place': rank.isFirst}"> {{rank.firstName}}
+                    {{rank.lastName}} ({{rank.username}}) </td>
+            </ng-container>
+
+            <ng-container matColumnDef="points">
+                <th mat-header-cell
+                    cdkDrag
+                    *matHeaderCellDef
+                    class="font-bold"> Брой </th>
+                <td mat-cell
+                    *matCellDef="let rank"
+                    class="font-bold"
+                    [ngClass]="{'current-user': rank.isCurrentUser,'first-place': rank.isFirst}">
+                    <div class="flex items-center">
+                        <span>{{ rank.points }}</span>
+                    </div>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row
+                *matHeaderRowDef="columns"></tr>
+            <tr mat-row
+                *matRowDef="let row; columns: columns;"></tr>
+        </table>
+    </div>
+</div>

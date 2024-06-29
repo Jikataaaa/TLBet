@@ -224,6 +224,7 @@ public class UserServiceImpl implements UserService {
                 Object[] userArray = (Object[]) user;
                 userTeamPickPercentageOutView.setTeamName((String) userArray[0]);
                 userTeamPickPercentageOutView.setTeamPickPercentage((BigDecimal) userArray[1]);
+                userTeamPickPercentageOutView.setTeamPickCount((Long) userArray[2]);
                 userTeamPickPercentageOutViews.add(userTeamPickPercentageOutView);
             }
         }

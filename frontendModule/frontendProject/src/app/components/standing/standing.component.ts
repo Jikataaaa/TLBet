@@ -6,12 +6,9 @@ import { RankingModel } from 'src/app/shared/components/user/ranking/model/ranki
   templateUrl: './standing.component.html',
   styleUrls: ['./standing.component.scss']
 })
-export class StandingComponent implements OnInit{
+export class StandingComponent {
 
   columns: string[] = ['position', 'username', 'points'];
-
-  ngOnInit(): void {
-  }
 
   @Input() ranking! : RankingModel[];
 }

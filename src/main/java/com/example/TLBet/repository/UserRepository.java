@@ -66,7 +66,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
             "     )                                                                             " +
             "SELECT                                                                             " +
             "    t.name AS team_name,                                                           " +
-            "    ROUND((tp.team_count / total_predictions.total_count) * 100, 2) AS percentage  " +
+            "    ROUND((tp.team_count / total_predictions.total_count) * 100, 2) AS percentage, " +
+            "    tp.team_count AS COUNT                                                         " +
             "FROM                                                                               " +
             "    team_predictions tp                                                            " +
             "        JOIN                                                                       " +
