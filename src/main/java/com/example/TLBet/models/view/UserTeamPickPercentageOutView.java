@@ -12,7 +12,6 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @Builder
 public class UserTeamPickPercentageOutView {
-
     private String teamName;
     private BigDecimal teamPickPercentage;
     private Long teamPickCount;

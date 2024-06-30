@@ -3,13 +3,13 @@
     <div class="flex flex-wrap justify-start gap-2 ml-4 mr-4">
         <button mat-raised-button
                 color="primary"
+                (click)="changeStatsType(StatsTypeEnum.TOURNAMENT_WINNER)">Прогнози - европейски шампион</button>
+        <button mat-raised-button
+                color="primary"
                 (click)="changeStatsType(StatsTypeEnum.EXACT_MATCH)">Най-много точни резултати</button>
         <button mat-raised-button
                 color="primary"
                 (click)="changeStatsType(StatsTypeEnum.CORRECT_MATCH)">Най-много познати резултати(1-X-2)</button>
-        <button mat-raised-button
-                color="primary"
-                (click)="changeStatsType(StatsTypeEnum.TOURNAMENT_WINNER)">Прогнози - европейски шампион</button>
     </div>
 
     <div *ngIf="selectedStatsType == StatsTypeEnum.TOURNAMENT_WINNER"
