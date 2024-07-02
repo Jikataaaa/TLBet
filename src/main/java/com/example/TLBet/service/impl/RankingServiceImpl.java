@@ -9,13 +9,9 @@ import com.example.TLBet.models.view.RankingView;
 import com.example.TLBet.models.view.RoundView;
 import com.example.TLBet.service.*;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.example.TLBet.utils.Constants.*;
@@ -46,6 +42,10 @@ public class RankingServiceImpl implements RankingService {
         } else {
             List<User> allFullNames = userService.findAllFullNames();
             list = allFullNames.stream().map(u -> RankingView.builder().rankingDifferences(0).points(0).username(u.getUsername()).firstName(u.getFirstName()).lastName(u.getLastName()).build()).toList();
+            list = list.stream()
+                    .sorted(Comparator.comparing(RankingView::getFirstName)
+                            .thenComparing(RankingView::getLastName))
+                    .collect(Collectors.toList());
             int place = 0;
             for (RankingView rankingView : list) {
                 rankingView.setPlace(++place);
@@ -105,7 +105,11 @@ public class RankingServiceImpl implements RankingService {
 
         addPoints(list);
 
-        list = list.stream().sorted((e1, e2) -> Long.compare(e2.getPoints(), e1.getPoints())).collect(Collectors.toList());
+        list = list.stream()
+                    .sorted(Comparator.comparing(RankingView::getPoints).reversed()
+                            .thenComparing(RankingView::getFirstName)
+                            .thenComparing(RankingView::getLastName))
+                    .collect(Collectors.toList());
         int place = 0;
         for (RankingView rankingView : list) {
             rankingView.setPlace(++place);
