@@ -35,8 +35,10 @@ export class StatsComponent implements OnInit {
     }
 
     changeStatsType(statsType: StatsTypeEnum) {
-        this.selectedStatsType = statsType;
-        this.loadStats();
+        if(this.selectedStatsType != statsType) {
+            this.selectedStatsType = statsType;
+            this.loadStats();
+        }
     }
 
     private loadStats() {
