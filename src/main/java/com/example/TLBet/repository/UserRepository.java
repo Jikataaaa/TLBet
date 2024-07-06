@@ -2,6 +2,7 @@ package com.example.TLBet.repository;
 
 import com.example.TLBet.models.entities.TournamentBetWinner;
 import com.example.TLBet.models.entities.User;
+import com.example.TLBet.models.view.MostViewedUserView;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -81,4 +82,10 @@ public interface UserRepository extends JpaRepository<User, Long> {
             "        JOIN teams tm ON tp.team_id = tm.id CROSS JOIN total_predictions               " +
             "ORDER BY percentage DESC                                                               ", nativeQuery = true)
     Optional<List<Object>> findAllUsersTeamPickPercentage();
+
+    @Query(value = "SELECT u.id, u.username, u.first_name AS firstName, u.last_name AS lastName, u.profile_viewed AS profileViewed " +
+            "FROM users u " +
+            "ORDER BY u.profile_viewed DESC " +
+            "LIMIT 10", nativeQuery = true)
+    List<MostViewedUserView> findTop10ByProfileViewed();
 }

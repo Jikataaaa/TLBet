@@ -230,4 +230,9 @@ public class UserServiceImpl implements UserService {
         }
         return userTeamPickPercentageOutViews;
     }
+
+    @Override
+    public List<MostViewedUserView> getMostViewedUsers() {
+        return repository.findTop10ByProfileViewed();
+    }
 }

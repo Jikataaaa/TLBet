@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { UserService } from 'src/app/services/user/user.service';
 import { RankingModel } from 'src/app/shared/components/user/ranking/model/ranking-model';
 import { JwtUserData } from 'src/app/shared/utils/model/jwt-user-data.model';
 import { ChartModel } from '../models/chart.model';
 import { CorrectMatchWinnerModel } from '../models/correct-match-winner.model';
 import { ExactResultModel } from '../models/exact-result.model';
+import { MostViewedUserModel } from '../models/most-viewed-user.model';
 import { StatsTypeEnum } from '../models/stats-type.enum';
 import { TeamPickPercentageModel } from '../models/team-pick-percentage.model';
 import { StatsService } from '../services/stats.service';
@@ -12,9 +13,10 @@ import { StatsService } from '../services/stats.service';
 @Component({
     selector: 'app-stats',
     templateUrl: './stats.component.html',
-    styleUrls: ['./stats.component.css']
+    styleUrls: ['./stats.component.css'],
 })
-export class StatsComponent implements OnInit {
+export class StatsComponent implements OnInit, AfterViewInit {
+    @ViewChild('pieChartContainer', { static: false }) pieChartContainer!: ElementRef;
     public isLoading: boolean = true;
     public StatsTypeEnum = StatsTypeEnum;
     public selectedStatsType: StatsTypeEnum = StatsTypeEnum.TOURNAMENT_WINNER;
@@ -22,22 +24,41 @@ export class StatsComponent implements OnInit {
     public correctMatchWinners: RankingModel[] = [];
     private currentUser: JwtUserData | null = null;
 
-    view: any[] = [799, 330];
+    viewWidth!: number;
+    viewHeight!: number;
     tournamentWinner: ChartModel[] = [];
+    mostViewedUsers: ChartModel[] = [];
     showLegend = true;
     showYAxisLabel = true;
 
-    constructor(private statsService: StatsService, private userService: UserService) { }
+    constructor (private statsService: StatsService, private userService: UserService) { }
 
     ngOnInit() {
         this.currentUser = this.userService.getCurrentUser();
         this.loadStats();
     }
 
+    ngAfterViewInit(): void {
+        this.setViewDimensions();
+    }
+
+    @HostListener('window:resize', ['$event'])
+    onResize() {
+        this.setViewDimensions();
+    }
+
     changeStatsType(statsType: StatsTypeEnum) {
-        if(this.selectedStatsType != statsType) {
+        if (this.selectedStatsType != statsType) {
             this.selectedStatsType = statsType;
             this.loadStats();
+        }
+    }
+
+    setViewDimensions() {
+        if (this.pieChartContainer) {
+            const container = this.pieChartContainer.nativeElement;
+            this.viewWidth = container.offsetWidth;
+            this.viewHeight = container.offsetHeight;
         }
     }
 
@@ -97,6 +118,18 @@ export class StatsComponent implements OnInit {
                     this.tournamentWinner = data.map(x => new ChartModel({
                         name: x.teamName,
                         value: x.teamPickCount
+                    })).slice();
+                    this.isLoading = false;
+                });
+                break;
+            case StatsTypeEnum.MOST_VIEWED_USERS:
+                if (this.mostViewedUsers.length == 0) {
+                    this.isLoading = true;
+                }
+                this.statsService.mostViewedUsers().subscribe((data: MostViewedUserModel[]) => {
+                    this.mostViewedUsers = data.map(x => new ChartModel({
+                        name: x.username,
+                        value: x.profileViewed
                     })).slice();
                     this.isLoading = false;
                 });

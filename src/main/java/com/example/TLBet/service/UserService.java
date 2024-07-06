@@ -25,4 +25,6 @@ public interface UserService {
     List<UserCorrectMatchWinnerOutView> getUsersWithMostCorrectMatchWinner();
 
     List<UserTeamPickPercentageOutView> getTeamPickPercentage();
+
+    List<MostViewedUserView> getMostViewedUsers();
 }
