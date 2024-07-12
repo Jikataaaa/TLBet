@@ -83,15 +83,38 @@ public class RankingServiceImpl implements RankingService {
 
     private List<RankingView> calculateDifferenceRanking(Map<User, RankingServiceModel> currentView, Map<User, RankingServiceModel> lastRoundView) {
 
+        Map<User, RankingServiceModel> sortedCurrentView = currentView.entrySet().stream()
+                .sorted(Map.Entry.<User, RankingServiceModel>comparingByValue(Comparator.comparingLong(RankingServiceModel::getPoints).reversed())
+                        .thenComparing(entry -> entry.getValue().getUser().getFirstName())
+                        .thenComparing(entry -> entry.getValue().getUser().getLastName()))
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue,
+                        (e1, e2) -> e1,
+                        LinkedHashMap::new
+                ));
+
+        Map<User, RankingServiceModel> sortedLastRoundView = lastRoundView.entrySet().stream()
+                .sorted(Map.Entry.<User, RankingServiceModel>comparingByValue(Comparator.comparingLong(RankingServiceModel::getPoints).reversed())
+                        .thenComparing(entry -> entry.getValue().getUser().getFirstName())
+                        .thenComparing(entry -> entry.getValue().getUser().getLastName()))
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue,
+                        (e1, e2) -> e1,
+                        LinkedHashMap::new
+                ));
+
+
         List<RankingView> list = new ArrayList<>();
 
-        for (Map.Entry<User, RankingServiceModel> entry : currentView.entrySet()) {
+        for (Map.Entry<User, RankingServiceModel> entry : sortedCurrentView.entrySet()) {
 
             User user = entry.getKey();
             RankingServiceModel value = entry.getValue();
 
             int currentPlace = entry.getValue().getPlace();
-            RankingServiceModel lastRoundModel = lastRoundView.get(user);
+            RankingServiceModel lastRoundModel = sortedLastRoundView.get(user);
 
             RankingView view = RankingView.builder().firstName(user.getFirstName()).lastName(user.getLastName()).username(user.getUsername()).points(value.getPoints()).build();
 
@@ -104,12 +127,6 @@ public class RankingServiceImpl implements RankingService {
         }
 
         addPoints(list);
-
-        list = list.stream()
-                    .sorted(Comparator.comparing(RankingView::getPoints).reversed()
-                            .thenComparing(RankingView::getFirstName)
-                            .thenComparing(RankingView::getLastName))
-                    .collect(Collectors.toList());
         int place = 0;
         for (RankingView rankingView : list) {
             rankingView.setPlace(++place);
