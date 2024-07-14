@@ -11,6 +11,7 @@ import com.example.TLBet.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.text.Collator;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -32,12 +33,12 @@ public class RankingServiceImpl implements RankingService {
         if (playedRoundIds.size() > 1) {
             List<Bet> currentBets = betService.getBetsByRoundIdLower(playedRoundIds.get(playedRoundIds.size() - 1));
             List<Bet> lastRoundBets = betService.getBetsByRoundIdLower(playedRoundIds.get(playedRoundIds.size() - 2));
-            Map<User, RankingServiceModel> currentView = calculateRanking(currentBets);
-            Map<User, RankingServiceModel> lastRoundView = calculateRanking(lastRoundBets);
+            Map<User, RankingServiceModel> currentView = calculateRanking(currentBets, true);
+            Map<User, RankingServiceModel> lastRoundView = calculateRanking(lastRoundBets, false);
             list = calculateDifferenceRanking(currentView, lastRoundView);
         } else if (playedRoundIds.size() == 1) {
             List<Bet> currentBets = betService.getBetsByRoundIdLower(playedRoundIds.get(0));
-            Map<User, RankingServiceModel> currentView = calculateRanking(currentBets);
+            Map<User, RankingServiceModel> currentView = calculateRanking(currentBets, false);
             list = calculateDifferenceRanking(currentView, currentView);
         } else {
             List<User> allFullNames = userService.findAllFullNames();
@@ -62,49 +63,14 @@ public class RankingServiceImpl implements RankingService {
     @Override
     public List<RankingView> getRankingByRound(long roundId) {
         List<Bet> currentBets = betService.getBetsByRoundId(roundId);
-        Map<User, RankingServiceModel> currentView = calculateRanking(currentBets);
+        Map<User, RankingServiceModel> currentView = calculateRanking(currentBets, false);
         return calculateDifferenceRanking(currentView, currentView);
     }
 
-    private void addPoints(List<RankingView> list) {
-        Tournament tournament = tournamentService.getActiveTournament();
-        if (tournament.getWinnerTeamId() != null) {
-            List<TournamentBetWinner> tournamentBetWinners = tournamentBetWinnerService.findAllByTeamIdAndTournament_IsActiveIsTrue(tournament.getWinnerTeamId());
-            List<User> users = tournamentBetWinners.stream().map(TournamentBetWinner::getUser).toList();
-            for (RankingView rankingView : list) {
-                for (User user : users) {
-                    if (rankingView.getUsername().equals(user.getUsername())) {
-                        rankingView.setPoints(rankingView.getPoints() + POINTS_FOR_TEAM_WINNER);
-                    }
-                }
-            }
-        }
-    }
-
     private List<RankingView> calculateDifferenceRanking(Map<User, RankingServiceModel> currentView, Map<User, RankingServiceModel> lastRoundView) {
-
-        Map<User, RankingServiceModel> sortedCurrentView = currentView.entrySet().stream()
-                .sorted(Map.Entry.<User, RankingServiceModel>comparingByValue(Comparator.comparingLong(RankingServiceModel::getPoints).reversed())
-                        .thenComparing(entry -> entry.getValue().getUser().getFirstName())
-                        .thenComparing(entry -> entry.getValue().getUser().getLastName()))
-                .collect(Collectors.toMap(
-                        Map.Entry::getKey,
-                        Map.Entry::getValue,
-                        (e1, e2) -> e1,
-                        LinkedHashMap::new
-                ));
-
-        Map<User, RankingServiceModel> sortedLastRoundView = lastRoundView.entrySet().stream()
-                .sorted(Map.Entry.<User, RankingServiceModel>comparingByValue(Comparator.comparingLong(RankingServiceModel::getPoints).reversed())
-                        .thenComparing(entry -> entry.getValue().getUser().getFirstName())
-                        .thenComparing(entry -> entry.getValue().getUser().getLastName()))
-                .collect(Collectors.toMap(
-                        Map.Entry::getKey,
-                        Map.Entry::getValue,
-                        (e1, e2) -> e1,
-                        LinkedHashMap::new
-                ));
-
+        Collator defaultCollator = Collator.getInstance(new Locale("bg", "BG"));
+        Map<User, RankingServiceModel> sortedCurrentView = sortRankingMap(currentView, defaultCollator);
+        Map<User, RankingServiceModel> sortedLastRoundView = sortRankingMap(lastRoundView, defaultCollator);
 
         List<RankingView> list = new ArrayList<>();
 
@@ -126,7 +92,6 @@ public class RankingServiceImpl implements RankingService {
             list.add(view);
         }
 
-        addPoints(list);
         int place = 0;
         for (RankingView rankingView : list) {
             rankingView.setPlace(++place);
@@ -134,8 +99,20 @@ public class RankingServiceImpl implements RankingService {
         return list;
     }
 
+    private Map<User, RankingServiceModel> sortRankingMap(Map<User, RankingServiceModel> map, Collator collator) {
+        return map.entrySet().stream()
+                .sorted(Map.Entry.<User, RankingServiceModel>comparingByValue(Comparator.comparingLong(RankingServiceModel::getPoints).reversed())
+                        .thenComparing(entry -> entry.getValue().getUser().getFirstName(), collator)
+                        .thenComparing(entry -> entry.getValue().getUser().getLastName(), collator))
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue,
+                        (e1, e2) -> e1,
+                        LinkedHashMap::new
+                ));
+    }
 
-    private Map<User, RankingServiceModel> calculateRanking(List<Bet> bets) {
+    private Map<User, RankingServiceModel> calculateRanking(List<Bet> bets, boolean addTournamentWinnerPoints) {
 
         Map<User, Integer> map = new HashMap<>();
         for (Bet bet : bets) {
@@ -170,7 +147,26 @@ public class RankingServiceImpl implements RankingService {
 
             list.add(model);
         }
-        list = list.stream().sorted((e1, e2) -> Long.compare(e2.getPoints(), e1.getPoints())).collect(Collectors.toList());
+
+        Collator collator = Collator.getInstance(new Locale("bg", "BG"));
+
+        if (addTournamentWinnerPoints) {
+            addTournamentWinnerPoints(list);
+        }
+
+        list = list.stream()
+                .sorted((e1, e2) -> {
+                    int pointsCompare = Long.compare(e2.getPoints(), e1.getPoints());
+                    if (pointsCompare != 0) {
+                        return pointsCompare;
+                    }
+                    int firstNameCompare = collator.compare(e1.getUser().getFirstName(), e2.getUser().getFirstName());
+                    if (firstNameCompare != 0) {
+                        return firstNameCompare;
+                    }
+                    return collator.compare(e1.getUser().getLastName(), e2.getUser().getLastName());
+                })
+                .collect(Collectors.toList());
 
         Map<User, RankingServiceModel> rankingMap = new HashMap<>();
 
@@ -180,5 +176,20 @@ public class RankingServiceImpl implements RankingService {
             rankingMap.put(model.getUser(), model);
         }
         return rankingMap;
+    }
+
+    private void addTournamentWinnerPoints(List<RankingServiceModel> list) {
+        Tournament tournament = tournamentService.getActiveTournament();
+        if (tournament.getWinnerTeamId() != null) {
+            List<TournamentBetWinner> tournamentBetWinners = tournamentBetWinnerService.findAllByTeamIdAndTournament_IsActiveIsTrue(tournament.getWinnerTeamId());
+            List<User> users = tournamentBetWinners.stream().map(TournamentBetWinner::getUser).toList();
+            for (RankingServiceModel ranking : list) {
+                for (User user : users) {
+                    if (ranking.getUser().getUsername().equals(user.getUsername())) {
+                        ranking.setPoints(ranking.getPoints() + POINTS_FOR_TEAM_WINNER);
+                    }
+                }
+            }
+        }
     }
 }
